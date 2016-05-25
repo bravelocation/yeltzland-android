@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:style="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/action_home"
+        android:title="@string/menu_home"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_back"
+        android:title="@string/menu_back"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_forward"
+        android:title="@string/menu_forward"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_reload"
+        android:title="@string/menu_reload"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_browser"
+        android:title="@string/menu_browser"
+        app:showAsAction="ifRoom" />
+
+</menu>

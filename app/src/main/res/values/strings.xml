@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Yeltzland</string>
+
+    <string name="forum_name">Yeltz Forum</string>
+
+    <string name="menu_home">H</string>
+    <string name="menu_back">&lt;</string>
+    <string name="menu_forward">&gt;</string>
+    <string name="menu_reload">R</string>
+    <string name="menu_browser">B</string>
+
+    <string name="fa_icon_home">&#xf004;</string>
+
 </resources>
