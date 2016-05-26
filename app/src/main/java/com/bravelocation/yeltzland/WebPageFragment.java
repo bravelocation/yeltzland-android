@@ -103,5 +103,4 @@ public class WebPageFragment extends Fragment {
             this.progressBar.setProgress(newProgress);
         }
     }
-
 }

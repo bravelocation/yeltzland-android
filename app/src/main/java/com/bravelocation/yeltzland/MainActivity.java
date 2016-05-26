@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 case 3:
                     return new TwitterFragment();
                 case 4:
-                    return WebPageFragment.newInstance("http://google.com");
+                    return new MoreFragment();
             }
 
             return WebPageFragment.newInstance("http://yeltz.co.uk/0/");
