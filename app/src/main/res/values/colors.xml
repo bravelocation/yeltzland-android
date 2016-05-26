@@ -3,4 +3,7 @@
     <color name="colorPrimary">#063796</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="yeltzBlue">#063796</color>
+    <color name="yeltzLightBlue">#CADCEB</color>
 </resources>
