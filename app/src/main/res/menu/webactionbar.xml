@@ -4,27 +4,27 @@
 
     <item
         android:id="@+id/action_home"
-        android:title="@string/menu_home"
+        android:icon="@drawable/ic_home"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_back"
-        android:title="@string/menu_back"
+        android:icon="@drawable/ic_angle_left"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_forward"
-        android:title="@string/menu_forward"
+        android:icon="@drawable/ic_angle_right"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_reload"
-        android:title="@string/menu_reload"
+        android:icon="@drawable/ic_rotate_right"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_browser"
-        android:title="@string/menu_browser"
+        android:icon="@drawable/ic_chrome"
         app:showAsAction="always" />
 
 </menu>
