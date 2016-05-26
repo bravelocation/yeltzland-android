@@ -24,8 +24,17 @@ import android.view.ViewGroup;
 
 import android.webkit.WebView;
 import android.widget.TextView;
+import com.crashlytics.android.Crashlytics;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "mOQVcR8FPJPXw2lwncM5bNkSI";
+    private static final String TWITTER_SECRET = "wN1q1WPXs48Vc2sv5sm2f1bivwPrdUNDigy7oOpCUl0dpfvxS5";
+
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -34,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Crashlytics(), new Twitter(authConfig));
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -94,10 +105,13 @@ public class MainActivity extends AppCompatActivity {
 
         WebPageFragment webPageFragment = null;
         WebView webView = null;
+        TwitterFragment twitterFragment = null;
 
         if (currentTab <= 2) {
             webPageFragment = (WebPageFragment) currentFragment;
             webView = (WebView) webPageFragment.rootView.findViewById(R.id.fragmentWebView);
+        } else if (currentTab == 3) {
+            twitterFragment = (TwitterFragment) currentFragment;
         }
 
         switch (item.getItemId()) {
@@ -125,8 +139,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_reload:
                 if (webView != null) {
                     webView.reload();
+                } else if (twitterFragment != null) {
+                    twitterFragment.reload();
                 }
-                // TODO: Implement the real Twitter reload
 
                 return true;
             case R.id.action_browser:
@@ -166,27 +181,20 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            String pageUrl = "http://yeltz.co.uk/0/";
-
             switch (position) {
                 case 0:
-                    pageUrl = "http://yeltz.co.uk/0/";
-                    break;
+                    return WebPageFragment.newInstance("http://yeltz.co.uk/0/");
                 case 1:
-                    pageUrl = "http://www.ht-fc.com";
-                    break;
+                    return WebPageFragment.newInstance("http://www.ht-fc.com");
                 case 2:
-                    pageUrl = "https://www.youtube.com/user/HalesowenTownFC";
-                    break;
+                    return WebPageFragment.newInstance("https://www.youtube.com/user/HalesowenTownFC");
                 case 3:
-                    pageUrl = "http://twitter.com/halesowentownfc";
-                    break;
+                    return new TwitterFragment();
                 case 4:
-                    pageUrl = "http://google.com";
-                    break;
+                    return WebPageFragment.newInstance("http://google.com");
             }
 
-            return WebPageFragment.newInstance(pageUrl);
+            return WebPageFragment.newInstance("http://yeltz.co.uk/0/");
         }
 
         @Override
