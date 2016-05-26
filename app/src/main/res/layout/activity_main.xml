@@ -19,9 +19,17 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/yeltzBlue"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageView
+                android:id="@+id/yourlogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/htfc_logo"
+                android:padding="2dp"
+                android:gravity="left"/>
 
         </android.support.v7.widget.Toolbar>
 

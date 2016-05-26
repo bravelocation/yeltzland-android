@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
         this.tabLayout.setupWithViewPager(mViewPager);
 
         ActionBar actionBar = this.getSupportActionBar();
-        actionBar.setTitle(getString(R.string.forum_name));
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
     }
 
     @Override
@@ -150,30 +152,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onPageSelected(int position) {
             super.onPageSelected(position);
-
-            String title = getString(R.string.app_name);
-
-            switch (position) {
-                case 0:
-                    title =  getString(R.string.forum_name);
-                    break;
-                case 1:
-                    title = getString(R.string.official_site);
-                    break;
-                case 2:
-                    title = getString(R.string.yeltz_tv);
-                    break;
-                case 3:
-                    title = getString(R.string.twitter);
-                    break;
-                case 4:
-                    title = getString(R.string.more);
-                    break;
-            }
-
-            // Set title for new tab
-            ActionBar actionBar = parentActivity.getSupportActionBar();
-            actionBar.setTitle(title);
 
             // Reset the action options
             parentActivity.invalidateOptionsMenu();
