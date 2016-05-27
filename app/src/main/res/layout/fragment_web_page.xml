@@ -9,6 +9,7 @@
         android:id="@+id/progressBar"
         android:layout_width="fill_parent"
         android:layout_height="4dp"
+        android:progressDrawable="@drawable/progress_drawable_blue"
         style="@android:style/Widget.ProgressBar.Horizontal" />
 
     <WebView

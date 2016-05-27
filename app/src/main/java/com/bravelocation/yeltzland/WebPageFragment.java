@@ -1,9 +1,13 @@
 package com.bravelocation.yeltzland;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +41,6 @@ public class WebPageFragment extends Fragment {
         // Get progress bar
         ProgressBar progressBar = (ProgressBar) this.rootView.findViewById(R.id.progressBar);
         progressBar.setMax(100);
-        int barColor = ContextCompat.getColor(getContext(), R.color.yeltzBlue);
-        progressBar.getProgressDrawable().setColorFilter(barColor, android.graphics.PorterDuff.Mode.SRC_IN);
 
         // Setup web view
         WebView webView = (WebView) this.rootView.findViewById(R.id.fragmentWebView);
@@ -85,7 +87,7 @@ public class WebPageFragment extends Fragment {
         }
 
         @Override
-        public void onProgressChanged(WebView view, int newProgress){
+        public void onProgressChanged(WebView view, int newProgress) {
             this.progressBar.setProgress(newProgress);
         }
     }
