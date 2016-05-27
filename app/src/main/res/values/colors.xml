@@ -9,6 +9,7 @@
 
     <!-- Overlays start with "FF" to work when tinting images -->
     <color name="yeltzBlueOverlay">#FF063796</color>
+    <color name="yeltzLightBlueOverlay">#FFCADCEB</color>
     <color name="facebookBlueOverlay">#FF47609F</color>
     <color name="evostickRedOverlay">#FFFC0006</color>
     <color name="stourbridgeRedOverlay">#FF9E001A</color>
