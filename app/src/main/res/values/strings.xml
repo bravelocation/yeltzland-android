@@ -7,19 +7,10 @@
     <string name="twitter">Twitter</string>
     <string name="more">More...</string>
 
-    <string name="menu_home">H</string>
-    <string name="menu_back">&lt;</string>
-    <string name="menu_forward">&gt;</string>
-    <string name="menu_reload">R</string>
-    <string name="menu_browser">B</string>
+    <string name="stourbridgetownerror">Computer says no</string>
 
-    <string name="fa_icon_home">&#xf004;</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_splash">SplashActivity</string>
 
 </resources>

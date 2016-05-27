@@ -1,8 +1,5 @@
 package com.bravelocation.yeltzland;
 
-import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +20,7 @@ public class MoreListDataPump {
 
         List<MoreListDataItem> about = new ArrayList<MoreListDataItem>();
         about.add(new MoreListDataItem("Another Brave Location App!", "http://bravelocation.com/apps", R.drawable.ic_mapmarker, R.color.bravelocationRedOverlay));
-        about.add(new MoreListDataItem("v" + BuildConfig.VERSION_NAME, "", 0, 0));
+        about.add(new MoreListDataItem("v" + BuildConfig.VERSION_NAME, "", R.drawable.ic_space, R.color.yeltzBlueOverlay));
 
         expandableListDetail.put("Other Websites", others);
         expandableListDetail.put("Know Your History", history);

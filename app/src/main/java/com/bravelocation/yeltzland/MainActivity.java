@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                     return new MoreFragment();
             }
 
-            return WebPageFragment.newInstance("http://yeltz.co.uk/0/");
+            return null;
         }
 
         @Override

@@ -61,7 +61,7 @@ public class MoreFragment extends Fragment {
                 }
 
                 if (selectedItem.icon == R.drawable.ic_thumbs_down) {
-                    Toast toast = Toast.makeText(getContext(), "Computer says no", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getContext(), getString(R.string.stourbridgetownerror), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
                     toast.show();
                 }

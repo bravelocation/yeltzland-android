@@ -1,15 +1,9 @@
 package com.bravelocation.yeltzland;
 
-import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +14,6 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link WebPageFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link WebPageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class WebPageFragment extends Fragment {
     public String homeUrl;
     public View rootView;
