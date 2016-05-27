@@ -2,6 +2,7 @@ package com.bravelocation.yeltzland;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -35,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TWITTER_KEY = "mOQVcR8FPJPXw2lwncM5bNkSI";
     private static final String TWITTER_SECRET = "wN1q1WPXs48Vc2sv5sm2f1bivwPrdUNDigy7oOpCUl0dpfvxS5";
 
-
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private TabLayout tabLayout;
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.tabLayout = (TabLayout) findViewById(R.id.tabs);
         this.tabLayout.setupWithViewPager(mViewPager);
+        this.changeTabsFont();
 
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
             case R.id.action_browser:
-                if (webView != null) {
+                if (webView != null && webView.getUrl() != null) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
                     startActivity(browserIntent);
                 }
@@ -153,6 +154,24 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void changeTabsFont() {
+
+        Typeface tabFont = Typeface.createFromAsset(getApplicationContext().getAssets(), "american_typewriter_regular.ttf");
+
+        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+            int tabChildsCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(tabFont, Typeface.NORMAL);
+                }
+            }
         }
     }
 
