@@ -1,9 +1,6 @@
 package com.bravelocation.yeltzland;
 
-import java.util.HashMap;
-import java.util.List;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
@@ -11,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class MoreListAdapter extends BaseExpandableListAdapter {
     private Context context;

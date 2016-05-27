@@ -2,24 +2,25 @@ package com.bravelocation.yeltzland;
 
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MoreFragment extends Fragment {
 
     ExpandableListView expandableListView;
@@ -59,9 +60,10 @@ public class MoreFragment extends Fragment {
                     return true;
                 }
 
-                Toast.makeText(
-                        getContext(),"Computer says no", Toast.LENGTH_SHORT
-                ).show();
+                Toast toast = Toast.makeText(getContext(),"Computer says no", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                toast.show();
+
                 return false;
             }
         });
