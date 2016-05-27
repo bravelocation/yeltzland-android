@@ -3,7 +3,10 @@ package com.bravelocation.yeltzland;
 import java.util.HashMap;
 import java.util.List;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +41,7 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int listPosition, final int expandedListPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final MoreListDataItem MoreListDataItem = (MoreListDataItem) getChild(listPosition, expandedListPosition);
+        final MoreListDataItem moreListDataItem = (MoreListDataItem) getChild(listPosition, expandedListPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,10 +49,11 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView expandedListTextView = (TextView) convertView.findViewById(R.id.expandedListItem);
-        expandedListTextView.setText(MoreListDataItem.title);
+        expandedListTextView.setText(moreListDataItem.title);
 
         ImageView expandedListImageView = (ImageView) convertView.findViewById(R.id.expandedListItemImage);
-        expandedListImageView.setImageResource(MoreListDataItem.icon);
+        expandedListImageView.setImageResource(moreListDataItem.icon);
+        expandedListImageView.setColorFilter(ContextCompat.getColor(context, moreListDataItem.iconTint), PorterDuff.Mode.MULTIPLY );
 
         return convertView;
     }

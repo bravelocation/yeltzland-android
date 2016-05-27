@@ -6,4 +6,13 @@
 
     <color name="yeltzBlue">#063796</color>
     <color name="yeltzLightBlue">#CADCEB</color>
+
+    <!-- Overlays start with "FF" to work when tinting images -->
+    <color name="yeltzBlueOverlay">#FF063796</color>
+    <color name="facebookBlueOverlay">#FF47609F</color>
+    <color name="evostickRedOverlay">#FFFC0006</color>
+    <color name="stourbridgeRedOverlay">#FF9E001A</color>
+    <color name="bravelocationRedOverlay">#FFAA3C4F</color>
+    <color name="twitterBlueOverlay">#FF4294FE</color>
+
 </resources>
