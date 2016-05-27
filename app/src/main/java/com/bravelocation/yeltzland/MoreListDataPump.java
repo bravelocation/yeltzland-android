@@ -23,6 +23,7 @@ public class MoreListDataPump {
 
         List<MoreListDataItem> about = new ArrayList<MoreListDataItem>();
         about.add(new MoreListDataItem("Another Brave Location App!", "http://bravelocation.com/apps", R.drawable.ic_mapmarker, R.color.bravelocationRedOverlay));
+        about.add(new MoreListDataItem("v" + BuildConfig.VERSION_NAME, "", 0, 0));
 
         expandableListDetail.put("Other Websites", others);
         expandableListDetail.put("Know Your History", history);
