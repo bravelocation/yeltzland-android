@@ -18,12 +18,15 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
     private HashMap<String, List<MoreListDataItem>> expandableListDetail;
+    private Typeface textFont;
 
     public MoreListAdapter(Context context, List<String> expandableListTitle,
                                        HashMap<String, List<MoreListDataItem>> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
+
+        this.textFont = Typeface.createFromAsset(context.getAssets(), "american_typewriter_regular.ttf");
     }
 
     @Override
@@ -49,6 +52,7 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
 
         TextView expandedListTextView = (TextView) convertView.findViewById(R.id.expandedListItem);
         expandedListTextView.setText(moreListDataItem.title);
+        expandedListTextView.setTypeface(this.textFont);
 
         ImageView expandedListImageView = (ImageView) convertView.findViewById(R.id.expandedListItemImage);
         expandedListImageView.setImageResource(moreListDataItem.icon);
@@ -93,7 +97,7 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
         }
         TextView listTitleTextView = (TextView) convertView
                 .findViewById(R.id.listTitle);
-        listTitleTextView.setTypeface(null, Typeface.BOLD);
+        listTitleTextView.setTypeface(this.textFont, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
 
         return convertView;
