@@ -57,6 +57,10 @@ public class WebPageFragment extends Fragment {
         progressBar.setProgress(0);
         webView.loadUrl(this.homeUrl);
 
+        if (savedInstanceState != null) {
+            webView.restoreState(savedInstanceState);
+        }
+
         return this.rootView;
     }
 
