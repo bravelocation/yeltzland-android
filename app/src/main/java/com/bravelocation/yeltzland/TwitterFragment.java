@@ -78,7 +78,6 @@ public class TwitterFragment extends ListFragment {
 
     // Actually reload timeline
     private void reloadTimeline() {
-        Log.d("Reload", "Reloading timeline");
         this.adapter.refresh(this.timelineRefreshCallback);
     }
 
