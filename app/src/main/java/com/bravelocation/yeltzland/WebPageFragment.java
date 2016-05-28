@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,12 @@ public class WebPageFragment extends Fragment {
         webView.loadUrl(this.homeUrl);
 
         return this.rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState ){
+        WebView webView = (WebView) this.rootView.findViewById(R.id.fragmentWebView);
+        webView.saveState(outState);
     }
 
     private class YeltzlandWebViewClient extends WebViewClient {

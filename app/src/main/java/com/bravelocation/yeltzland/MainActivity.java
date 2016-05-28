@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -156,6 +157,28 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        int currentTab = mViewPager.getCurrentItem();
+        Fragment currentFragment = (Fragment) mViewPager.getAdapter().instantiateItem(mViewPager, currentTab);
+
+        WebPageFragment webPageFragment = null;
+        WebView webView = null;
+
+        if (currentTab <= 2) {
+            webPageFragment = (WebPageFragment) currentFragment;
+            webView = (WebView) webPageFragment.rootView.findViewById(R.id.fragmentWebView);
+
+            if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+                webView.goBack();
+                return true;
+            }
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     private void changeTabsFont() {
