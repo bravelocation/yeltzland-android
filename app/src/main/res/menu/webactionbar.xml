@@ -3,11 +3,6 @@
     xmlns:style="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/action_home"
-        android:icon="@drawable/ic_home"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/action_back"
         android:icon="@drawable/ic_angle_left"
         app:showAsAction="always" />
@@ -15,6 +10,11 @@
     <item
         android:id="@+id/action_forward"
         android:icon="@drawable/ic_angle_right"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_home"
+        android:icon="@drawable/ic_home"
         app:showAsAction="always" />
 
     <item

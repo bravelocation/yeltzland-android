@@ -9,6 +9,8 @@
     <color name="white">#FFFFFF</color>
 
     <!-- Overlays start with "FF" to work when tinting images -->
+    <color name="whiteOverlay">#FFFFFFFF</color>
+    <color name="greyOverlay">#FF777777</color>
     <color name="yeltzBlueOverlay">#FF063796</color>
     <color name="yeltzLightBlueOverlay">#FFCADCEB</color>
     <color name="facebookBlueOverlay">#FF47609F</color>

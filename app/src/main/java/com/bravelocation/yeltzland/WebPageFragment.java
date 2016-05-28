@@ -13,10 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 
 public class WebPageFragment extends Fragment {
@@ -79,7 +82,24 @@ public class WebPageFragment extends Fragment {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            progressBar.setProgress(0);
+            super.onPageStarted(view, url, favicon);
+            this.progressBar.setProgress(0);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            this.progressBar.setProgress(this.progressBar.getMax());
+
+            // Reset options
+            getActivity().invalidateOptionsMenu();
+        }
+
+        @Override
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            super.onReceivedError(view, request, error);
+
+            Toast.makeText(getContext(), getContext().getString(R.string.webpage_error), Toast.LENGTH_SHORT).show();
         }
 
         @Override

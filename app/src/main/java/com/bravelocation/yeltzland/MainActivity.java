@@ -2,12 +2,14 @@ package com.bravelocation.yeltzland;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
             menu.removeItem(R.id.action_back);
             menu.removeItem(R.id.action_forward);
             menu.removeItem(R.id.action_browser);
+            return true;
         }  else if (currentTab == 4) {
             // More tab - remove all
             menu.removeItem(R.id.action_home);
@@ -96,6 +99,32 @@ public class MainActivity extends AppCompatActivity {
             menu.removeItem(R.id.action_forward);
             menu.removeItem(R.id.action_reload);
             menu.removeItem(R.id.action_browser);
+            return true;
+        }
+
+        // Web page, so enable/disable back and forward buttons appropriately
+        Fragment currentFragment = (Fragment) mViewPager.getAdapter().instantiateItem(mViewPager, currentTab);
+
+        WebPageFragment webPageFragment = (WebPageFragment) currentFragment;
+        WebView webView = (WebView) webPageFragment.rootView.findViewById(R.id.fragmentWebView);
+
+        MenuItem backButton = menu.findItem(R.id.action_back);
+        MenuItem forwardButton = menu.findItem(R.id.action_forward);
+
+        if (webView.canGoBack()) {
+            backButton.setEnabled(true);
+            backButton.getIcon().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.whiteOverlay), PorterDuff.Mode.MULTIPLY);
+        } else {
+            backButton.setEnabled(false);
+            backButton.getIcon().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.greyOverlay), PorterDuff.Mode.MULTIPLY);
+        }
+
+        if (webView.canGoForward()) {
+            forwardButton.setEnabled(true);
+            forwardButton.getIcon().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.whiteOverlay), PorterDuff.Mode.MULTIPLY);
+        } else {
+            forwardButton.setEnabled(false);
+            forwardButton.getIcon().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.greyOverlay), PorterDuff.Mode.MULTIPLY);
         }
 
         return true;

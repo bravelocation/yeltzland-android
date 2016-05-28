@@ -9,6 +9,7 @@
 
     <string name="stourbridgetowntitle">Really?</string>
     <string name="stourbridgetownmessage">Computer says no</string>
+    <string name="webpage_error">Failed to download the web page :(</string>
 
     <string name="title_activity_main">MainActivity</string>
 
