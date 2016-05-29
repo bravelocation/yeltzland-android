@@ -30,7 +30,11 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Crashlytics(), new Twitter(authConfig));
+        final Fabric fabric = new Fabric.Builder(this)
+                .kits(new Crashlytics(), new Twitter(authConfig))
+                .debuggable(true)
+                .build();
+        Fabric.with(fabric);
 
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
