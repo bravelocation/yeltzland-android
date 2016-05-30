@@ -1,7 +1,5 @@
 package com.bravelocation.yeltzland;
 
-import android.graphics.Color;
-
 /**
  * Created by John on 26/05/2016.
  */

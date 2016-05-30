@@ -1,43 +1,31 @@
 package com.bravelocation.yeltzland;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.support.design.widget.AppBarLayout;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.webkit.WebView;
 import android.widget.TextView;
-import com.crashlytics.android.Crashlytics;
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    private SectionsPagerAdapter sectionsPagerAdapter;
+    private ViewPager tabViewPager;
     private TabLayout tabLayout;
 
     @Override
@@ -50,28 +38,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        this.sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        this.tabViewPager = (ViewPager) findViewById(R.id.container);
+        this.tabViewPager.setAdapter(sectionsPagerAdapter);
 
         TabChangeListener pageChangeListener = new TabChangeListener(this);
-        mViewPager.addOnPageChangeListener(pageChangeListener);
+        this.tabViewPager.addOnPageChangeListener(pageChangeListener);
 
         this.tabLayout = (TabLayout) findViewById(R.id.tabs);
-        this.tabLayout.setupWithViewPager(mViewPager);
+        this.tabLayout.setupWithViewPager(this.tabViewPager);
         this.changeTabsFont();
 
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
-
-        // Set height
-        View appBar = findViewById(R.id.appbar);
-        View container = findViewById(R.id.container);
-
-        appBar.getHeight();
     }
 
     @Override
@@ -103,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Web page, so enable/disable back and forward buttons appropriately
-        Fragment currentFragment = (Fragment) mViewPager.getAdapter().instantiateItem(mViewPager, currentTab);
+        Fragment currentFragment = (Fragment) this.tabViewPager.getAdapter().instantiateItem(this.tabViewPager, currentTab);
 
         WebPageFragment webPageFragment = (WebPageFragment) currentFragment;
         WebView webView = (WebView) webPageFragment.rootView.findViewById(R.id.fragmentWebView);
@@ -132,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int currentTab = mViewPager.getCurrentItem();
-        Fragment currentFragment = (Fragment) mViewPager.getAdapter().instantiateItem(mViewPager, currentTab);
+        int currentTab = this.tabViewPager.getCurrentItem();
+        Fragment currentFragment = (Fragment) this.tabViewPager.getAdapter().instantiateItem(this.tabViewPager, currentTab);
 
         WebPageFragment webPageFragment = null;
         WebView webView = null;
@@ -191,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        int currentTab = mViewPager.getCurrentItem();
-        Fragment currentFragment = (Fragment) mViewPager.getAdapter().instantiateItem(mViewPager, currentTab);
+        int currentTab = this.tabViewPager.getCurrentItem();
+        Fragment currentFragment = (Fragment) this.tabViewPager.getAdapter().instantiateItem(tabViewPager, currentTab);
 
         WebPageFragment webPageFragment = null;
         WebView webView = null;
@@ -214,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
         Typeface tabFont = Typeface.createFromAsset(getApplicationContext().getAssets(), "american_typewriter_regular.ttf");
 
-        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+        ViewGroup vg = (ViewGroup) this.tabLayout.getChildAt(0);
         int tabsCount = vg.getChildCount();
         for (int j = 0; j < tabsCount; j++) {
             ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
@@ -233,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         AppCompatActivity parentActivity;
 
         public TabChangeListener(AppCompatActivity activity) {
-            parentActivity = activity;
+            this.parentActivity = activity;
         }
 
         @Override
@@ -241,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPageSelected(position);
 
             // Reset the action options
-            parentActivity.invalidateOptionsMenu();
+            this.parentActivity.invalidateOptionsMenu();
         }
     }
 
@@ -288,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
                 case 4:
                     return getString(R.string.more);
             }
+
             return null;
         }
     }

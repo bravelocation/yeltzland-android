@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ public class TwitterFragment extends ListFragment {
     private SwipeRefreshLayout swipeLayout;
     private Handler refreshHandler;
     private final int RELOAD_INTERVAL = 1000 * 60 * 5;
+
     private final Callback<TimelineResult<Tweet>> timelineRefreshCallback = new Callback<TimelineResult<Tweet>>() {
         // Do nothing for now
         @Override

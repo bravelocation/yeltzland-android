@@ -1,14 +1,9 @@
 package com.bravelocation.yeltzland;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +87,10 @@ public class WebPageFragment extends Fragment {
             this.progressBar.setProgress(this.progressBar.getMax());
 
             // Reset options
-            getActivity().invalidateOptionsMenu();
+            Activity currentActivity = getActivity();
+            if (currentActivity != null) {
+                currentActivity.invalidateOptionsMenu();
+            }
         }
 
         @Override
