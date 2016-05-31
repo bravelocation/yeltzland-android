@@ -14,7 +14,7 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class MoreFragment extends Fragment {
@@ -22,7 +22,7 @@ public class MoreFragment extends Fragment {
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
-    HashMap<String, List<MoreListDataItem>> expandableListDetail;
+    LinkedHashMap<String, List<MoreListDataItem>> expandableListDetail;
 
     public MoreFragment() {
         // Required empty public constructor
@@ -49,6 +49,12 @@ public class MoreFragment extends Fragment {
                 MoreListDataItem selectedItem = expandableListDetail.get(
                         expandableListTitle.get(groupPosition)).get(
                         childPosition);
+
+                if (selectedItem.settingsLink) {
+                    Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                    startActivity(settingsIntent);
+                    return true;
+                }
 
                 if (selectedItem.url.length() > 0) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(selectedItem.url));

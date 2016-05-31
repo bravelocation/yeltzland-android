@@ -2,10 +2,21 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/yeltzBlue</item>
         <item name="colorPrimaryDark">@color/yeltzBlue</item>
-        <item name="colorAccent">@color/yeltzLightBlue</item>
+        <item name="colorAccent">@color/yeltzBlue</item>
+    </style>
+
+    <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <!-- Customize color of navigation drawer icon and back arrow -->
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+    <style name="AppTheme.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <!-- Set proper title size -->
+        <item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>
+        <!-- Set title color -->
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="YeltzlandTabText" parent="@android:style/TextAppearance.Widget.TabWidget">
