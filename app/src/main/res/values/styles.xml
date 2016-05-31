@@ -8,4 +8,7 @@
         <item name="colorAccent">@color/yeltzLightBlue</item>
     </style>
 
+    <style name="YeltzlandTabText" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">12dp</item>
+    </style>
 </resources>
