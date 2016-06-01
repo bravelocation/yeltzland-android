@@ -37,7 +37,7 @@ public class SettingsActivity extends Activity {
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_left);
-        toolbar.getNavigationIcon().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white), PorterDuff.Mode.MULTIPLY);
+        toolbar.getNavigationIcon().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.whiteOverlay), PorterDuff.Mode.MULTIPLY);
 
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         title.setTypeface(this.textFont);

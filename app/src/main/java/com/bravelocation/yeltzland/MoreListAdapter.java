@@ -60,11 +60,9 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
             expandedListImageView.setColorFilter(ContextCompat.getColor(context, moreListDataItem.iconTint), PorterDuff.Mode.MULTIPLY);
         }
 
-        if (moreListDataItem.url.length() > 0 || moreListDataItem.settingsLink) {
-            ImageView pointerImageView = (ImageView) convertView.findViewById(R.id.pointer);
-            pointerImageView.setImageResource(R.drawable.ic_angle_right);
-            pointerImageView.setColorFilter(ContextCompat.getColor(context, R.color.yeltzLightBlueOverlay), PorterDuff.Mode.MULTIPLY);
-        }
+        ImageView pointerImageView = (ImageView) convertView.findViewById(R.id.pointer);
+        pointerImageView.setImageResource(R.drawable.ic_angle_right);
+        pointerImageView.setColorFilter(ContextCompat.getColor(context, R.color.yeltzLightBlueOverlay), PorterDuff.Mode.MULTIPLY);
 
         return convertView;
     }
