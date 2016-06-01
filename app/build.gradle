@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId "com.bravelocation.yeltzland"
-        minSdkVersion 13
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 3
         versionName "1.1 (dev)"
