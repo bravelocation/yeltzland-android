@@ -66,7 +66,7 @@ public class MoreFragment extends Fragment {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle(getString(R.string.stourbridgetowntitle));
                     builder.setMessage(getString(R.string.stourbridgetownmessage));
-                    builder.setIcon(R.drawable.htfc_logo);
+                    builder.setIcon(R.drawable.ic_htfc_logo);
                     builder.setCancelable(true);
 
                     builder.setPositiveButton(
