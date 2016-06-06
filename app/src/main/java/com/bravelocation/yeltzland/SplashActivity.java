@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.twitter.sdk.android.Twitter;
@@ -26,10 +27,23 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        final Fabric fabric = new Fabric.Builder(this)
-                .kits(new Crashlytics(), new Twitter(authConfig))
-                .debuggable(true)
-                .build();
+
+        Fabric fabric = null;
+
+        if (BuildConfig.DEBUG) {
+            Log.d("Yeltzland", "DEBUG mode");
+            fabric = new Fabric.Builder(this)
+                    .kits(new Twitter(authConfig))
+                    .debuggable(true)
+                    .build();
+        } else {
+            Log.d("Yeltzland", "RELEASE mode");
+            fabric = new Fabric.Builder(this)
+                    .kits(new Crashlytics(), new Twitter(authConfig))
+                    .debuggable(false)
+                    .build();
+        }
+
         Fabric.with(fabric);
 
         /* New Handler to start the Menu-Activity
