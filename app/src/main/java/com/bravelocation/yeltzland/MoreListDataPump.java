@@ -23,12 +23,13 @@ public class MoreListDataPump {
         options.add(new MoreListDataItem("Notification Settings", "", R.drawable.ic_cog, R.color.yeltzBlueOverlay, true));
 
         List<MoreListDataItem> about = new ArrayList<MoreListDataItem>();
-        about.add(new MoreListDataItem("Another Brave Location App (v" + BuildConfig.VERSION_NAME + ")", "http://bravelocation.com/apps", R.drawable.ic_mapmarker, R.color.bravelocationRedOverlay));
+        about.add(new MoreListDataItem("More Brave Location Apps", "http://bravelocation.com/apps", R.drawable.ic_mapmarker, R.color.bravelocationRedOverlay));
+        about.add(new MoreListDataItem("v" + BuildConfig.VERSION_NAME , "", 0, R.color.bravelocationRedOverlay));
 
         expandableListDetail.put("Other Websites", others);
         expandableListDetail.put("Know Your History", history);
         expandableListDetail.put("Options", options);
-        expandableListDetail.put("About The App", about);
+        expandableListDetail.put("About", about);
         return expandableListDetail;
     }
 }
