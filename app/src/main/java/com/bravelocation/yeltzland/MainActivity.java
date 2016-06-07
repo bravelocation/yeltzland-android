@@ -1,6 +1,7 @@
 package com.bravelocation.yeltzland;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -23,6 +24,9 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String LAST_TAB_PREF_FILE = "LastTabPrefFile";
+    private static final String LAST_TAB_PREF_NAME = "lastSelectedTab";
 
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager tabViewPager;
@@ -54,6 +58,25 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
+
+        // Set handler on view pager so save selected tab
+        this.tabViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            public void onPageSelected(int position) {
+                // Save selected tab
+                SharedPreferences settings = getSharedPreferences(LAST_TAB_PREF_FILE, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(LAST_TAB_PREF_NAME, position);
+                editor.commit();
+            }
+        });
+
+        // Set tab to last shown tab
+        SharedPreferences settings = getSharedPreferences(LAST_TAB_PREF_FILE, 0);
+        Integer lastTab = settings.getInt(LAST_TAB_PREF_NAME, 0);
+        this.tabViewPager.setCurrentItem(lastTab);
     }
 
     @Override
