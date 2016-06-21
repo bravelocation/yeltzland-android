@@ -16,7 +16,6 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
 public class WebPageFragment extends Fragment {
     public String homeUrl;
     public View rootView;
@@ -98,7 +97,11 @@ public class WebPageFragment extends Fragment {
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
             super.onReceivedError(view, request, error);
 
-            Toast.makeText(getContext(), getContext().getString(R.string.webpage_error), Toast.LENGTH_SHORT).show();
+            // Show toast on connection error
+            Activity currentActivity = getActivity();
+            if (currentActivity != null) {
+                Toast.makeText(currentActivity, currentActivity.getString(R.string.webpage_error), Toast.LENGTH_LONG).show();
+            }
         }
 
         @Override

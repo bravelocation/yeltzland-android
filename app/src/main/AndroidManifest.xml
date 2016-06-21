@@ -5,48 +5,47 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.bravelocation.yeltzland.YeltzlandApplication"
+        android:name=".YeltzlandApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="de20d03a9cd3af9832860083836d12964a8b11f5" />
 
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="orientation|screenSize">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".SettingsActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_settings"
-            android:theme="@style/AppTheme.Settings"
-            android:configChanges="orientation|screenSize">
-        </activity>
-
+            android:theme="@style/AppTheme.Settings"></activity>
+        <activity
+            android:name=".FixtureListActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_fixture_list"
+            android:theme="@style/AppTheme.Settings"></activity>
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".YeltzlandFirebaseMessagingService">
+        <service android:name=".YeltzlandFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

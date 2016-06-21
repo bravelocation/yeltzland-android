@@ -8,6 +8,12 @@
     <color name="yeltzLightBlue">#CADCEB</color>
     <color name="white">#FFFFFF</color>
 
+    <!-- Fixture colors -->
+    <color name="matchWin">#003F00</color>
+    <color name="matchDraw">#00003F</color>
+    <color name="matchLose">#3F0000</color>
+    <color name="matchNone">#000000</color>
+
     <!-- Overlays start with "FF" to work when tinting images -->
     <color name="whiteOverlay">#FFFFFFFF</color>
     <color name="greyOverlay">#FF777777</color>

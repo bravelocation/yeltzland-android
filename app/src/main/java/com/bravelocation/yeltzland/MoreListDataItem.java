@@ -9,16 +9,18 @@ public class MoreListDataItem {
     public int icon;
     public int iconTint;
     public boolean settingsLink;
+    public boolean fixturesLink;
 
     public MoreListDataItem(String title, String url, int icon, int iconTint) {
-        this(title, url, icon, iconTint, false);
+        this(title, url, icon, iconTint, false, false);
     }
 
-    public MoreListDataItem(String title, String url, int icon, int iconTint, boolean settingsLink) {
+    public MoreListDataItem(String title, String url, int icon, int iconTint, boolean settingsLink, boolean fixturesLink) {
         this.title = title;
         this.url = url;
         this.icon = icon;
         this.iconTint = iconTint;
         this.settingsLink = settingsLink;
+        this.fixturesLink = fixturesLink;
     }
 }

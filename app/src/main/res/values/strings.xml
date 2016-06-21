@@ -9,12 +9,12 @@
 
     <string name="stourbridgetowntitle">Really?</string>
     <string name="stourbridgetownmessage">Computer says no</string>
-    <string name="webpage_error">Failed to download the web page :(</string>
+    <string name="webpage_error">No connection right now</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="title_settings">Settings</string>
+    <string name="title_fixture_list">Fixture List</string>
     <string name="pref_gametimetweets">Game time tweets</string>
     <string name="pref_gametimetweets_subtitle">Enable notifications</string>
-
 
 </resources>
