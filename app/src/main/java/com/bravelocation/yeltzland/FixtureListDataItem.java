@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by John on 21/06/2016.
  */
-public class FixtureListDataItem {
+public class FixtureListDataItem implements Comparable<FixtureListDataItem> {
     public Date fixtureDate;
     public String opponent;
     public boolean home;
@@ -70,5 +70,10 @@ public class FixtureListDataItem {
         }
 
         return this.kickoffTime();
+    }
+
+    @Override
+    public int compareTo(FixtureListDataItem o) {
+        return this.fixtureDate.compareTo(o.fixtureDate);
     }
 }

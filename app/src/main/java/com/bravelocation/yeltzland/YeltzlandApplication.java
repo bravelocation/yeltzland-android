@@ -18,5 +18,8 @@ public class YeltzlandApplication extends Application
     {
         // Initialize the instance of NotificationsManager
         NotificationsManager.init(getApplicationContext());
+
+        // Setup the fixtures
+        FixtureListDataPump.updateFixtures(getApplicationContext());
     }
 }
