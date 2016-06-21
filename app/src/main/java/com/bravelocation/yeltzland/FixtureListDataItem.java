@@ -27,7 +27,7 @@ public class FixtureListDataItem {
     }
 
     public String kickoffTime() {
-        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("EEE dd @HHmm");
+        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("EEE dd");
         return simpleDateFormat.format(this.fixtureDate);
     }
 
