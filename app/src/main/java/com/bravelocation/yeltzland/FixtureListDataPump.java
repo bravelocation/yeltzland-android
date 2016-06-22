@@ -2,34 +2,30 @@ package com.bravelocation.yeltzland;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
-/**
- * Created by John on 21/06/2016.
- */
 public class FixtureListDataPump {
     private static String LOCALFILENAME = "matches.json";
 
@@ -51,6 +47,9 @@ public class FixtureListDataPump {
     }
 
     private static void moveBundleFileToAppDirectory(Context context) {
+        InputStream in = null;
+        OutputStream out = null;
+
         try {
             // Does the file already exist?
             File cacheFile = new File(context.getExternalFilesDir(null), LOCALFILENAME);
@@ -60,8 +59,8 @@ public class FixtureListDataPump {
             }
 
             AssetManager assetManager = context.getAssets();
-            InputStream in = assetManager.open(LOCALFILENAME);
-            OutputStream out = new FileOutputStream(cacheFile);
+            in = assetManager.open(LOCALFILENAME);
+            out = new FileOutputStream(cacheFile);
 
             byte[] buffer = new byte[1024];
             int read;
@@ -69,37 +68,75 @@ public class FixtureListDataPump {
             {
                 out.write(buffer, 0, read);
             }
-            in.close();
-            in = null;
 
-            out.flush();
-            out.close();
-            out = null;
             Log.d("FixtureListDataPump", "Asset file copied to file cache");
         } catch (Exception e) {
             Log.d("FixtureListDataPump", "Error copying asset to cache:" + e.toString());
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                    in = null;
+                } catch (IOException e) {
+                }
+            }
+
+            if (out != null) {
+                try {
+                    out.flush();
+                    out.close();
+                    out = null;
+                } catch (IOException e) {
+                }
+            }
         }
     }
 
     private static void loadDataFromCachedJson(Context context) {
+        FileInputStream in = null;
         try {
-            LinkedHashMap<String, List<FixtureListDataItem>> newFixtures = new LinkedHashMap<String, List<FixtureListDataItem>>();
-
             // Load the JSON data
             File cacheFile = new File(context.getExternalFilesDir(null), LOCALFILENAME);
-            FileInputStream in = new FileInputStream(cacheFile);
+            in = new FileInputStream(cacheFile);
 
             int size = in.available();
             byte[] buffer = new byte[size];
             in.read(buffer);
-            in.close();
 
-            JSONObject parsedJson = new JSONObject(new String(buffer, "UTF-8"));
+            FixtureListDataPump.parseJSON(new String(buffer, "UTF-8"));
+        } catch (Exception e) {
+            Log.d("FixtureListDataPump", "Error parsing JSON:" + e.toString());
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                    in = null;
+                } catch (IOException e) {
+
+                }
+            }
+        }
+    }
+
+    private static boolean parseJSON(String input) {
+        try {
+            if (input.length() == 0) {
+                return false;
+            }
+
+            LinkedHashMap<String, List<FixtureListDataItem>> newFixtures = new LinkedHashMap<String, List<FixtureListDataItem>>();
+
+            JSONObject parsedJson = new JSONObject(input);
             JSONArray matchesArray = parsedJson.getJSONArray("Matches");
+
+            // If no matches, stick with what we've got
+            if (matchesArray.length() == 0) {
+                return false;
+            }
 
             // Add each fixture into the appropriate month
             List<FixtureListDataItem> monthly = new ArrayList<FixtureListDataItem>();
-            for (int i=0; i < matchesArray.length(); i++) {
+            for (int i = 0; i < matchesArray.length(); i++) {
                 JSONObject match = matchesArray.getJSONObject(i);
 
                 // Pulling items from the array
@@ -137,25 +174,89 @@ public class FixtureListDataPump {
             List<String> monthKeys = new LinkedList<String>(newFixtures.keySet());
             Collections.sort(monthKeys);
 
-            FixtureListDataPump.fixtures.clear();
-            for(String monthKey: monthKeys) {
-                List<FixtureListDataItem> monthFixtures = newFixtures.get(monthKey);
-                Collections.sort(monthFixtures);
+            synchronized(FixtureListDataPump.fixtures) {
+                FixtureListDataPump.fixtures.clear();
+                for (String monthKey : monthKeys) {
+                    List<FixtureListDataItem> monthFixtures = newFixtures.get(monthKey);
+                    Collections.sort(monthFixtures);
 
-                FixtureListDataItem firstFixture = monthFixtures.get(0);
-                FixtureListDataPump.fixtures.put(firstFixture.fixtureMonth(), monthFixtures);
+                    FixtureListDataItem firstFixture = monthFixtures.get(0);
+                    FixtureListDataPump.fixtures.put(firstFixture.fixtureMonth(), monthFixtures);
+                }
             }
+
+            return true;
         } catch (Exception e) {
             Log.d("FixtureListDataPump", "Error parsing JSON:" + e.toString());
+            return false;
         }
     }
 
     public static void refreshFixturesFromServer(Context context) {
-        try {
-            URL requestUrl = new URL("http://yeltz.co.uk/fantasyisland/matches.json.php");
-        } catch (MalformedURLException e) {
+        // Fetch server data on background thread
+        new Thread(new FetchFixturesFromServer(context)).start();
+    }
 
+    private static class FetchFixturesFromServer implements Runnable {
+
+        private Context context;
+
+        public FetchFixturesFromServer(Context context) {
+            this.context = context;
         }
 
+        public void run() {
+            InputStream in = null;
+            OutputStream out = null;
+            Writer w = null;
+
+            try {
+                // Fetch the server matches JSON
+                URL url = new URL("http://yeltz.co.uk/fantasyisland/matches.json.php");
+                in = url.openStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                StringBuilder result = new StringBuilder();
+                String line;
+                while((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+
+                // Check it's valid JSON, and if so, replace cache
+                if (FixtureListDataPump.parseJSON(result.toString())) {
+                    File cacheFile = new File(context.getExternalFilesDir(null), LOCALFILENAME);
+                    out = new FileOutputStream(cacheFile);
+                    w = new OutputStreamWriter(out, "UTF-8");
+                    w.write(result.toString());
+                    Log.d("FixtureListDataPump", "Written server matches data to cache");
+                } else {
+                    Log.d("FixtureListDataPump", "No matches found in server data");
+                }
+            } catch (Exception e) {
+                Log.d("FixtureListDataPump", "Problem occurred getting server data: " + e.toString());
+            } finally {
+                if (in != null) {
+                    try {
+                        in.close();
+                        in = null;
+                    } catch (IOException e) {
+                    }
+                }
+                if (out != null) {
+                    try {
+                        out.flush();
+                        out.close();
+                        out = null;
+                    } catch (IOException e) {
+                    }
+                }
+                if (w != null) {
+                    try {
+                        w.close();
+                        w = null;
+                    } catch (IOException e) {
+                    }
+                }
+            }
+        }
     }
 }
