@@ -27,6 +27,9 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
         this.expandableListDetail = expandableListDetail;
 
         this.textFont = Typeface.createFromAsset(context.getAssets(), "american_typewriter_regular.ttf");
+
+        // Trigger a background refresh of the fixtures
+        FixtureListDataPump.updateFixtures(context);
     }
 
     @Override

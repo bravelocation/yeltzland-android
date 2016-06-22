@@ -25,11 +25,12 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class FixtureListDataPump {
     private static String LOCALFILENAME = "matches.json";
 
-    private static LinkedHashMap<String, List<FixtureListDataItem>> fixtures = new LinkedHashMap<String, List<FixtureListDataItem>>();
+    private static final LinkedHashMap<String, List<FixtureListDataItem>> fixtures = new LinkedHashMap<String, List<FixtureListDataItem>>();
 
     public static LinkedHashMap<String, List<FixtureListDataItem>> getData() {
         return FixtureListDataPump.fixtures;
@@ -78,6 +79,7 @@ public class FixtureListDataPump {
                     in.close();
                     in = null;
                 } catch (IOException e) {
+                    // Ignore cleanup error
                 }
             }
 
@@ -87,6 +89,7 @@ public class FixtureListDataPump {
                     out.close();
                     out = null;
                 } catch (IOException e) {
+                    // Ignore cleanup error
                 }
             }
         }
@@ -112,7 +115,7 @@ public class FixtureListDataPump {
                     in.close();
                     in = null;
                 } catch (IOException e) {
-
+                    // Ignore cleanup error
                 }
             }
         }
@@ -146,28 +149,26 @@ public class FixtureListDataPump {
                 String teamScore = match.getString("TeamScore");
                 String opponentScore = match.getString("OpponentScore");
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.UK);
                 Date convertedMatchDate = dateFormat.parse(matchDateTime);
 
                 FixtureListDataItem fixture = null;
-                if (teamScore == null || teamScore == "null" || opponentScore == null || opponentScore == "null") {
-                    fixture = new FixtureListDataItem(convertedMatchDate, opponent, (home == "1"));
+                if (teamScore == null || teamScore.equals("null") || opponentScore == null || opponentScore.equals("null")) {
+                    fixture = new FixtureListDataItem(convertedMatchDate, opponent, home.equals("1"));
                 } else {
-                    fixture = new FixtureListDataItem(convertedMatchDate, opponent, (home == "1"), new Integer(teamScore), new Integer(opponentScore));
+                    fixture = new FixtureListDataItem(convertedMatchDate, opponent, home.equals("1"), Integer.valueOf(teamScore), Integer.valueOf(opponentScore));
                 }
 
-                if (fixture != null) {
-                    // Do we already have a fixture for this month
-                    String monthKey = fixture.monthKey();
-                    List<FixtureListDataItem> monthFixtures = newFixtures.get(monthKey);
+                // Do we already have a fixture for this month
+                String monthKey = fixture.monthKey();
+                List<FixtureListDataItem> monthFixtures = newFixtures.get(monthKey);
 
-                    if (monthFixtures == null) {
-                        monthFixtures = new ArrayList<FixtureListDataItem>();
-                        newFixtures.put(monthKey, monthFixtures);
-                    }
-
-                    monthFixtures.add(fixture);
+                if (monthFixtures == null) {
+                    monthFixtures = new ArrayList<FixtureListDataItem>();
+                    newFixtures.put(monthKey, monthFixtures);
                 }
+
+                monthFixtures.add(fixture);
             }
 
             // Reset the data, and add keys in order
@@ -239,6 +240,7 @@ public class FixtureListDataPump {
                         in.close();
                         in = null;
                     } catch (IOException e) {
+                        // Ignore cleanup error
                     }
                 }
                 if (out != null) {
@@ -247,6 +249,7 @@ public class FixtureListDataPump {
                         out.close();
                         out = null;
                     } catch (IOException e) {
+                        // Ignore cleanup error
                     }
                 }
                 if (w != null) {
@@ -254,6 +257,7 @@ public class FixtureListDataPump {
                         w.close();
                         w = null;
                     } catch (IOException e) {
+                        // Ignore cleanup error
                     }
                 }
             }

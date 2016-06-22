@@ -1,10 +1,8 @@
 package com.bravelocation.yeltzland;
 
 import java.util.Date;
+import java.util.Locale;
 
-/**
- * Created by John on 21/06/2016.
- */
 public class FixtureListDataItem implements Comparable<FixtureListDataItem> {
     public Date fixtureDate;
     public String opponent;
@@ -27,17 +25,17 @@ public class FixtureListDataItem implements Comparable<FixtureListDataItem> {
     }
 
     public String kickoffTime() {
-        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("EEE dd");
+        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("EEE dd", Locale.UK);
         return simpleDateFormat.format(this.fixtureDate);
     }
 
     public String fixtureMonth() {
-        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("MMMM yyyy");
+        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("MMMM yyyy", Locale.UK);
         return simpleDateFormat.format(this.fixtureDate);
     }
 
     public String monthKey() {
-        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyyMM");
+        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyyMM", Locale.UK);
         return simpleDateFormat.format(this.fixtureDate);
     }
 
@@ -74,6 +72,10 @@ public class FixtureListDataItem implements Comparable<FixtureListDataItem> {
 
     @Override
     public int compareTo(FixtureListDataItem o) {
+        if (o == null) {
+            return -1;
+        }
+
         return this.fixtureDate.compareTo(o.fixtureDate);
     }
 }
