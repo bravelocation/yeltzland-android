@@ -62,6 +62,12 @@ public class MoreFragment extends Fragment {
                     return true;
                 }
 
+                if (selectedItem.groundsLink) {
+                    Intent settingsIntent = new Intent(getActivity(), LocationsMapsActivity.class);
+                    startActivity(settingsIntent);
+                    return true;
+                }
+
                 if (selectedItem.url.length() > 0) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(selectedItem.url));
                     startActivity(browserIntent);

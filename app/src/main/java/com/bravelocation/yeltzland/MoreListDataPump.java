@@ -10,7 +10,8 @@ public class MoreListDataPump {
         LinkedHashMap<String, List<MoreListDataItem>> expandableListDetail = new LinkedHashMap<String, List<MoreListDataItem>>();
 
         List<MoreListDataItem> stats = new ArrayList<MoreListDataItem>();
-        stats.add(new MoreListDataItem("Fixture List", "", R.drawable.ic_calendar, R.color.yeltzBlueOverlay, false, true));
+        stats.add(new MoreListDataItem("Fixture List", "", R.drawable.ic_calendar, R.color.yeltzBlueOverlay, false, true, false));
+        stats.add(new MoreListDataItem("Where's The Ground?", "", R.drawable.ic_soccerball_o, R.color.yeltzBlueOverlay, false, false, true));
 
         List<MoreListDataItem> others = new ArrayList<MoreListDataItem>();
         others.add(new MoreListDataItem("HTFC on Facebook", "https://www.facebook.com/halesowentownfc/", R.drawable.ic_facebook_square, R.color.facebookBlueOverlay));
@@ -23,7 +24,7 @@ public class MoreListDataPump {
         history.add(new MoreListDataItem("Yeltzland News Archive", "http://www.yeltzland.net/news.html", R.drawable.ic_newspaper, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> options = new ArrayList<MoreListDataItem>();
-        options.add(new MoreListDataItem("Notification Settings", "", R.drawable.ic_cog, R.color.yeltzBlueOverlay, true, false));
+        options.add(new MoreListDataItem("Notification Settings", "", R.drawable.ic_cog, R.color.yeltzBlueOverlay, true, false, false));
 
         List<MoreListDataItem> about = new ArrayList<MoreListDataItem>();
         about.add(new MoreListDataItem("More Brave Location Apps", "http://bravelocation.com/apps", R.drawable.ic_mapmarker, R.color.bravelocationRedOverlay));

@@ -23,8 +23,8 @@ android {
         applicationId "com.bravelocation.yeltzland"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 7
-        versionName "1.1.4"
+        versionCode 8
+        versionName "1.8"
     }
     buildTypes {
         release {
@@ -48,6 +48,7 @@ dependencies {
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.google.firebase:firebase-core:9.0.1'
     compile 'com.google.firebase:firebase-messaging:9.0.1'
+    compile 'com.google.android.gms:play-services:9.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

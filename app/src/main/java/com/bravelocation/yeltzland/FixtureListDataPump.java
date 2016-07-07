@@ -253,12 +253,7 @@ public class FixtureListDataPump {
                     }
                 }
                 if (w != null) {
-                    try {
-                        w.close();
-                        w = null;
-                    } catch (IOException e) {
-                        // Ignore cleanup error
-                    }
+                    w = null;
                 }
             }
         }
