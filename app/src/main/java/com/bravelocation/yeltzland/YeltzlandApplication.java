@@ -1,9 +1,9 @@
 package com.bravelocation.yeltzland;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-public class YeltzlandApplication extends Application
+public class YeltzlandApplication extends MultiDexApplication
 {
     @Override
     public void onCreate()
