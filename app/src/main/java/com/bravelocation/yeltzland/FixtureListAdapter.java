@@ -58,12 +58,18 @@ public class FixtureListAdapter extends BaseExpandableListAdapter {
 
         if (fixtureListDataItem.teamScore != null && fixtureListDataItem.opponentScore != null) {
             if (fixtureListDataItem.teamScore > fixtureListDataItem.opponentScore) {
+                opponentTextView.setTextColor(ContextCompat.getColor(context, R.color.matchWin));
                 scoreordateTextView.setTextColor(ContextCompat.getColor(context, R.color.matchWin));
             } else if (fixtureListDataItem.teamScore < fixtureListDataItem.opponentScore) {
+                opponentTextView.setTextColor(ContextCompat.getColor(context, R.color.matchLose));
                 scoreordateTextView.setTextColor(ContextCompat.getColor(context, R.color.matchLose));
             } else {
+                opponentTextView.setTextColor(ContextCompat.getColor(context, R.color.matchDraw));
                 scoreordateTextView.setTextColor(ContextCompat.getColor(context, R.color.matchDraw));
             }
+        } else {
+            opponentTextView.setTextColor(ContextCompat.getColor(context, R.color.matchNone));
+            scoreordateTextView.setTextColor(ContextCompat.getColor(context, R.color.matchNone));
         }
 
         return convertView;
