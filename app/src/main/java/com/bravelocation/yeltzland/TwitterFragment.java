@@ -27,12 +27,16 @@ public class TwitterFragment extends ListFragment {
         // Do nothing for now
         @Override
         public void success(Result<TimelineResult<Tweet>> result) {
-            swipeLayout.setRefreshing(false);
+            if (swipeLayout != null) {
+                swipeLayout.setRefreshing(false);
+            }
         }
 
         @Override
         public void failure(TwitterException exception) {
-            swipeLayout.setRefreshing(false);
+            if (swipeLayout != null) {
+                swipeLayout.setRefreshing(false);
+            }
         }
     };
 
@@ -71,7 +75,10 @@ public class TwitterFragment extends ListFragment {
 
     // Reload action - either reload button or swipe
     public void reload() {
-        this.swipeLayout.setRefreshing(true);
+        if (this.swipeLayout != null) {
+            this.swipeLayout.setRefreshing(true);
+        }
+
         this.reloadTimeline();
         this.resetTimedReload();
     }
