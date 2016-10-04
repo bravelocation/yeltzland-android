@@ -28,7 +28,7 @@ public class MoreListDataPump {
         options.add(new MoreListDataItem("Notification Settings", "", R.drawable.ic_cog, R.color.yeltzBlueOverlay, true, false, false));
 
         List<MoreListDataItem> about = new ArrayList<MoreListDataItem>();
-        about.add(new MoreListDataItem("More Brave Location Apps", "http://bravelocation.com/apps", R.drawable.ic_mapmarker, R.color.bravelocationRedOverlay));
+        about.add(new MoreListDataItem("More Brave Location Apps", "https://bravelocation.com/apps", R.drawable.ic_mapmarker, R.color.bravelocationRedOverlay));
         about.add(new MoreListDataItem("v" + BuildConfig.VERSION_NAME , "", 0, R.color.bravelocationRedOverlay));
 
         expandableListDetail.put("Statistics", stats);

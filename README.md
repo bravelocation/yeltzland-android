@@ -1,4 +1,4 @@
-![Yeltzland](http://bravelocation.com/images/logos/yeltzland.png)
+![Yeltzland](https://bravelocation.com/images/logos/yeltzland.png)
 
 Everything you wanted to know about Halesowen Town FC - the mighty Yeltz - in one simple app:
 

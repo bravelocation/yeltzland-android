@@ -213,7 +213,7 @@ public class FixtureListDataPump {
 
             try {
                 // Fetch the server matches JSON
-                URL url = new URL("http://yeltz.co.uk/fantasyisland/matches.json.php");
+                URL url = new URL("https://bravelocation.com/automation/feeds/matches.json");
                 in = url.openStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                 StringBuilder result = new StringBuilder();
