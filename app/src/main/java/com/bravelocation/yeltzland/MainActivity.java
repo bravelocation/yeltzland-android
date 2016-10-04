@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,20 +59,6 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
-
-        // Set handler on view pager so save selected tab
-        this.tabViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            public void onPageScrollStateChanged(int state) {}
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
-            public void onPageSelected(int position) {
-                // Save selected tab
-                SharedPreferences settings = getSharedPreferences(LAST_TAB_PREF_FILE, 0);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putInt(LAST_TAB_PREF_NAME, position);
-                editor.commit();
-            }
-        });
 
         // Set tab to last shown tab
         SharedPreferences settings = getSharedPreferences(LAST_TAB_PREF_FILE, 0);
@@ -235,9 +222,9 @@ public class MainActivity extends AppCompatActivity {
 
     public class TabChangeListener extends ViewPager.SimpleOnPageChangeListener {
 
-        AppCompatActivity parentActivity;
+        MainActivity parentActivity;
 
-        public TabChangeListener(AppCompatActivity activity) {
+        public TabChangeListener(MainActivity activity) {
             this.parentActivity = activity;
         }
 
@@ -247,6 +234,12 @@ public class MainActivity extends AppCompatActivity {
 
             // Reset the action options
             this.parentActivity.invalidateOptionsMenu();
+
+            // Save selected tab
+            SharedPreferences settings = getSharedPreferences(LAST_TAB_PREF_FILE, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt(LAST_TAB_PREF_NAME, position);
+            editor.commit();
         }
     }
 
