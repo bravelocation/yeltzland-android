@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 public class WebPageFragment extends Fragment {
     public String homeUrl;
     public View rootView;
+    WebView webView;
 
     public WebPageFragment() {
         // Required empty public constructor
@@ -41,30 +43,40 @@ public class WebPageFragment extends Fragment {
         progressBar.setMax(100);
 
         // Setup web view
-        WebView webView = (WebView) this.rootView.findViewById(R.id.fragmentWebView);
-        webView.setWebViewClient(new YeltzlandWebViewClient(progressBar));
-        webView.setWebChromeClient(new YeltzlandWebChromeClient(progressBar));
-        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        this.webView = (WebView) this.rootView.findViewById(R.id.fragmentWebView);
+        this.webView.setWebViewClient(new YeltzlandWebViewClient(progressBar));
+        this.webView.setWebChromeClient(new YeltzlandWebChromeClient(progressBar));
+        this.webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
-        WebSettings webSettings = webView.getSettings();
+        WebSettings webSettings = this.webView.getSettings();
         webSettings.setLoadsImagesAutomatically(true);
         webSettings.setJavaScriptEnabled(true);
 
         // Load home URL
         progressBar.setProgress(0);
-        webView.loadUrl(this.homeUrl);
+        this.webView.loadUrl(this.homeUrl);
 
         if (savedInstanceState != null) {
-            webView.restoreState(savedInstanceState);
+            this.webView.restoreState(savedInstanceState);
         }
 
         return this.rootView;
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            Log.d("WebPageFragment", "Reloading fragment now not visible: " + this.homeUrl);
+            if (this.webView != null) {
+                this.webView.reload();
+            }
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState ){
-        WebView webView = (WebView) this.rootView.findViewById(R.id.fragmentWebView);
-        webView.saveState(outState);
+        this.webView.saveState(outState);
     }
 
     private class YeltzlandWebViewClient extends WebViewClient {
