@@ -28,6 +28,7 @@ public class MoreListDataPump {
         options.add(new MoreListDataItem("Notification Settings", "", R.drawable.ic_cog, R.color.yeltzBlueOverlay, true, false, false));
 
         List<MoreListDataItem> about = new ArrayList<MoreListDataItem>();
+        about.add(new MoreListDataItem("Yeltzland on Amazon Echo", "https://www.amazon.co.uk/Yeltzland-stuff-about-Halesowen-Town/dp/B01MTJOHBY/", R.drawable.ic_amazon, R.color.yeltzBlueOverlay));
         about.add(new MoreListDataItem("More Brave Location Apps", "https://bravelocation.com/apps", R.drawable.ic_mapmarker, R.color.bravelocationRedOverlay));
         about.add(new MoreListDataItem("Version " + BuildConfig.VERSION_NAME , "", 0, R.color.bravelocationRedOverlay));
 
