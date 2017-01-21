@@ -16,8 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class FixtureListActivity extends AppCompatActivity {
     private Typeface textFont;
@@ -47,9 +49,23 @@ public class FixtureListActivity extends AppCompatActivity {
         expandableListView.setAdapter(expandableListAdapter);
 
         // Expand all sections initially
-        int count = expandableListAdapter.getGroupCount();
-        for (int position = 1; position <= count; position++) {
-            expandableListView.expandGroup(position - 1);
+        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("MMMM yyyy", Locale.UK);
+        String currentMonth = simpleDateFormat.format(new Date());
+        int currentMonthPosition = -1;
+
+        int count = this.expandableListAdapter.getGroupCount();
+        for (int position = 0; position < count; position++) {
+            String month = (String) this.expandableListAdapter.getGroup(position);
+            if (month.contentEquals(currentMonth)) {
+                currentMonthPosition = position;
+            }
+
+            this.expandableListView.expandGroup(position);
+        }
+
+        // Move to current month if set
+        if (currentMonthPosition > 0) {
+            this.expandableListView.setSelectedGroup(currentMonthPosition);
         }
     }
 
