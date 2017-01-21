@@ -7,6 +7,8 @@
     <color name="yeltzBlue">#063796</color>
     <color name="yeltzLightBlue">#CADCEB</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="lightgrey">#cccccc</color>
 
     <!-- Fixture colors -->
     <color name="matchWin">#003F00</color>
