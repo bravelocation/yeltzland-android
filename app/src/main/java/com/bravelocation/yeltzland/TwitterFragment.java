@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,11 +67,20 @@ public class TwitterFragment extends ListFragment {
         this.swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                reload();
+                 reload();
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            Log.d("TwitterFragment", "Reloading fragment now not visible");
+            this.reload();
+        }
     }
 
     // Reload action - either reload button or swipe
@@ -85,7 +95,9 @@ public class TwitterFragment extends ListFragment {
 
     // Actually reload timeline
     private void reloadTimeline() {
-        this.adapter.refresh(this.timelineRefreshCallback);
+        if (this.adapter != null) {
+            this.adapter.refresh(this.timelineRefreshCallback);
+        }
     }
 
     // Timer refresh functions

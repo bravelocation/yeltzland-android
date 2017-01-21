@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class FixtureListAdapter extends BaseExpandableListAdapter {
+public class  FixtureListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
     private LinkedHashMap<String, List<FixtureListDataItem>> expandableListDetail;
