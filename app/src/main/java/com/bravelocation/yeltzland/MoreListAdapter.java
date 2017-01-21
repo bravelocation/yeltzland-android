@@ -57,16 +57,22 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
         expandedListTextView.setText(moreListDataItem.title);
         expandedListTextView.setTypeface(this.textFont);
 
+        ImageView expandedListImageView = (ImageView) convertView.findViewById(R.id.expandedListItemImage);
+        ImageView pointerImageView = (ImageView) convertView.findViewById(R.id.pointer);
         if (moreListDataItem.icon != 0) {
-            ImageView expandedListImageView = (ImageView) convertView.findViewById(R.id.expandedListItemImage);
             expandedListImageView.setImageResource(moreListDataItem.icon);
             expandedListImageView.setColorFilter(ContextCompat.getColor(context, moreListDataItem.iconTint), PorterDuff.Mode.MULTIPLY);
-        }
 
-        ImageView pointerImageView = (ImageView) convertView.findViewById(R.id.pointer);
-        if (moreListDataItem.url.length() > 0 || moreListDataItem.icon == R.drawable.ic_thumbs_down) {
             pointerImageView.setImageResource(R.drawable.ic_angle_right);
             pointerImageView.setColorFilter(ContextCompat.getColor(context, R.color.yeltzLightBlueOverlay), PorterDuff.Mode.MULTIPLY);
+
+            expandedListTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
+
+        } else {
+            // Version number cell
+            expandedListImageView.setImageResource(0);
+            pointerImageView.setImageResource(0);
+            expandedListTextView.setTextColor(ContextCompat.getColor(context, R.color.lightgrey));
         }
 
         return convertView;
