@@ -1,4 +1,4 @@
-package com.bravelocation.yeltzland;
+package com.bravelocation.yeltzlandnew;
 
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;

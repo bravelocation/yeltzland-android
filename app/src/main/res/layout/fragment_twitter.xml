@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/swipe_layout"
     android:background="@color/white"
-    tools:context="com.bravelocation.yeltzland.TwitterFragment">
+    tools:context="com.bravelocation.yeltzlandnew.TwitterFragment">
 
     <ListView android:id="@android:id/list"
         android:layout_width="fill_parent"

@@ -20,11 +20,11 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "com.bravelocation.yeltzland"
+        applicationId "com.bravelocation.yeltzlandnew"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 10
-        versionName "1.14"
+        versionCode 1
+        versionName "2.0"
 
         // Enabling multidex support.
         multiDexEnabled true

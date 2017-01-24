@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:id="@+id/rootLayout"
-    tools:context="com.bravelocation.yeltzland.FixtureListActivity">
+    tools:context="com.bravelocation.yeltzlandnew.FixtureListActivity">
 
     <ExpandableListView
         android:id="@+id/expandableListView"

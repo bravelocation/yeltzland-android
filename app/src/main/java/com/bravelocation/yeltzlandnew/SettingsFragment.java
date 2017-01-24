@@ -1,10 +1,8 @@
-package com.bravelocation.yeltzland;
+package com.bravelocation.yeltzlandnew;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.util.Log;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override

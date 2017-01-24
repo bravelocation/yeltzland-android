@@ -1,4 +1,4 @@
-package com.bravelocation.yeltzland;
+package com.bravelocation.yeltzlandnew;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

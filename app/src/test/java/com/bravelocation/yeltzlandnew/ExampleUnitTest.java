@@ -1,4 +1,4 @@
-package com.bravelocation.yeltzland;
+package com.bravelocation.yeltzlandnew;
 
 import org.junit.Test;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bravelocation.yeltzland">
+    package="com.bravelocation.yeltzlandnew">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,7 +15,7 @@
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
     <application
-        android:name=".YeltzlandApplication"
+        android:name="com.bravelocation.yeltzlandnew.YeltzlandApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -26,27 +26,27 @@
             android:value="de20d03a9cd3af9832860083836d12964a8b11f5" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.bravelocation.yeltzlandnew.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.bravelocation.yeltzlandnew.SettingsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_settings"
             android:theme="@style/AppTheme.Settings" />
         <activity
-            android:name=".FixtureListActivity"
+            android:name="com.bravelocation.yeltzlandnew.FixtureListActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_fixture_list"
             android:theme="@style/AppTheme.Settings" />
         <activity
-            android:name=".LocationsMapsActivity"
+            android:name="com.bravelocation.yeltzlandnew.LocationsMapsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_locations_maps"
             android:theme="@style/AppTheme.Settings" />
         <activity
-            android:name=".SplashActivity"
+            android:name="com.bravelocation.yeltzlandnew.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter android:label="@string/app_name">
@@ -56,7 +56,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".YeltzlandFirebaseMessagingService">
+        <service android:name="com.bravelocation.yeltzlandnew.YeltzlandFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

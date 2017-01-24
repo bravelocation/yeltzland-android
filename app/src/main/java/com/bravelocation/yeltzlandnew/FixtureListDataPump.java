@@ -1,4 +1,4 @@
-package com.bravelocation.yeltzland;
+package com.bravelocation.yeltzlandnew;
 
 import android.content.Context;
 import android.content.res.AssetManager;

@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bravelocation.yeltzland.WebPageFragment">
+    tools:context="com.bravelocation.yeltzlandnew.WebPageFragment">
 
     <ProgressBar
         android:id="@+id/progressBar"

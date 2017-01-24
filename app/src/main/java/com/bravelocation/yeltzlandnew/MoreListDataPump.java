@@ -1,7 +1,6 @@
-package com.bravelocation.yeltzland;
+package com.bravelocation.yeltzlandnew;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class MoreListDataPump {
 
         List<MoreListDataItem> history = new ArrayList<MoreListDataItem>();
         history.add(new MoreListDataItem("Yeltz Archives", "http://www.yeltzarchives.com", R.drawable.ic_home, R.color.yeltzBlueOverlay));
-        history.add(new MoreListDataItem("Yeltzland News Archive", "http://www.yeltzland.net/news.html", R.drawable.ic_newspaper, R.color.yeltzBlueOverlay));
+        history.add(new MoreListDataItem("Yeltzland News Archive", "http://www.yeltzlandnew.net/news.html", R.drawable.ic_newspaper, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> options = new ArrayList<MoreListDataItem>();
         options.add(new MoreListDataItem("Notification Settings", "", R.drawable.ic_cog, R.color.yeltzBlueOverlay, true, false, false));
