@@ -66,11 +66,32 @@ public class WebPageFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            Log.d("WebPageFragment", "Reloading fragment now not visible: " + this.homeUrl);
-            if (this.webView != null) {
+        if (this.webView != null) {
+            if (isVisibleToUser) {
+                Log.d("WebPageFragment", "Reloading fragment now visible: " + this.homeUrl);
                 this.webView.reload();
+            } else {
+                Log.d("WebPageFragment", "Pausing fragment now not visible: " + this.homeUrl);
+                this.webView.onPause();
             }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (this.webView != null) {
+            this.webView.onPause();
+            Log.d("WebPageFragment", "Pausing web fragment: " + this.homeUrl);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (this.webView != null) {
+            this.webView.onResume();
+            Log.d("WebPageFragment", "Resumed web fragment: " + this.homeUrl);
         }
     }
 
