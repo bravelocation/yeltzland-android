@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_reload:
                 if (webView != null) {
+                    webView.clearCache(true);
                     webView.reload();
                 } else if (twitterFragment != null) {
                     twitterFragment.reload();
