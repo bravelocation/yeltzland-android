@@ -4,6 +4,7 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -34,7 +35,7 @@ public class YeltzlandApplication extends MultiDexApplication
         } else {
             Log.d("Yeltzland", "RELEASE mode");
             fabric = new Fabric.Builder(this)
-                    .kits(new Crashlytics(), new Twitter(authConfig))
+                    .kits(new Crashlytics(), new Twitter(authConfig), new Answers())
                     .debuggable(false)
                     .build();
         }
