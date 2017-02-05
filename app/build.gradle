@@ -22,9 +22,9 @@ android {
     defaultConfig {
         applicationId "com.bravelocation.yeltzlandnew"
         minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 6
-        versionName "2.0.1"
+        targetSdkVersion 16
+        versionCode 7
+        versionName "2.0.2"
 
         // Enabling multidex support.
         multiDexEnabled true
@@ -47,9 +47,9 @@ dependencies {
         transitive = true;
     }
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    compile 'com.android.support:support-v4:25.1.0'
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:design:25.1.1'
+    compile 'com.android.support:support-v4:25.1.1'
     compile 'com.google.firebase:firebase-core:9.4.0'
     compile 'com.google.firebase:firebase-messaging:9.4.0'
     compile 'com.google.android.gms:play-services:9.4.0'
