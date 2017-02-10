@@ -14,7 +14,7 @@ public class MoreListDataPump {
         stats.add(new MoreListDataItem("League Table", "http://www.evostikleague.co.uk/match-info/tables", R.drawable.ic_table, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> others = new ArrayList<MoreListDataItem>();
-        others.add(new MoreListDataItem("HTFC on Facebook", "https://www.facebook.com/halesowentownfc/", R.drawable.ic_facebook_square, R.color.facebookBlueOverlay));
+        others.add(new MoreListDataItem("HTFC on Facebook", "https://www.facebook.com/n/?halesowentownfc", R.drawable.ic_facebook_square, R.color.facebookBlueOverlay));
         others.add(new MoreListDataItem("NPL site", "http://www.evostikleague.co.uk", R.drawable.ic_soccerball_o, R.color.evostickRedOverlay));
         others.add(new MoreListDataItem("Fantasy Island", "http://yeltz.co.uk/fantasyisland", R.drawable.ic_plane, R.color.yeltzBlueOverlay));
         others.add(new MoreListDataItem("Stourbridge Town FC", "", R.drawable.ic_thumbs_down, R.color.stourbridgeRedOverlay));
