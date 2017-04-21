@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     return WebPageFragment.newInstance("http://yeltz.co.uk/0/");
                 case 1:
-                    return WebPageFragment.newInstance("http://www.ht-fc.com");
+                    return WebPageFragment.newInstance("http://www.ht-fc.co.uk");
                 case 2:
                     return WebPageFragment.newInstance("https://www.youtube.com/user/HalesowenTownFC");
                 case 3:

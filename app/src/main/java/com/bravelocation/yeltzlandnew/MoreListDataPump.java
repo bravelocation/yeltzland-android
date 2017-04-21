@@ -20,8 +20,8 @@ public class MoreListDataPump {
         others.add(new MoreListDataItem("Stourbridge Town FC", "", R.drawable.ic_thumbs_down, R.color.stourbridgeRedOverlay));
 
         List<MoreListDataItem> history = new ArrayList<MoreListDataItem>();
-        history.add(new MoreListDataItem("Yeltz Archives", "http://www.yeltzarchives.com", R.drawable.ic_home, R.color.yeltzBlueOverlay));
-        history.add(new MoreListDataItem("Yeltzland News Archive", "http://www.yeltzland.net/news.html", R.drawable.ic_newspaper, R.color.yeltzBlueOverlay));
+        history.add(new MoreListDataItem("Follow Your Instinct", "http://www.yeltzland.net/followyourinstinct/", R.drawable.ic_newspaper, R.color.yeltzBlueOverlay));
+        history.add(new MoreListDataItem("Yeltzland News Archive", "http://www.yeltzland.net/news.html", R.drawable.ic_archive, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> options = new ArrayList<MoreListDataItem>();
         options.add(new MoreListDataItem("Notification Settings", "", R.drawable.ic_cog, R.color.yeltzBlueOverlay, true, false, false));
