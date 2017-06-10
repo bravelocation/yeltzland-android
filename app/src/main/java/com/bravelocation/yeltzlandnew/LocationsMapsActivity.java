@@ -1,7 +1,11 @@
 package com.bravelocation.yeltzlandnew;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -57,6 +61,9 @@ public class LocationsMapsActivity extends AppCompatActivity implements OnMapRea
 
         // Center the map and zoom
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LocationsDataPump.getCenter(),7.0f));
+
+        // Start off in road view
+        mMap.setMapType(mMap.MAP_TYPE_NORMAL);
     }
 
     @Override
@@ -64,8 +71,29 @@ public class LocationsMapsActivity extends AppCompatActivity implements OnMapRea
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
+        } else if (item.getItemId() == 0) {
+            // Switch map type
+            if (mMap.getMapType() == mMap.MAP_TYPE_NORMAL) {
+                mMap.setMapType(mMap.MAP_TYPE_SATELLITE);
+            } else {
+                mMap.setMapType(mMap.MAP_TYPE_NORMAL);
+            }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        menu.add(Menu.NONE, 0, Menu.NONE, "Map type switcher").setIcon(R.drawable.ic_map_o)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        // Change color to white
+        Drawable menuItem = menu.getItem(0).getIcon();
+        menuItem.mutate();
+        menuItem.setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.white), PorterDuff.Mode.SRC_IN);
+
+        return true;
     }
 }
