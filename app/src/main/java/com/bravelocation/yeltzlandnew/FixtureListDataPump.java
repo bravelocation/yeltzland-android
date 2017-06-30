@@ -208,8 +208,7 @@ public class FixtureListDataPump {
 
         public void run() {
             InputStream in = null;
-            OutputStream out = null;
-            Writer w = null;
+            FileOutputStream out = null;
 
             try {
                 // Fetch the server matches JSON
@@ -226,8 +225,7 @@ public class FixtureListDataPump {
                 if (FixtureListDataPump.parseJSON(result.toString())) {
                     File cacheFile = new File(context.getExternalFilesDir(null), LOCALFILENAME);
                     out = new FileOutputStream(cacheFile);
-                    w = new OutputStreamWriter(out, "UTF-8");
-                    w.write(result.toString());
+                    out.write(result.toString().getBytes());
                     Log.d("FixtureListDataPump", "Written server matches data to cache");
                 } else {
                     Log.d("FixtureListDataPump", "No matches found in server data");
@@ -251,9 +249,6 @@ public class FixtureListDataPump {
                     } catch (IOException e) {
                         // Ignore cleanup error
                     }
-                }
-                if (w != null) {
-                    w = null;
                 }
             }
         }
