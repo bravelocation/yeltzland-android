@@ -19,8 +19,8 @@ import android.widget.Toast;
 
 public class WebPageFragment extends Fragment {
     public String homeUrl;
-    public View rootView;
-    WebView webView;
+    public WebView webView;
+    private View rootView;
 
     public WebPageFragment() {
         // Required empty public constructor

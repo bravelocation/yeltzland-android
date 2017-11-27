@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+      android:id="@+id/menu_forum"
+      android:enabled="true"
+	  android:icon="@drawable/ic_forum"
+      android:title="@string/forum_name" />
+
+  <item
+      android:id="@+id/menu_official_site"
+      android:enabled="true"
+      android:icon="@drawable/ic_official_site"
+      android:title="@string/official_site" />
+
+  <item
+      android:id="@+id/menu_yeltz_tv"
+      android:enabled="true"
+      android:icon="@drawable/ic_yeltztv"
+      android:title="@string/yeltz_tv" />
+
+  <item
+      android:id="@+id/menu_twitter"
+      android:enabled="true"
+      android:icon="@drawable/ic_twitter"
+      android:title="@string/twitter" />
+
+  <item
+      android:id="@+id/menu_more"
+      android:enabled="true"
+      android:icon="@drawable/ic_more"
+      android:title="@string/more" />
+</menu>

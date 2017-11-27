@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.TextPaint;
+import android.text.style.TypefaceSpan;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,14 +27,16 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String LAST_TAB_PREF_FILE = "LastTabPrefFile";
     public static final String LAST_TAB_PREF_NAME = "lastSelectedTab";
 
-    private SectionsPagerAdapter sectionsPagerAdapter;
-    private ViewPager tabViewPager;
-    private TabLayout tabLayout;
+    private BottomNavigationView bottomNavigation;
+    private android.support.v7.widget.Toolbar toolbar;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,29 +46,87 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        this.sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        this.tabViewPager = (ViewPager) findViewById(R.id.container);
-        this.tabViewPager.setAdapter(sectionsPagerAdapter);
-
-        TabChangeListener pageChangeListener = new TabChangeListener(this);
-        this.tabViewPager.addOnPageChangeListener(pageChangeListener);
-
-        this.tabLayout = (TabLayout) findViewById(R.id.tabs);
-        this.tabLayout.setupWithViewPager(this.tabViewPager);
+        this.bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         this.changeTabsFont();
+
+        this.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                LoadFragment(item.getItemId());
+                return true;
+            }
+        });
 
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
 
         // Set tab to last shown tab
+        int selectedTabItem = R.id.menu_forum;
+
         SharedPreferences settings = getSharedPreferences(LAST_TAB_PREF_FILE, 0);
         Integer lastTab = settings.getInt(LAST_TAB_PREF_NAME, 0);
-        this.tabViewPager.setCurrentItem(lastTab);
+
+        switch (lastTab) {
+            case 0:
+                selectedTabItem = R.id.menu_forum;
+                break;
+            case 1:
+                selectedTabItem = R.id.menu_official_site;
+                break;
+            case 2:
+                selectedTabItem = R.id.menu_yeltz_tv;
+                break;
+            case 3:
+                selectedTabItem = R.id.menu_twitter;
+                break;
+            case 4:
+                selectedTabItem = R.id.menu_more;
+                break;
+        }
+
+        this.bottomNavigation.setSelectedItemId(selectedTabItem);
+        this.LoadFragment(selectedTabItem);
+    }
+
+    private void LoadFragment(int id) {
+        this.currentFragment = WebPageFragment.newInstance("http://yeltz.co.uk/0/");
+        int position = 0;
+
+        switch (id) {
+            case R.id.menu_forum:
+                this.currentFragment = WebPageFragment.newInstance("http://yeltz.co.uk/0/");
+                position = 0;
+                break;
+            case R.id.menu_official_site:
+                this.currentFragment = WebPageFragment.newInstance("http://www.ht-fc.co.uk");;
+                position = 1;
+                break;
+            case R.id.menu_yeltz_tv:
+                this.currentFragment = WebPageFragment.newInstance("https://www.youtube.com/user/HalesowenTownFC");
+                position = 2;
+                break;
+            case R.id.menu_twitter:
+                this.currentFragment = new TwitterFragment();
+                position = 3;
+                break;
+            case R.id.menu_more:
+                this.currentFragment = new MoreFragment();
+                position = 4;
+                break;
+        }
+
+        // Save selected tab
+        SharedPreferences settings = getSharedPreferences(LAST_TAB_PREF_FILE, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt(LAST_TAB_PREF_NAME, position);
+        editor.commit();
+
+        if (this.currentFragment != null) {
+            this.getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, this.currentFragment).commit();
+        }
+
+        this.invalidateOptionsMenu();
     }
 
     @Override
@@ -74,16 +138,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        int currentTab = this.tabLayout.getSelectedTabPosition();
+        if (this.currentFragment == null) {
+            return super.onPrepareOptionsMenu(menu);
+        }
 
-        if (currentTab == 3) {
+        int currentTab = this.bottomNavigation.getSelectedItemId();
+
+        if (currentTab == R.id.menu_twitter) {
             // Twitter tab - remove all but reload
             menu.removeItem(R.id.action_home);
             menu.removeItem(R.id.action_back);
             menu.removeItem(R.id.action_forward);
             menu.removeItem(R.id.action_browser);
             return true;
-        }  else if (currentTab == 4) {
+        }  else if (currentTab == R.id.menu_more) {
             // More tab - remove all
             menu.removeItem(R.id.action_home);
             menu.removeItem(R.id.action_back);
@@ -94,15 +162,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Web page, so enable/disable back and forward buttons appropriately
-        Fragment currentFragment = (Fragment) this.tabViewPager.getAdapter().instantiateItem(this.tabViewPager, currentTab);
-
-        WebPageFragment webPageFragment = (WebPageFragment) currentFragment;
-        WebView webView = (WebView) webPageFragment.rootView.findViewById(R.id.fragmentWebView);
+        WebPageFragment webPageFragment = (WebPageFragment) this.currentFragment;
+        if (webPageFragment.webView == null) {
+            // Web page not initialised
+            return true;
+        }
 
         MenuItem backButton = menu.findItem(R.id.action_back);
         MenuItem forwardButton = menu.findItem(R.id.action_forward);
 
-        if (webView.canGoBack()) {
+        if (webPageFragment.webView.canGoBack()) {
             backButton.setEnabled(true);
             backButton.getIcon().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.whiteOverlay), PorterDuff.Mode.MULTIPLY);
         } else {
@@ -110,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             backButton.getIcon().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.greyOverlay), PorterDuff.Mode.MULTIPLY);
         }
 
-        if (webView.canGoForward()) {
+        if (webPageFragment.webView.canGoForward()) {
             forwardButton.setEnabled(true);
             forwardButton.getIcon().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.whiteOverlay), PorterDuff.Mode.MULTIPLY);
         } else {
@@ -123,18 +192,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int currentTab = this.tabViewPager.getCurrentItem();
-        Fragment currentFragment = (Fragment) this.tabViewPager.getAdapter().instantiateItem(this.tabViewPager, currentTab);
+        if (this.currentFragment == null) {
+            return super.onOptionsItemSelected(item);
+        }
+
+        int currentTab = this.bottomNavigation.getSelectedItemId();
 
         WebPageFragment webPageFragment = null;
         WebView webView = null;
         TwitterFragment twitterFragment = null;
 
-        if (currentTab <= 2) {
-            webPageFragment = (WebPageFragment) currentFragment;
-            webView = (WebView) webPageFragment.rootView.findViewById(R.id.fragmentWebView);
-        } else if (currentTab == 3) {
-            twitterFragment = (TwitterFragment) currentFragment;
+        if (currentTab == R.id.menu_forum || currentTab == R.id.menu_official_site || currentTab == R.id.menu_yeltz_tv) {
+            webPageFragment = (WebPageFragment) this.currentFragment;
+            webView = webPageFragment.webView;
+        } else if (currentTab == R.id.menu_twitter) {
+            twitterFragment = (TwitterFragment) this.currentFragment;
         }
 
         switch (item.getItemId()) {
@@ -183,18 +255,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        int currentTab = this.tabViewPager.getCurrentItem();
-        Fragment currentFragment = (Fragment) this.tabViewPager.getAdapter().instantiateItem(tabViewPager, currentTab);
+        int currentTab = this.bottomNavigation.getSelectedItemId();
 
-        WebPageFragment webPageFragment = null;
-        WebView webView = null;
+        if (currentTab == R.id.menu_forum || currentTab == R.id.menu_official_site || currentTab == R.id.menu_yeltz_tv) {
+            WebPageFragment webPageFragment = (WebPageFragment) this.currentFragment;
 
-        if (currentTab <= 2) {
-            webPageFragment = (WebPageFragment) currentFragment;
-            webView = (WebView) webPageFragment.rootView.findViewById(R.id.fragmentWebView);
-
-            if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-                webView.goBack();
+            if (webPageFragment.webView != null && (keyCode == KeyEvent.KEYCODE_BACK) && webPageFragment.webView.canGoBack()) {
+                webPageFragment.webView.goBack();
                 return true;
             }
         }
@@ -204,90 +271,40 @@ public class MainActivity extends AppCompatActivity {
 
     private void changeTabsFont() {
 
+        Menu navigationMenu = this.bottomNavigation.getMenu();
+        NavigationTypefaceSpan typeface = new NavigationTypefaceSpan();
+
+        for (int i = 0; i < navigationMenu.size(); i++)
+        {
+            MenuItem menuItem = navigationMenu.getItem(i);
+            menuItem.setTitle(this.AddRegularFont(menuItem.getTitle()));
+        }
+    }
+
+    private SpannableString AddRegularFont(CharSequence text) {
+        NavigationTypefaceSpan typeface = new NavigationTypefaceSpan();
+
+        SpannableString s = new SpannableString(text);
+        s.setSpan(typeface, 0, s.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return s;
+    }
+
+    private class NavigationTypefaceSpan extends TypefaceSpan {
         Typeface tabFont = Typeface.createFromAsset(getApplicationContext().getAssets(), "american_typewriter_regular.ttf");
 
-        ViewGroup vg = (ViewGroup) this.tabLayout.getChildAt(0);
-        int tabsCount = vg.getChildCount();
-        for (int j = 0; j < tabsCount; j++) {
-            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
-            int tabChildsCount = vgTab.getChildCount();
-            for (int i = 0; i < tabChildsCount; i++) {
-                View tabViewChild = vgTab.getChildAt(i);
-                if (tabViewChild instanceof TextView) {
-                    ((TextView) tabViewChild).setTypeface(tabFont, Typeface.NORMAL);
-                }
-            }
-        }
-    }
-
-    public class TabChangeListener extends ViewPager.SimpleOnPageChangeListener {
-
-        MainActivity parentActivity;
-
-        public TabChangeListener(MainActivity activity) {
-            this.parentActivity = activity;
+        public NavigationTypefaceSpan() {
+            super("");
         }
 
         @Override
-        public void onPageSelected(int position) {
-            super.onPageSelected(position);
-
-            // Reset the action options
-            this.parentActivity.invalidateOptionsMenu();
-
-            // Save selected tab
-            SharedPreferences settings = getSharedPreferences(LAST_TAB_PREF_FILE, 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putInt(LAST_TAB_PREF_NAME, position);
-            editor.commit();
-        }
-    }
-
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
+        public void updateDrawState(TextPaint ds) {
+            ds.setTypeface(this.tabFont);
         }
 
         @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return WebPageFragment.newInstance("http://yeltz.co.uk/0/");
-                case 1:
-                    return WebPageFragment.newInstance("http://www.ht-fc.co.uk");
-                case 2:
-                    return WebPageFragment.newInstance("https://www.youtube.com/user/HalesowenTownFC");
-                case 3:
-                    return new TwitterFragment();
-                case 4:
-                    return new MoreFragment();
-            }
-
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return 5;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return getString(R.string.forum_name);
-                case 1:
-                    return getString(R.string.official_site);
-                case 2:
-                    return getString(R.string.yeltz_tv);
-                case 3:
-                    return getString(R.string.twitter);
-                case 4:
-                    return getString(R.string.more);
-            }
-
-            return null;
+        public void updateMeasureState(TextPaint paint) {
+            paint.setTypeface(this.tabFont);
         }
     }
 }
