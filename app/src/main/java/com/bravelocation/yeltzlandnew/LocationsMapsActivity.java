@@ -1,12 +1,18 @@
 package com.bravelocation.yeltzlandnew;
 
+import android.*;
+import android.Manifest;
+import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,6 +26,7 @@ import java.util.List;
 public class LocationsMapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private static int MY_LOCATION_REQUEST_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,11 @@ public class LocationsMapsActivity extends AppCompatActivity implements OnMapRea
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        if(!this.checkPermission()) {
+            this.requestPermission(MY_LOCATION_REQUEST_CODE);
+
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -60,10 +72,15 @@ public class LocationsMapsActivity extends AppCompatActivity implements OnMapRea
         }
 
         // Center the map and zoom
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LocationsDataPump.getCenter(),7.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LocationsDataPump.getCenter(), 7.0f));
 
         // Start off in road view
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        // Show current location if allowed
+        if (this.checkPermission()) {
+            mMap.setMyLocationEnabled(true);
+        }
     }
 
     @Override
@@ -96,4 +113,33 @@ public class LocationsMapsActivity extends AppCompatActivity implements OnMapRea
 
         return true;
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == MY_LOCATION_REQUEST_CODE) {
+            if (permissions.length == 1 &&
+                    permissions[0] == android.Manifest.permission.ACCESS_FINE_LOCATION &&
+                    grantResults[0] == this.getPackageManager().PERMISSION_GRANTED) {
+                if (this.checkPermission()) {
+                    mMap.setMyLocationEnabled(true);
+                }
+            }
+        }
+    }
+
+    //  CHECK FOR LOCATION PERMISSION
+    private boolean checkPermission(){
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == this.getPackageManager().PERMISSION_GRANTED;
+    }
+
+    //REQUEST FOR PERMISSSION
+    private void requestPermission(final int code){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
+            Toast.makeText(this,"GPS permission allows us to access location data to show where you are. Please enable this in the App Settings", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},code);
+        }
+    }
 }
+
