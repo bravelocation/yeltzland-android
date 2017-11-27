@@ -25,8 +25,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String LAST_TAB_PREF_FILE = "LastTabPrefFile";
-    private static final String LAST_TAB_PREF_NAME = "lastSelectedTab";
+    public static final String LAST_TAB_PREF_FILE = "LastTabPrefFile";
+    public static final String LAST_TAB_PREF_NAME = "lastSelectedTab";
 
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager tabViewPager;

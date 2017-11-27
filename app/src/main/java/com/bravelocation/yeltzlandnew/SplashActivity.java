@@ -1,6 +1,7 @@
 package com.bravelocation.yeltzlandnew;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,16 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        // Are we passing in a tab from shortcut
+        int incomingPosition = getIntent().getIntExtra("incomingPosition", -1);
+        if (incomingPosition >= 0) {
+            // Save selected tab
+            SharedPreferences settings = getSharedPreferences(MainActivity.LAST_TAB_PREF_FILE, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt(MainActivity.LAST_TAB_PREF_NAME, incomingPosition);
+            editor.commit();
+        }
 
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/

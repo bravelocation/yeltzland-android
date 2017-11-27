@@ -1,5 +1,12 @@
 package com.bravelocation.yeltzlandnew;
 
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Icon;
+import android.net.Uri;
+import android.os.Build;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
@@ -7,6 +14,8 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+
+import java.util.Arrays;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -54,7 +63,7 @@ public class YeltzlandApplication extends MultiDexApplication
 
         // Initialize the singletons so their instances
         // are bound to the application process.
-        initSingletons();
+        this.initSingletons();
     }
 
     protected void initSingletons()

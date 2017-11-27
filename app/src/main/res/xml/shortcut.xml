@@ -1,0 +1,52 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:targetApi="25">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_forum"
+        android:shortcutId="shortcut_forum"
+        android:shortcutShortLabel="@string/forum_name">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.bravelocation.yeltzlandnew.SplashActivity"
+            android:targetPackage="com.bravelocation.yeltzlandnew">
+            <extra android:name="incomingPosition" android:value="0" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_official_site"
+        android:shortcutId="shortcut_official"
+        android:shortcutShortLabel="@string/official_site">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.bravelocation.yeltzlandnew.SplashActivity"
+            android:targetPackage="com.bravelocation.yeltzlandnew">
+            <extra android:name="incomingPosition" android:value="1" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_yeltztv"
+        android:shortcutId="shortcut_forum"
+        android:shortcutShortLabel="@string/yeltz_tv">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.bravelocation.yeltzlandnew.SplashActivity"
+            android:targetPackage="com.bravelocation.yeltzlandnew">
+            <extra android:name="incomingPosition" android:value="2" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_twitter"
+        android:shortcutId="shortcut_forum"
+        android:shortcutShortLabel="@string/twitter">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.bravelocation.yeltzlandnew.SplashActivity"
+            android:targetPackage="com.bravelocation.yeltzlandnew">
+            <extra android:name="incomingPosition" android:value="3" />
+        </intent>
+    </shortcut>
+</shortcuts>
