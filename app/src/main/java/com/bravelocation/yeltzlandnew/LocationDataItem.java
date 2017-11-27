@@ -7,10 +7,12 @@ public class LocationDataItem {
     public String opponent;
     public Double latitude;
     public Double longitude;
+    public String description;
 
-    public LocationDataItem(String opponent, Double latitude, Double longitude) {
+    public LocationDataItem(String opponent, Double latitude, Double longitude, String description) {
         this.opponent = opponent;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.description = description;
     }
 }

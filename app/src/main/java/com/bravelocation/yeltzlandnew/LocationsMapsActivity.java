@@ -68,7 +68,7 @@ public class LocationsMapsActivity extends AppCompatActivity implements OnMapRea
         for (int i = 0; i < locations.size(); i++) {
             LocationDataItem location = locations.get(i);
             LatLng position = new LatLng(location.latitude, location.longitude);
-            mMap.addMarker(new MarkerOptions().position(position).title(location.opponent));
+            mMap.addMarker(new MarkerOptions().position(position).title(location.opponent).snippet(location.description));
         }
 
         // Center the map and zoom

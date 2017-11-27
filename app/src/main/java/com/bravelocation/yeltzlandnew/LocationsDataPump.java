@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -100,6 +101,17 @@ public class LocationsDataPump {
                 return false;
             }
 
+            // Get all the matches into one list
+            ArrayList<FixtureListDataItem> matches = new ArrayList<FixtureListDataItem>();
+
+            LinkedHashMap<String, List<FixtureListDataItem>> fixtures = FixtureListDataPump.getData();
+            ArrayList<String> months = new ArrayList<String>(fixtures.keySet());
+
+            for (int m = 0; m < months.size(); m++) {
+                List<FixtureListDataItem> monthFixtures = fixtures.get(months.get(m));
+                matches.addAll(monthFixtures);
+            }
+
             // Clear the existing locations
             synchronized(LocationsDataPump.locations) {
                 LocationsDataPump.locations.clear();
@@ -112,7 +124,25 @@ public class LocationsDataPump {
                     Double latitude = location.getDouble("Latitude");
                     Double longitude = location.getDouble("Longitude");
 
-                    LocationDataItem locationItem = new LocationDataItem(opponent, latitude, longitude);
+                    // Find the match details
+                    String description = "";
+                    for (int j = 0; j < matches.size(); j++) {
+                        FixtureListDataItem match = matches.get(j);
+
+                        if (match.opponent.startsWith(opponent) && match.home == false) {
+                            if (description != "") {
+                                description = description + ", ";
+                            }
+
+                            if (match.teamScore == null || match.opponentScore == null) {
+                                description = description + match.fullKickoffTime();
+                            } else {
+                                description = description + match.score();
+                            }
+                        }
+                    }
+
+                    LocationDataItem locationItem = new LocationDataItem(opponent, latitude, longitude, description);
                     LocationsDataPump.locations.add(locationItem);
                 }
             }

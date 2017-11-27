@@ -24,6 +24,11 @@ public class FixtureListDataItem implements Comparable<FixtureListDataItem> {
         this.opponentScore = opponentScore;
     }
 
+    public String fullKickoffTime() {
+        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("EEE dd MMM", Locale.UK);
+        return simpleDateFormat.format(this.fixtureDate);
+    }
+
     public String kickoffTime() {
         java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("EEE dd", Locale.UK);
         return simpleDateFormat.format(this.fixtureDate);
