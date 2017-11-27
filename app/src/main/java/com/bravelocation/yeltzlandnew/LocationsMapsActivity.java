@@ -63,7 +63,7 @@ public class LocationsMapsActivity extends AppCompatActivity implements OnMapRea
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LocationsDataPump.getCenter(),7.0f));
 
         // Start off in road view
-        mMap.setMapType(mMap.MAP_TYPE_NORMAL);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
 
     @Override
@@ -73,10 +73,10 @@ public class LocationsMapsActivity extends AppCompatActivity implements OnMapRea
             finish(); // close this activity and return to preview activity (if there is any)
         } else if (item.getItemId() == 0) {
             // Switch map type
-            if (mMap.getMapType() == mMap.MAP_TYPE_NORMAL) {
-                mMap.setMapType(mMap.MAP_TYPE_SATELLITE);
+            if (mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {
+                mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
             } else {
-                mMap.setMapType(mMap.MAP_TYPE_NORMAL);
+                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             }
         }
 
