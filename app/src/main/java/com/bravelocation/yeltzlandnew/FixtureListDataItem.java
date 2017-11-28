@@ -75,6 +75,16 @@ public class FixtureListDataItem implements Comparable<FixtureListDataItem> {
         return this.kickoffTime();
     }
 
+    public String fullDetails() {
+        String score = this.score();
+
+        if (score.length() > 0) {
+            return score;
+        }
+
+        return this.fullKickoffTime();
+    }
+
     @Override
     public int compareTo(FixtureListDataItem o) {
         if (o == null) {

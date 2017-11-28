@@ -36,6 +36,81 @@ public class FixtureListDataPump {
         return FixtureListDataPump.fixtures;
     }
 
+    public static List<FixtureListDataItem> getAwayMatches() {
+        ArrayList<FixtureListDataItem> matches = new ArrayList<FixtureListDataItem>();
+
+        List<FixtureListDataItem> allFixtures = getAllMatches();
+        for (int m = 0; m < allFixtures.size(); m++) {
+            FixtureListDataItem fixture = allFixtures.get(m);
+
+            if (fixture.home == false) {
+                matches.add(fixture);
+            }
+        }
+
+        return matches;
+    }
+
+    public static List<FixtureListDataItem> getLastResults(int maxCount) {
+        ArrayList<FixtureListDataItem> matches = new ArrayList<FixtureListDataItem>();
+
+        List<FixtureListDataItem> allFixtures = getAllMatches();
+
+        // Go in reverse order to find the games with scores
+        for (int m = allFixtures.size() - 1; m >=0 ; m--) {
+            FixtureListDataItem fixture = allFixtures.get(m);
+
+            if (fixture.teamScore != null && fixture.opponentScore != null) {
+                matches.add(fixture);
+            }
+
+            if (matches.size() >= maxCount) {
+                break;
+            }
+        }
+
+        // Put the matches back in order
+        ArrayList<FixtureListDataItem> sorted = new ArrayList<FixtureListDataItem>();
+        for (int m = matches.size() - 1; m >=0 ; m--) {
+            FixtureListDataItem fixture = matches.get(m);
+            sorted.add(fixture);
+        }
+
+        return sorted;
+     }
+
+    public static List<FixtureListDataItem> getNextFixtures(int maxCount) {
+        ArrayList<FixtureListDataItem> matches = new ArrayList<FixtureListDataItem>();
+
+        List<FixtureListDataItem> allFixtures = getAllMatches();
+        for (int m = 0; m < allFixtures.size(); m++) {
+            FixtureListDataItem fixture = allFixtures.get(m);
+
+            if (fixture.teamScore == null && fixture.opponentScore == null) {
+                matches.add(fixture);
+            }
+
+            if (matches.size() >= maxCount) {
+                break;
+            }
+        }
+
+        return matches;
+    }
+
+    private static List<FixtureListDataItem> getAllMatches() {
+        ArrayList<FixtureListDataItem> matches = new ArrayList<FixtureListDataItem>();
+
+        ArrayList<String> months = new ArrayList<String>(fixtures.keySet());
+
+        for (int m = 0; m < months.size(); m++) {
+            List<FixtureListDataItem> monthFixtures = fixtures.get(months.get(m));
+            matches.addAll(monthFixtures);
+        }
+
+        return matches;
+    }
+
     public static void updateFixtures(Context context) {
         // Copy bundled matches to cache
         FixtureListDataPump.moveBundleFileToAppDirectory(context);

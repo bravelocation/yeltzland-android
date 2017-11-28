@@ -102,15 +102,7 @@ public class LocationsDataPump {
             }
 
             // Get all the matches into one list
-            ArrayList<FixtureListDataItem> matches = new ArrayList<FixtureListDataItem>();
-
-            LinkedHashMap<String, List<FixtureListDataItem>> fixtures = FixtureListDataPump.getData();
-            ArrayList<String> months = new ArrayList<String>(fixtures.keySet());
-
-            for (int m = 0; m < months.size(); m++) {
-                List<FixtureListDataItem> monthFixtures = fixtures.get(months.get(m));
-                matches.addAll(monthFixtures);
-            }
+            List<FixtureListDataItem> matches = FixtureListDataPump.getAwayMatches();
 
             // Clear the existing locations
             synchronized(LocationsDataPump.locations) {
@@ -129,7 +121,7 @@ public class LocationsDataPump {
                     for (int j = 0; j < matches.size(); j++) {
                         FixtureListDataItem match = matches.get(j);
 
-                        if (match.opponent.startsWith(opponent) && match.home == false) {
+                        if (match.opponent.startsWith(opponent)) {
                             if (description != "") {
                                 description = description + ", ";
                             }

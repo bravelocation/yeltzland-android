@@ -18,4 +18,6 @@
     <string name="pref_gametimetweets_subtitle">Enable notifications</string>
     <string name="title_activity_locations_maps">Where\'s The Ground</string>
 
+    <string name="widget_header">HTFC results/fixtures</string>
+
 </resources>

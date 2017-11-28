@@ -3,14 +3,16 @@
     package="com.bravelocation.yeltzlandnew">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!-- Helps optimise for Chromebooks -->
-    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
 
     <application
-        android:name="com.bravelocation.yeltzlandnew.YeltzlandApplication"
+        android:name=".YeltzlandApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,37 +23,41 @@
             android:value="de20d03a9cd3af9832860083836d12964a8b11f5" />
 
         <activity
-            android:name="com.bravelocation.yeltzlandnew.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.bravelocation.yeltzlandnew.SettingsActivity"
+            android:name=".SettingsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_settings"
             android:theme="@style/AppTheme.Settings" />
         <activity
-            android:name="com.bravelocation.yeltzlandnew.FixtureListActivity"
+            android:name=".FixtureListActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_fixture_list"
             android:theme="@style/AppTheme.Settings" />
         <activity
-            android:name="com.bravelocation.yeltzlandnew.LocationsMapsActivity"
+            android:name=".LocationsMapsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_locations_maps"
             android:theme="@style/AppTheme.Settings" />
         <activity
-            android:name="com.bravelocation.yeltzlandnew.SplashActivity"
+            android:name=".SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcut" />
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcut" />
         </activity>
 
-        <service android:name="com.bravelocation.yeltzlandnew.YeltzlandFirebaseMessagingService">
+        <service android:name=".YeltzlandFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -76,6 +82,18 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/yeltzBlue" />
 
+        <receiver android:name=".YeltzlandWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/yeltzland_widget_info" />
+        </receiver>
+
+        <service android:name=".WidgetService"
+                 android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>
