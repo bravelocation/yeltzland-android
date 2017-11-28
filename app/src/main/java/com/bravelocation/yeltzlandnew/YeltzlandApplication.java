@@ -1,19 +1,14 @@
 package com.bravelocation.yeltzlandnew;
 
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.ShortcutInfo;
-import android.content.pm.ShortcutManager;
-import android.graphics.drawable.Icon;
-import android.net.Uri;
-import android.os.Build;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
-import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
 
 import java.util.Arrays;
 
@@ -31,25 +26,22 @@ public class YeltzlandApplication extends MultiDexApplication
         super.onCreate();
 
         // Setup Fabric and Twitter
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
 
-        Fabric fabric = null;
-
-        if (BuildConfig.DEBUG) {
-            Log.d("Yeltzland", "DEBUG mode");
-            fabric = new Fabric.Builder(this)
-                    .kits(new Twitter(authConfig))
-                    .debuggable(true)
-                    .build();
-        } else {
-            Log.d("Yeltzland", "RELEASE mode");
-            fabric = new Fabric.Builder(this)
-                    .kits(new Crashlytics(), new Twitter(authConfig), new Answers())
+        Fabric fabric = new Fabric.Builder(this)
+                    .kits(new Crashlytics(), new Answers())
                     .debuggable(false)
                     .build();
-        }
 
         Fabric.with(fabric);
+
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+
+        TwitterConfig config = new TwitterConfig.Builder(this)
+                .logger(new DefaultLogger(Log.DEBUG))
+                .twitterAuthConfig(authConfig)
+                .debug(true)
+                .build();
+        Twitter.initialize(config);
 
         // Setup handler for uncaught exceptions.
         Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler()
