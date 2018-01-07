@@ -90,12 +90,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void LoadFragment(int id) {
-        this.currentFragment = WebPageFragment.newInstance("http://yeltz.co.uk/0/");
+        this.currentFragment = WebPageFragment.newInstance("https://yeltz.co.uk");
         int position = 0;
 
         switch (id) {
             case R.id.menu_forum:
-                this.currentFragment = WebPageFragment.newInstance("http://yeltz.co.uk/0/");
+                this.currentFragment = WebPageFragment.newInstance("https://yeltz.co.uk");
                 position = 0;
                 break;
             case R.id.menu_official_site:

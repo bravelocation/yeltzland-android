@@ -16,7 +16,7 @@ public class MoreListDataPump {
         List<MoreListDataItem> others = new ArrayList<MoreListDataItem>();
         others.add(new MoreListDataItem("HTFC on Facebook", "https://www.facebook.com/HalesowenTown1873", R.drawable.ic_facebook_square, R.color.facebookBlueOverlay));
         others.add(new MoreListDataItem("NPL site", "http://www.evostikleague.co.uk", R.drawable.ic_soccerball_o, R.color.evostickRedOverlay));
-        others.add(new MoreListDataItem("Fantasy Island", "http://yeltz.co.uk/fantasyisland", R.drawable.ic_plane, R.color.yeltzBlueOverlay));
+        others.add(new MoreListDataItem("Fantasy Island", "https://fantasyisland.yeltz.co.uk", R.drawable.ic_plane, R.color.yeltzBlueOverlay));
         others.add(new MoreListDataItem("Stourbridge Town FC", "", R.drawable.ic_thumbs_down, R.color.stourbridgeRedOverlay));
 
         List<MoreListDataItem> history = new ArrayList<MoreListDataItem>();
