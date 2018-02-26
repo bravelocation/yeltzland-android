@@ -3,6 +3,7 @@ package com.bravelocation.yeltzlandnew;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import android.widget.TextView;
@@ -45,9 +46,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     }
 
     @Override
-    public void onDestroy() {
-
-    }
+    public void onDestroy() {}
 
     @Override
     public int getCount() {
