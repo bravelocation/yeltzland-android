@@ -17,14 +17,14 @@ repositories {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.bravelocation.yeltzlandnew"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 17
-        versionName "2.3"
+        versionCode 18
+        versionName "2.4"
 
         // Enabling multidex support.
         multiDexEnabled true
@@ -47,15 +47,15 @@ dependencies {
         transitive = true;
     }
 
-    compile 'com.android.support:mediarouter-v7:27.0.2'
-    compile 'com.android.support:support-vector-drawable:27.0.2'
-    compile 'com.android.support:design:27.0.2'
-    compile 'com.android.support:support-v4:27.0.1'
-    compile 'com.google.firebase:firebase-core:11.6.0'
-    compile 'com.google.firebase:firebase-messaging:11.6.0'
-    compile 'com.google.android.gms:play-services-maps:11.6.0'
+    compile 'com.android.support:mediarouter-v7:27.1.0'
+    compile 'com.android.support:support-vector-drawable:27.1.0'
+    compile 'com.android.support:design:27.1.0'
+    compile 'com.android.support:support-v4:27.1.0'
+    compile 'com.google.firebase:firebase-core:11.8.0'
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
+    compile 'com.google.android.gms:play-services-maps:11.8.0'
 
-    compile 'com.android.support:multidex:1.0.2'
+    compile 'com.android.support:multidex:1.0.3'
 
 }
 
