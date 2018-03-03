@@ -74,26 +74,6 @@ public class MoreFragment extends Fragment {
                     return true;
                 }
 
-                if (selectedItem.icon == R.drawable.ic_thumbs_down) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle(getString(R.string.stourbridgetowntitle));
-                    builder.setMessage(getString(R.string.stourbridgetownmessage));
-                    builder.setIcon(R.drawable.ic_htfc_logo);
-                    builder.setCancelable(true);
-
-                    builder.setPositiveButton(
-                            android.R.string.ok,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                }
-
                 return false;
             }
         });

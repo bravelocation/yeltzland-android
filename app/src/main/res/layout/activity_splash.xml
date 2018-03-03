@@ -15,4 +15,13 @@ tools:context="com.bravelocation.yeltzlandnew.SplashActivity">
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="0dp"
+        android:text="A New Hope"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        />
 </RelativeLayout>
