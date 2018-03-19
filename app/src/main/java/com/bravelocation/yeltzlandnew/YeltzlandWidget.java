@@ -40,17 +40,8 @@ public class YeltzlandWidget extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context)
     {
-        // Start alarm when widget is installed
-        AppWidgetAlarm appWidgetAlarm = new AppWidgetAlarm(context.getApplicationContext());
-        appWidgetAlarm.startAlarm();
-    }
-
-    @Override
-    public void onDisabled(Context context)
-    {
-        // Stop alarm when widget is removed
-        AppWidgetAlarm appWidgetAlarm = new AppWidgetAlarm(context.getApplicationContext());
-        appWidgetAlarm.stopAlarm();
+        // Update all widgets
+        this.updateAllWidgets(context);
     }
 
     @Override
