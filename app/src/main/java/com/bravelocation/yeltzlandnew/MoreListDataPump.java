@@ -32,6 +32,7 @@ public class MoreListDataPump {
         more.add(new MoreListDataItem("Add Fixture List to Calendar", "https://yeltzland.net/calendar-instructions", R.drawable.ic_calendar, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> about = new ArrayList<MoreListDataItem>();
+        about.add(new MoreListDataItem("Privacy Policy", "https://bravelocation.com/privacy/yeltzland", R.drawable.ic_privacy, R.color.yeltzBlueOverlay));
         about.add(new MoreListDataItem("More Brave Location Apps", "https://bravelocation.com/apps", R.drawable.ic_mapmarker, R.color.bravelocationRedOverlay));
         about.add(new MoreListDataItem("Version " + BuildConfig.VERSION_NAME , "", 0, R.color.bravelocationRedOverlay));
 

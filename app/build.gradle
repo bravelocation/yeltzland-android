@@ -23,8 +23,8 @@ android {
         applicationId "com.bravelocation.yeltzlandnew"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 19
-        versionName "2.5"
+        versionCode 20
+        versionName "2.6"
 
         // Enabling multidex support.
         multiDexEnabled true
