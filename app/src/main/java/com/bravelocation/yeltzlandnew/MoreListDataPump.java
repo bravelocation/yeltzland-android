@@ -29,6 +29,7 @@ public class MoreListDataPump {
 
         List<MoreListDataItem> more = new ArrayList<MoreListDataItem>();
         more.add(new MoreListDataItem("Yeltzland on Amazon Echo", "https://www.amazon.co.uk/Yeltzland-stuff-about-Halesowen-Town/dp/B01MTJOHBY/", R.drawable.ic_amazon, R.color.yeltzBlueOverlay));
+        more.add(new MoreListDataItem("Yeltzland on Google Assistant", "https://assistant.google.com/services/a/uid/000000a862d84885?hl=en-GB", R.drawable.ic_google, R.color.yeltzBlueOverlay));
         more.add(new MoreListDataItem("Add Fixture List to Calendar", "https://yeltzland.net/calendar-instructions", R.drawable.ic_calendar, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> about = new ArrayList<MoreListDataItem>();
