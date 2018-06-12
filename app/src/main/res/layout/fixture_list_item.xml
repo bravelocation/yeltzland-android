@@ -11,14 +11,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
+        <ImageView
+            android:id="@+id/team_logo"
+            android:paddingLeft="0dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            />
+
         <TextView
             android:id="@+id/opponent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="0dp"
+            android:paddingLeft="40dp"
             android:text=""
             android:textColor="@color/matchNone"
             android:textSize="16sp"
+            android:layout_centerVertical="true"
             />
 
         <TextView

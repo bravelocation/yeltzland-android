@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.LinkedHashMap;
@@ -17,6 +18,7 @@ public class  FixtureListAdapter extends BaseExpandableListAdapter {
     private List<String> expandableListTitle;
     private LinkedHashMap<String, List<FixtureListDataItem>> expandableListDetail;
     private Typeface textFont;
+    private TeamLogoManager logoManager = new TeamLogoManager();
 
     public FixtureListAdapter(Context context, List<String> expandableListTitle,
                            LinkedHashMap<String, List<FixtureListDataItem>> expandableListDetail) {
@@ -51,6 +53,9 @@ public class  FixtureListAdapter extends BaseExpandableListAdapter {
         TextView opponentTextView = (TextView) convertView.findViewById(R.id.opponent);
         opponentTextView.setText(fixtureListDataItem.displayOpponent());
         opponentTextView.setTypeface(this.textFont);
+
+        ImageView teamLogoImageView = (ImageView) convertView.findViewById(R.id.team_logo);
+        this.logoManager.LoadTeamImageIntoView(fixtureListDataItem.displayOpponent(), teamLogoImageView);
 
         TextView scoreordateTextView = (TextView) convertView.findViewById(R.id.scoreordate);
         scoreordateTextView.setText(fixtureListDataItem.details());
