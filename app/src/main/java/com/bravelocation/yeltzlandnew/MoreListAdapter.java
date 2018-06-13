@@ -28,8 +28,9 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
 
         this.textFont = Typeface.createFromAsset(context.getAssets(), "american_typewriter_regular.ttf");
 
-        // Trigger a background refresh of the fixtures
+        // Trigger a background refresh of the fixtures and game score
         FixtureListDataPump.updateFixtures(context);
+        GameScoreDataPump.updateGameScore(context);
     }
 
     @Override

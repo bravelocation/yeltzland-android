@@ -62,6 +62,12 @@ public class MoreFragment extends Fragment {
                     return true;
                 }
 
+                if (selectedItem.latestScoreLink) {
+                    Intent settingsIntent = new Intent(getActivity(), LatestScoreActivity.class);
+                    startActivity(settingsIntent);
+                    return true;
+                }
+
                 if (selectedItem.groundsLink) {
                     Intent settingsIntent = new Intent(getActivity(), LocationsMapsActivity.class);
                     startActivity(settingsIntent);

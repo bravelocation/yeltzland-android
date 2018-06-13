@@ -66,6 +66,9 @@ public class YeltzlandApplication extends MultiDexApplication
         // Setup the fixtures
         FixtureListDataPump.updateFixtures(getApplicationContext());
 
+        // Setup the game score
+        GameScoreDataPump.updateGameScore(getApplicationContext());
+
         // Setup the locations
         LocationsDataPump.updateLocations(getApplicationContext());
     }

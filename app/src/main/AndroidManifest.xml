@@ -37,6 +37,10 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_fixture_list"
             android:theme="@style/AppTheme.Settings" />
+        <activity android:name=".LatestScoreActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_latest_score"
+            android:theme="@style/AppTheme.Settings" />
         <activity
             android:name=".LocationsMapsActivity"
             android:configChanges="orientation|screenSize"
@@ -89,13 +93,16 @@
             <intent-filter>
                 <action android:name="AUTO_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/yeltzland_widget_info" />
         </receiver>
 
-        <service android:name=".WidgetService"
-                 android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service
+            android:name=".WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
     </application>
 
 </manifest>
