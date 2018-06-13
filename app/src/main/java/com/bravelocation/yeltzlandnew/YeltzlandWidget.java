@@ -33,7 +33,7 @@ public class YeltzlandWidget extends AppWidgetProvider {
             this.updateAllWidgets(context);
 
             // Fetch the latest fixture data ready for next update
-            FixtureListDataPump.updateFixtures(context);
+            FixtureListDataPump.updateFixtures(context, null);
 
             // Setup the game score
             GameScoreDataPump.updateGameScore(context);

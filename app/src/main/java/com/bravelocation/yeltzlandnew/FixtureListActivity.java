@@ -1,8 +1,12 @@
 package com.bravelocation.yeltzlandnew;
 
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
@@ -63,12 +67,42 @@ public class FixtureListActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.fixtures_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
+        } else if (item.getItemId() == R.id.action_reload) {
+            Log.d("FixtureListActivity", "Reloading fixtures ...");
+            FixtureListDataPump.updateFixtures(getBaseContext(), new FixtureUpdateHandler(this));
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private class FixtureUpdateHandler extends Handler {
+        private FixtureListActivity activity;
+
+        FixtureUpdateHandler(FixtureListActivity activity) {
+            this.activity = activity;
+        }
+
+        public void handleMessage(Message msg) {
+            Log.d("FixtureUpdateHandler", "Handling fixture update");
+
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((FixtureListAdapter) activity.expandableListAdapter).notifyDataSetChanged();
+                }
+            });
+        }
     }
 }

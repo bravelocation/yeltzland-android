@@ -2,6 +2,8 @@ package com.bravelocation.yeltzlandnew;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -109,15 +111,15 @@ public class FixtureListDataPump {
         return matches;
     }
 
-    public static void updateFixtures(Context context) {
+    public static void updateFixtures(Context context, Handler handler) {
         // Copy bundled matches to cache
         FixtureListDataPump.moveBundleFileToAppDirectory(context);
 
         // Load data from cached JSON file
-        FixtureListDataPump.loadDataFromCachedJson(context);
+        FixtureListDataPump.loadDataFromCachedJson(context, handler);
 
         // Refresh data from server
-        FixtureListDataPump.refreshFixturesFromServer(context);
+        FixtureListDataPump.refreshFixturesFromServer(context, handler);
     }
 
     private static void moveBundleFileToAppDirectory(Context context) {
@@ -168,7 +170,7 @@ public class FixtureListDataPump {
         }
     }
 
-    private static void loadDataFromCachedJson(Context context) {
+    private static void loadDataFromCachedJson(Context context, Handler handler) {
         FileInputStream in = null;
         try {
             // Load the JSON data
@@ -179,7 +181,7 @@ public class FixtureListDataPump {
             byte[] buffer = new byte[size];
             in.read(buffer);
 
-            FixtureListDataPump.parseJSON(new String(buffer, "UTF-8"));
+            FixtureListDataPump.parseJSON(new String(buffer, "UTF-8"), handler);
         } catch (Exception e) {
             Log.d("FixtureListDataPump", "Error parsing JSON:" + e.toString());
         } finally {
@@ -194,7 +196,7 @@ public class FixtureListDataPump {
         }
     }
 
-    private static boolean parseJSON(String input) {
+    private static boolean parseJSON(String input, Handler handler) {
         try {
             if (input.length() == 0) {
                 return false;
@@ -259,6 +261,12 @@ public class FixtureListDataPump {
                 }
             }
 
+            if (handler != null) {
+                Log.d("FixtureListDataPump", "Updating handler after documents update");
+                Message successMessage = new Message();
+                handler.dispatchMessage(successMessage);
+            }
+
             return true;
         } catch (Exception e) {
             Log.d("FixtureListDataPump", "Error parsing JSON:" + e.toString());
@@ -266,17 +274,19 @@ public class FixtureListDataPump {
         }
     }
 
-    public static void refreshFixturesFromServer(Context context) {
+    public static void refreshFixturesFromServer(Context context, Handler handler) {
         // Fetch server data on background thread
-        new Thread(new FetchFixturesFromServer(context)).start();
+        new Thread(new FetchFixturesFromServer(context, handler)).start();
     }
 
     private static class FetchFixturesFromServer implements Runnable {
 
         private Context context;
+        private Handler handler;
 
-        public FetchFixturesFromServer(Context context) {
+        public FetchFixturesFromServer(Context context, Handler handler) {
             this.context = context;
+            this.handler = handler;
         }
 
         public void run() {
@@ -295,7 +305,7 @@ public class FixtureListDataPump {
                 }
 
                 // Check it's valid JSON, and if so, replace cache
-                if (FixtureListDataPump.parseJSON(result.toString())) {
+                if (FixtureListDataPump.parseJSON(result.toString(), handler)) {
                     File cacheFile = new File(context.getExternalFilesDir(null), LOCALFILENAME);
                     out = new FileOutputStream(cacheFile);
                     out.write(result.toString().getBytes());
