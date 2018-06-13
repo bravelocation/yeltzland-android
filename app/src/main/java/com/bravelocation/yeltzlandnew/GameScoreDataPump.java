@@ -3,6 +3,8 @@ package com.bravelocation.yeltzlandnew;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -53,15 +55,15 @@ public class GameScoreDataPump {
         return false;
     }
 
-    public static void updateGameScore(Context context) {
+    public static void updateGameScore(Context context, Handler handler) {
         // Copy bundled matches to cache
         GameScoreDataPump.moveBundleFileToAppDirectory(context);
 
         // Load data from cached JSON file
-        GameScoreDataPump.loadDataFromCachedJson(context);
+        GameScoreDataPump.loadDataFromCachedJson(context, handler);
 
         // Refresh data from server
-        GameScoreDataPump.refreshFixturesFromServer(context);
+        GameScoreDataPump.refreshFixturesFromServer(context, handler);
     }
 
     private static void moveBundleFileToAppDirectory(Context context) {
@@ -112,7 +114,7 @@ public class GameScoreDataPump {
         }
     }
 
-    private static void loadDataFromCachedJson(Context context) {
+    private static void loadDataFromCachedJson(Context context, Handler handler) {
         FileInputStream in = null;
         try {
             // Load the JSON data
@@ -123,7 +125,7 @@ public class GameScoreDataPump {
             byte[] buffer = new byte[size];
             in.read(buffer);
 
-            GameScoreDataPump.parseJSON(new String(buffer, "UTF-8"));
+            GameScoreDataPump.parseJSON(new String(buffer, "UTF-8"), handler);
         } catch (Exception e) {
             Log.d("GameScoreDataPump", "Error parsing JSON:" + e.toString());
         } finally {
@@ -138,7 +140,7 @@ public class GameScoreDataPump {
         }
     }
 
-    private static boolean parseJSON(String input) {
+    private static boolean parseJSON(String input, Handler handler) {
         try {
             if (input.length() == 0) {
                 return false;
@@ -167,6 +169,12 @@ public class GameScoreDataPump {
                 GameScoreDataPump.latestScore = new FixtureListDataItem(convertedMatchDate, opponent, home.equals("1"), Integer.valueOf(teamScore), Integer.valueOf(opponentScore));
             }
 
+            if (handler != null) {
+                Log.d("GameScoreDataPump", "Updating handler after game score update");
+                Message successMessage = new Message();
+                handler.dispatchMessage(successMessage);
+            }
+
             return true;
         } catch (Exception e) {
             Log.d("GameScoreDataPump", "Error parsing JSON:" + e.toString());
@@ -174,17 +182,19 @@ public class GameScoreDataPump {
         }
     }
 
-    public static void refreshFixturesFromServer(Context context) {
+    public static void refreshFixturesFromServer(Context context, Handler handler) {
         // Fetch server data on background thread
-        new Thread(new GameScoreDataPump.FetchGameScoreFromServer(context)).start();
+        new Thread(new GameScoreDataPump.FetchGameScoreFromServer(context, handler)).start();
     }
 
     private static class FetchGameScoreFromServer implements Runnable {
 
         private Context context;
+        private Handler handler;
 
-        public FetchGameScoreFromServer(Context context) {
+        public FetchGameScoreFromServer(Context context, Handler handler) {
             this.context = context;
+            this.handler = handler;
         }
 
         public void run() {
@@ -203,7 +213,7 @@ public class GameScoreDataPump {
                 }
 
                 // Check it's valid JSON, and if so, replace cache
-                if (GameScoreDataPump.parseJSON(result.toString())) {
+                if (GameScoreDataPump.parseJSON(result.toString(), handler)) {
                     File cacheFile = new File(context.getExternalFilesDir(null), LOCALFILENAME);
                     out = new FileOutputStream(cacheFile);
                     out.write(result.toString().getBytes());

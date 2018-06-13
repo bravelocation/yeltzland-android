@@ -30,7 +30,7 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
 
         // Trigger a background refresh of the fixtures and game score
         FixtureListDataPump.updateFixtures(context, null);
-        GameScoreDataPump.updateGameScore(context);
+        GameScoreDataPump.updateGameScore(context, null);
     }
 
     @Override
