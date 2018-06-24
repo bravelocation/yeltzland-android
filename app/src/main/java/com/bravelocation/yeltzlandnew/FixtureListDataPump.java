@@ -152,9 +152,10 @@ public class FixtureListDataPump {
             if (in != null) {
                 try {
                     in.close();
-                    in = null;
                 } catch (IOException e) {
                     // Ignore cleanup error
+                } finally {
+                    in = null;
                 }
             }
 
@@ -162,9 +163,10 @@ public class FixtureListDataPump {
                 try {
                     out.flush();
                     out.close();
-                    out = null;
                 } catch (IOException e) {
                     // Ignore cleanup error
+                } finally {
+                    out = null;
                 }
             }
         }
@@ -188,9 +190,10 @@ public class FixtureListDataPump {
             if (in != null) {
                 try {
                     in.close();
-                    in = null;
                 } catch (IOException e) {
                     // Ignore cleanup error
+                } finally {
+                    in = null;
                 }
             }
         }
@@ -319,18 +322,20 @@ public class FixtureListDataPump {
                 if (in != null) {
                     try {
                         in.close();
-                        in = null;
                     } catch (IOException e) {
                         // Ignore cleanup error
+                    } finally {
+                        in = null;
                     }
                 }
                 if (out != null) {
                     try {
                         out.flush();
                         out.close();
-                        out = null;
                     } catch (IOException e) {
                         // Ignore cleanup error
+                    } finally {
+                        out = null;
                     }
                 }
             }
