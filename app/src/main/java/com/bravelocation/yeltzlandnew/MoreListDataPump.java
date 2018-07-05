@@ -12,11 +12,11 @@ public class MoreListDataPump {
         stats.add(new MoreListDataItem("Fixture List", "", R.drawable.ic_calendar, R.color.yeltzBlueOverlay, false, true, false, false));
         stats.add(new MoreListDataItem("Latest Score", "", R.drawable.ic_clock, R.color.yeltzBlueOverlay, false, false, true, false));
         stats.add(new MoreListDataItem("Where's The Ground?", "", R.drawable.ic_soccerball_o, R.color.yeltzBlueOverlay, false, false, false, true));
-        stats.add(new MoreListDataItem("League Table", "http://www.evostikleague.co.uk/match-info/tables", R.drawable.ic_table, R.color.yeltzBlueOverlay));
+        stats.add(new MoreListDataItem("League Table", "http://www.evostikleaguesouthern.co.uk/match-info/tables", R.drawable.ic_table, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> others = new ArrayList<MoreListDataItem>();
         others.add(new MoreListDataItem("HTFC on Facebook", "https://www.facebook.com/HalesowenTown1873", R.drawable.ic_facebook_square, R.color.facebookBlueOverlay));
-        others.add(new MoreListDataItem("NPL site", "http://www.evostikleague.co.uk", R.drawable.ic_soccerball_o, R.color.evostickRedOverlay));
+        others.add(new MoreListDataItem("Southern League site", "http://www.evostikleaguesouthern.co.uk", R.drawable.ic_soccerball_o, R.color.evostickRedOverlay));
         others.add(new MoreListDataItem("Fantasy Island", "https://fantasyisland.yeltz.co.uk", R.drawable.ic_plane, R.color.yeltzBlueOverlay));
         others.add(new MoreListDataItem("Stourbridge Town FC", "https://www.youtube.com/watch?v=dQw4w9WgXcQ", R.drawable.ic_thumbs_down, R.color.stourbridgeRedOverlay));
         others.add(new MoreListDataItem("Club Shop", "https://www.yeltzclubshop.co.uk", R.drawable.ic_shop, R.color.yeltzBlueOverlay));
