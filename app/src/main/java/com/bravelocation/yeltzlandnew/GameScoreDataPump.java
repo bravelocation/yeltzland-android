@@ -48,7 +48,7 @@ public class GameScoreDataPump {
         }
 
         FixtureListDataItem nextGame = GameScoreDataPump.getNextFixture();
-        if (nextGame != null && nextGame.fixtureDate == GameScoreDataPump.latestScore.fixtureDate) {
+        if (nextGame != null && nextGame.fixtureDate.compareTo(GameScoreDataPump.latestScore.fixtureDate) == 0) {
             return true;
         }
 

@@ -43,8 +43,14 @@ public class LatestScoreActivity extends AppCompatActivity {
         View view = this.findViewById(android.R.id.content);
 
         FixtureListDataItem latestScoreFixture = null;
+
+        String suffix = "";
+        String prefix = "";
+
         if (GameScoreDataPump.IsGameScoreForLatestGame()) {
             latestScoreFixture = GameScoreDataPump.getLatestScore();
+            suffix = "*";
+            prefix = " ";
         } else {
             latestScoreFixture = GameScoreDataPump.getNextFixture();
         }
@@ -68,7 +74,7 @@ public class LatestScoreActivity extends AppCompatActivity {
             if (latestScoreFixture.teamScore == null || latestScoreFixture.opponentScore == null) {
                 scoreTextView.setText("TBD");
             } else {
-                scoreTextView.setText(String.format("%d-%d", latestScoreFixture.teamScore, latestScoreFixture.opponentScore));
+                scoreTextView.setText(String.format("%s%d-%d%s", prefix, latestScoreFixture.teamScore, latestScoreFixture.opponentScore, suffix));
             }
         }
     }
