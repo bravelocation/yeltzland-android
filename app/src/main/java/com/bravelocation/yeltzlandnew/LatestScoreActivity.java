@@ -13,8 +13,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class LatestScoreActivity extends AppCompatActivity {
     private Typeface textFont;
+
+    private final int RELOAD_INTERVAL = 1000 * 60 * 1;  // Refresh once a minute when activity is active
+    private LatestScoreUpdateHandler refreshHandler;
+    private Timer refreshTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,29 @@ public class LatestScoreActivity extends AppCompatActivity {
 
         // Update the UI
         this.updateScoreUI();
+
+        // Setup the refresh handler and timer
+        this.refreshHandler = new LatestScoreUpdateHandler(this);
+        this.refreshTimer = new Timer();
+    }
+
+    @Override
+    public void onResume() {
+        // Setup the timer activity when the activity is shown
+        super.onResume();
+
+        Log.d("LatestScoreUpdate", "Setting up update timer ...");
+        this.refreshTimer.schedule(new RefreshTimerTask(this.refreshHandler), RELOAD_INTERVAL, RELOAD_INTERVAL);
+    }
+
+    @Override
+    public void onPause() {
+        // Stop the updates when the activity isn't active
+        super.onPause();
+
+        Log.d("LatestScoreUpdate", "Cancelling update timer ...");
+        this.refreshTimer.cancel();
+        this.refreshTimer.purge();
     }
 
     public void updateScoreUI() {
@@ -97,7 +127,7 @@ public class LatestScoreActivity extends AppCompatActivity {
             finish(); // close this activity and return to preview activity (if there is any)
         } else if (item.getItemId() == R.id.action_reload) {
             Log.d("LatestScoreActivity", "Reloading latest score ...");
-            GameScoreDataPump.updateGameScore(getBaseContext(), new LatestScoreActivity.LatestScoreUpdateHandler(this));
+            GameScoreDataPump.updateGameScore(getBaseContext(), this.refreshHandler);
         }
 
         return super.onOptionsItemSelected(item);
@@ -120,6 +150,17 @@ public class LatestScoreActivity extends AppCompatActivity {
                     activity.updateScoreUI();
                 }
             });
+        }
+    }
+
+    private class RefreshTimerTask extends TimerTask {
+        private LatestScoreUpdateHandler refreshHandler;
+
+        RefreshTimerTask(LatestScoreUpdateHandler refreshHandler) {this.refreshHandler = refreshHandler; }
+
+        public void run() {
+            Log.d("LatestScoreUpdate", "Running update timer ...");
+            GameScoreDataPump.updateGameScore(getBaseContext(), this.refreshHandler);
         }
     }
 }
