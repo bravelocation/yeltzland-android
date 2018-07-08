@@ -52,6 +52,10 @@ public class LatestScoreActivity extends AppCompatActivity {
             suffix = "*";
             prefix = " ";
         } else {
+            latestScoreFixture = GameScoreDataPump.getLastResult();
+        }
+
+        if (latestScoreFixture == null) {
             latestScoreFixture = GameScoreDataPump.getNextFixture();
         }
 

@@ -42,6 +42,15 @@ public class GameScoreDataPump {
         return null;
     }
 
+    public static FixtureListDataItem getLastResult() {
+        List<FixtureListDataItem> lastResults = FixtureListDataPump.getLastResults(1);
+        if (lastResults.size() > 0) {
+            return lastResults.get(0);
+        }
+
+        return null;
+    }
+
     public static boolean IsGameScoreForLatestGame() {
         if (GameScoreDataPump.latestScore == null) {
             return false;
