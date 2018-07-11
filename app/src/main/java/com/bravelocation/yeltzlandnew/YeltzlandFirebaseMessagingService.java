@@ -21,5 +21,9 @@ public class YeltzlandFirebaseMessagingService extends FirebaseMessagingService 
                 Toast.makeText(getApplicationContext(), notification.getBody(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Update game score and fixtures
+        GameScoreDataPump.updateGameScore(getApplicationContext(), null);
+        FixtureListDataPump.updateFixtures(getApplicationContext(), null);
     }
 }
