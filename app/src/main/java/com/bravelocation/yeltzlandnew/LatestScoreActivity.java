@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,14 @@ public class LatestScoreActivity extends AppCompatActivity {
     private LatestScoreUpdateHandler refreshHandler;
     private Timer refreshTimer;
 
+    private TeamLogoManager logoManager;
+
+    private ImageView teamLogoImageView;
+    private TextView homeOrAwayTextView;
+    private TextView bestGuessTextView;
+    private TextView opponentTextView;
+    private TextView scoreTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +43,19 @@ public class LatestScoreActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        this.textFont = Typeface.createFromAsset(this.getBaseContext().getAssets(), "american_typewriter_regular.ttf");
+        this.logoManager = new TeamLogoManager();
+
+        View view = this.findViewById(android.R.id.content);
+
+        this.teamLogoImageView = (ImageView) view.findViewById(R.id.team_logo);
+        this.homeOrAwayTextView = (TextView) view.findViewById(R.id.homeOrAway);
+        this.bestGuessTextView = (TextView) view.findViewById(R.id.best_guess);
+        this.opponentTextView = (TextView) view.findViewById(R.id.opponent_name);
+        this.scoreTextView = (TextView) view.findViewById(R.id.score);
 
         // Set the font on the warning
-        View view = this.findViewById(android.R.id.content);
-        TextView bestGuessTextView = (TextView) view.findViewById(R.id.best_guess);
-        bestGuessTextView.setTypeface(this.textFont);
+        this.textFont = Typeface.createFromAsset(this.getBaseContext().getAssets(), "american_typewriter_regular.ttf");
+        this.bestGuessTextView.setTypeface(this.textFont);
 
         // Update the UI
         this.updateScoreUI();
@@ -73,14 +89,11 @@ public class LatestScoreActivity extends AppCompatActivity {
         View view = this.findViewById(android.R.id.content);
 
         FixtureListDataItem latestScoreFixture = null;
-
-        String suffix = "";
-        String prefix = "";
+        boolean inPlay = false;
 
         if (GameScoreDataPump.IsGameScoreForLatestGame()) {
             latestScoreFixture = GameScoreDataPump.getLatestScore();
-            suffix = "*";
-            prefix = " ";
+            inPlay = true;
         } else {
             latestScoreFixture = GameScoreDataPump.getLastResult();
         }
@@ -90,25 +103,44 @@ public class LatestScoreActivity extends AppCompatActivity {
         }
 
         if (latestScoreFixture != null) {
-            ImageView teamLogoImageView = (ImageView) view.findViewById(R.id.team_logo);
-            TeamLogoManager logoManager = new TeamLogoManager();
-            logoManager.LoadTeamImageIntoView(latestScoreFixture.opponent, teamLogoImageView);
+            this.logoManager.LoadTeamImageIntoView(latestScoreFixture.opponent, this.teamLogoImageView);
 
-            TextView homeOrAwayTextView = (TextView) view.findViewById(R.id.homeOrAway);
             if (latestScoreFixture.home) {
-                homeOrAwayTextView.setText("vs");
+                this.homeOrAwayTextView.setText("vs");
             } else {
-                homeOrAwayTextView.setText("at");
+                this.homeOrAwayTextView.setText("at");
             }
 
-            TextView opponentTextView = (TextView) view.findViewById(R.id.opponent_name);
-            opponentTextView.setText(latestScoreFixture.opponent);
+            this.opponentTextView.setText(latestScoreFixture.opponent);
 
-            TextView scoreTextView = (TextView) view.findViewById(R.id.score);
             if (latestScoreFixture.teamScore == null || latestScoreFixture.opponentScore == null) {
-                scoreTextView.setText("TBD");
+                this.scoreTextView.setText("TBD");
+                this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchDraw));
+            } else if (inPlay) {
+                this.scoreTextView.setText(String.format(" %d-%d*", latestScoreFixture.teamScore, latestScoreFixture.opponentScore));
+                this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchDraw));
             } else {
-                scoreTextView.setText(String.format("%s%d-%d%s", prefix, latestScoreFixture.teamScore, latestScoreFixture.opponentScore, suffix));
+                // Result, so set result and color
+                String result = "";
+
+                if (latestScoreFixture.teamScore > latestScoreFixture.opponentScore) {
+                    result = "W";
+                    this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchWin));
+                } else if (latestScoreFixture.teamScore < latestScoreFixture.opponentScore) {
+                    result = "L";
+                    this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchDraw));
+                } else {
+                    result = "L";
+                    this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchLose));
+                }
+
+                this.scoreTextView.setText(String.format("%s %d-%d", result, latestScoreFixture.teamScore, latestScoreFixture.opponentScore));
+            }
+
+            if (inPlay) {
+                this.bestGuessTextView.setVisibility(View.VISIBLE);
+            } else {
+                this.bestGuessTextView.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -161,6 +193,7 @@ public class LatestScoreActivity extends AppCompatActivity {
         public void run() {
             Log.d("LatestScoreUpdate", "Running update timer ...");
             GameScoreDataPump.updateGameScore(getBaseContext(), this.refreshHandler);
+            FixtureListDataPump.updateFixtures(getBaseContext(), this.refreshHandler);
         }
     }
 }
