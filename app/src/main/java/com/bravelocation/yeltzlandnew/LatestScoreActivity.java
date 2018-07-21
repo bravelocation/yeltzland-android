@@ -60,7 +60,6 @@ public class LatestScoreActivity extends AppCompatActivity {
 
         // Setup the refresh handler and timer
         this.refreshHandler = new LatestScoreUpdateHandler(this);
-        this.refreshTimer = new Timer();
     }
 
     @Override
@@ -69,6 +68,7 @@ public class LatestScoreActivity extends AppCompatActivity {
         super.onResume();
 
         Log.d("LatestScoreUpdate", "Setting up update timer ...");
+        this.refreshTimer = new Timer();
         this.refreshTimer.schedule(new RefreshTimerTask(this.refreshHandler), RELOAD_INTERVAL, RELOAD_INTERVAL);
     }
 
