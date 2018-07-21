@@ -55,7 +55,7 @@ public class  FixtureListAdapter extends BaseExpandableListAdapter {
         opponentTextView.setTypeface(this.textFont);
 
         ImageView teamLogoImageView = (ImageView) convertView.findViewById(R.id.team_logo);
-        this.logoManager.LoadTeamImageIntoView(fixtureListDataItem.displayOpponent(), teamLogoImageView);
+        this.logoManager.LoadTeamImageIntoView(this.context, fixtureListDataItem.displayOpponent(), teamLogoImageView);
 
         TextView scoreordateTextView = (TextView) convertView.findViewById(R.id.scoreordate);
         scoreordateTextView.setText(fixtureListDataItem.details());
