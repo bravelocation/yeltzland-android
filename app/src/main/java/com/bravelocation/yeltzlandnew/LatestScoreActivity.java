@@ -128,10 +128,10 @@ public class LatestScoreActivity extends AppCompatActivity {
                     this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchWin));
                 } else if (latestScoreFixture.teamScore < latestScoreFixture.opponentScore) {
                     result = "L";
-                    this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchDraw));
-                } else {
-                    result = "L";
                     this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchLose));
+                } else {
+                    result = "D";
+                    this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchDraw));
                 }
 
                 this.scoreTextView.setText(String.format("%s %d-%d", result, latestScoreFixture.teamScore, latestScoreFixture.opponentScore));
