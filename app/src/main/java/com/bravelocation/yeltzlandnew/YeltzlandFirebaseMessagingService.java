@@ -18,7 +18,7 @@ public class YeltzlandFirebaseMessagingService extends FirebaseMessagingService 
         handler.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), notification.getBody(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), notification.getBody(), Toast.LENGTH_LONG).show();
             }
         });
 
