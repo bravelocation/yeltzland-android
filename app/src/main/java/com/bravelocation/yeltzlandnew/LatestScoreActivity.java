@@ -18,9 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class LatestScoreActivity extends AppCompatActivity {
-    private Typeface textFont;
-
-    private final int RELOAD_INTERVAL = 1000 * 60 * 1;  // Refresh once a minute when activity is active
+    private final int RELOAD_INTERVAL = 1000 * 60;  // Refresh once a minute when activity is active
     private LatestScoreUpdateHandler refreshHandler;
     private Timer refreshTimer;
 
@@ -47,15 +45,15 @@ public class LatestScoreActivity extends AppCompatActivity {
 
         View view = this.findViewById(android.R.id.content);
 
-        this.teamLogoImageView = (ImageView) view.findViewById(R.id.team_logo);
-        this.homeOrAwayTextView = (TextView) view.findViewById(R.id.homeOrAway);
-        this.bestGuessTextView = (TextView) view.findViewById(R.id.best_guess);
-        this.opponentTextView = (TextView) view.findViewById(R.id.opponent_name);
-        this.scoreTextView = (TextView) view.findViewById(R.id.score);
+        this.teamLogoImageView = view.findViewById(R.id.team_logo);
+        this.homeOrAwayTextView = view.findViewById(R.id.homeOrAway);
+        this.bestGuessTextView = view.findViewById(R.id.best_guess);
+        this.opponentTextView = view.findViewById(R.id.opponent_name);
+        this.scoreTextView = view.findViewById(R.id.score);
 
         // Set the font on the warning
-        this.textFont = Typeface.createFromAsset(this.getBaseContext().getAssets(), "american_typewriter_regular.ttf");
-        this.bestGuessTextView.setTypeface(this.textFont);
+        Typeface textFont = Typeface.createFromAsset(this.getBaseContext().getAssets(), "american_typewriter_regular.ttf");
+        this.bestGuessTextView.setTypeface(textFont);
 
         // Update the UI
         this.updateScoreUI();
@@ -86,9 +84,7 @@ public class LatestScoreActivity extends AppCompatActivity {
 
     public void updateScoreUI() {
         // Populate the data
-        View view = this.findViewById(android.R.id.content);
-
-        FixtureListDataItem latestScoreFixture = null;
+        FixtureListDataItem latestScoreFixture;
         boolean inPlay = false;
 
         if (GameScoreDataPump.IsGameScoreForLatestGame()) {
@@ -166,7 +162,7 @@ public class LatestScoreActivity extends AppCompatActivity {
     }
 
 
-    private class LatestScoreUpdateHandler extends Handler {
+    private static class LatestScoreUpdateHandler extends Handler {
         private LatestScoreActivity activity;
 
         LatestScoreUpdateHandler(LatestScoreActivity activity) {
