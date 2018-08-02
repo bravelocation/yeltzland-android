@@ -2,12 +2,15 @@ package com.bravelocation.yeltzlandnew;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -47,6 +50,13 @@ public class WebPageFragment extends Fragment {
         this.webView.setWebViewClient(new YeltzlandWebViewClient(progressBar));
         this.webView.setWebChromeClient(new YeltzlandWebChromeClient(progressBar));
         this.webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
+        } else {
+            CookieManager.getInstance().setAcceptCookie(true);
+        }
+        CookieSyncManager.getInstance().sync();
 
         WebSettings webSettings = this.webView.getSettings();
         webSettings.setLoadsImagesAutomatically(true);
@@ -124,6 +134,8 @@ public class WebPageFragment extends Fragment {
             if (currentActivity != null) {
                 currentActivity.invalidateOptionsMenu();
             }
+
+            CookieSyncManager.getInstance().sync();
         }
 
         @Override
