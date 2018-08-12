@@ -23,8 +23,8 @@ android {
         applicationId "com.bravelocation.yeltzlandnew"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 22
-        versionName "3.0.1"
+        versionCode 23
+        versionName "3.1"
 
         // Enabling multidex support.
         multiDexEnabled true
@@ -41,10 +41,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
-        transitive = true;
+        transitive = true
     }
     implementation('com.twitter.sdk.android:twitter:3.1.1') {
-        transitive = true;
+        transitive = true
     }
 
     implementation 'com.android.support:mediarouter-v7:27.1.1'
