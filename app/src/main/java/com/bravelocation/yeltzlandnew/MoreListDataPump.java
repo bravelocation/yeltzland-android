@@ -12,19 +12,19 @@ public class MoreListDataPump {
         stats.add(new MoreListDataItem("Fixture List", "", R.drawable.ic_calendar, R.color.yeltzBlueOverlay, false, true, false, false));
         stats.add(new MoreListDataItem("Latest Score", "", R.drawable.ic_clock, R.color.yeltzBlueOverlay, false, false, true, false));
         stats.add(new MoreListDataItem("Where's The Ground?", "", R.drawable.ic_soccerball_o, R.color.yeltzBlueOverlay, false, false, false, true));
-        stats.add(new MoreListDataItem("League Table", "http://www.evostikleaguesouthern.co.uk/LeagueTable", R.drawable.ic_table, R.color.yeltzBlueOverlay));
+        stats.add(new MoreListDataItem("League Table", "https://www.evostikleaguesouthern.co.uk/LeagueTable", R.drawable.ic_table, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> others = new ArrayList<MoreListDataItem>();
         others.add(new MoreListDataItem("HTFC on Facebook", "https://www.facebook.com/HalesowenTown1873", R.drawable.ic_facebook_square, R.color.facebookBlueOverlay));
-        others.add(new MoreListDataItem("Southern League site", "http://www.evostikleaguesouthern.co.uk", R.drawable.ic_soccerball_o, R.color.evostickRedOverlay));
+        others.add(new MoreListDataItem("Southern League site", "https://www.evostikleaguesouthern.co.uk", R.drawable.ic_soccerball_o, R.color.evostickRedOverlay));
         others.add(new MoreListDataItem("Fantasy Island", "https://fantasyisland.yeltz.co.uk", R.drawable.ic_plane, R.color.yeltzBlueOverlay));
         others.add(new MoreListDataItem("Stourbridge Town FC", "https://www.youtube.com/watch?v=dQw4w9WgXcQ", R.drawable.ic_thumbs_down, R.color.stourbridgeRedOverlay));
         others.add(new MoreListDataItem("Club Shop", "https://www.yeltzclubshop.co.uk", R.drawable.ic_shop, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> history = new ArrayList<MoreListDataItem>();
-        history.add(new MoreListDataItem("Follow Your Instinct", "http://www.yeltzland.net/followyourinstinct/", R.drawable.ic_newspaper, R.color.yeltzBlueOverlay));
+        history.add(new MoreListDataItem("Follow Your Instinct", "https://www.yeltzland.net/followyourinstinct/", R.drawable.ic_newspaper, R.color.yeltzBlueOverlay));
         history.add(new MoreListDataItem("Yeltz Archive", "http://www.yeltzarchives.com", R.drawable.ic_archive, R.color.yeltzBlueOverlay));
-        history.add(new MoreListDataItem("Yeltzland News Archive", "http://www.yeltzland.net/news.html", R.drawable.ic_archive, R.color.yeltzBlueOverlay));
+        history.add(new MoreListDataItem("Yeltzland News Archive", "https://www.yeltzland.net/news.html", R.drawable.ic_archive, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> options = new ArrayList<MoreListDataItem>();
         options.add(new MoreListDataItem("Notification Settings", "", R.drawable.ic_cog, R.color.yeltzBlueOverlay, true, false, false, false));

@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 position = 0;
                 break;
             case R.id.menu_official_site:
-                this.currentFragment = WebPageFragment.newInstance("http://www.ht-fc.co.uk");;
+                this.currentFragment = WebPageFragment.newInstance("https://www.ht-fc.co.uk");;
                 position = 1;
                 break;
             case R.id.menu_yeltz_tv:
