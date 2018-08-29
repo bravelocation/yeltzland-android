@@ -11,6 +11,11 @@ public class TeamLogoManager {
     }
 
     private String makeTeamFileName(String teamName) {
-        return teamName.replace(' ', '_').toLowerCase();
+        if (teamName.contains("(") == false) {
+            return teamName.replace(' ', '_').toLowerCase();
+        } else {
+            String textBeforeBracket = teamName.substring(0, teamName.indexOf("("));
+            return textBeforeBracket.trim().replace(' ', '_').toLowerCase();
+        }
     }
 }
