@@ -9,3 +9,5 @@
 *.apk
 /.idea/*
 app/release/output.json
+
+._*
