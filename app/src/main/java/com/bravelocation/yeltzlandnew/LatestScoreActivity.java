@@ -99,7 +99,7 @@ public class LatestScoreActivity extends AppCompatActivity {
         }
 
         if (latestScoreFixture != null) {
-            this.logoManager.LoadTeamImageIntoView(latestScoreFixture.opponent, this.teamLogoImageView);
+            this.logoManager.LoadTeamImageIntoView(this.getBaseContext(), latestScoreFixture.opponent, this.teamLogoImageView);
 
             if (latestScoreFixture.home) {
                 this.homeOrAwayTextView.setText("vs");
