@@ -11,3 +11,5 @@
 app/release/output.json
 
 ._*
+app/google-services.json
+app/fabric.properties
