@@ -18,9 +18,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="de20d03a9cd3af9832860083836d12964a8b11f5" />
 
         <activity
             android:name=".MainActivity"
@@ -76,7 +73,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/GoogleMapsKey" />
 
         <!-- Default color and icon for notifications -->
         <meta-data
