@@ -17,8 +17,8 @@ import io.fabric.sdk.android.Fabric;
 public class YeltzlandApplication extends MultiDexApplication
 {
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "mOQVcR8FPJPXw2lwncM5bNkSI";
-    private static final String TWITTER_SECRET = "wN1q1WPXs48Vc2sv5sm2f1bivwPrdUNDigy7oOpCUl0dpfvxS5";
+    private static final String TWITTER_KEY = BuildConfig.TwitterKey;
+    private static final String TWITTER_SECRET =  BuildConfig.TwitterSecret;
 
     @Override
     public void onCreate()
