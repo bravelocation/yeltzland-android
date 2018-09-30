@@ -10,5 +10,13 @@ Everything you wanted to know about Halesowen Town FC - the mighty Yeltz - in on
 
 No original content, but having everything in one place makes it easier for you to find.
 
-My first Android app for many years, and definitely work in progress!
+## Developer requirements ##
+
+If you want to build this app yourself, you'll need to provide some API settings:
+
+- app/fabric.properties should contain your Fabric API Key and Secret
+- app/google-services.json should contain your Google/Firebase settings
+- app/src/main/res/values/google_maps_api.xml should contain your Google Maps API key
+
+
 

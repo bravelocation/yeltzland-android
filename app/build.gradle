@@ -33,12 +33,10 @@ android {
         debug {
             buildConfigField 'String', "TwitterKey", yeltzland_twitter_key
             buildConfigField 'String', "TwitterSecret", yeltzland_twitter_secret
-            buildConfigField 'String', "GoogleMapsKey", yeltzland_google_maps_key
         }
         release {
             buildConfigField 'String', "TwitterKey", yeltzland_twitter_key
             buildConfigField 'String', "TwitterSecret", yeltzland_twitter_secret
-            buildConfigField 'String', "GoogleMapsKey", yeltzland_google_maps_key
 
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
