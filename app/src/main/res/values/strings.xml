@@ -21,4 +21,7 @@
 
     <string name="widget_header">HTFC results/fixtures</string>
 
+    <string name="yeltz_team_name">Yeltz</string>
+    <string name="best_guess">*Best guess from Twitter</string>
+
 </resources>
