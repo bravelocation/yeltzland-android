@@ -3,16 +3,10 @@ package com.bravelocation.yeltzlandnew;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
-
-import java.util.Arrays;
-
-import io.fabric.sdk.android.Fabric;
 
 public class YeltzlandApplication extends MultiDexApplication
 {
@@ -24,15 +18,6 @@ public class YeltzlandApplication extends MultiDexApplication
     public void onCreate()
     {
         super.onCreate();
-
-        // Setup Fabric and Twitter
-
-        Fabric fabric = new Fabric.Builder(this)
-                    .kits(new Crashlytics(), new Answers())
-                    .debuggable(false)
-                    .build();
-
-        Fabric.with(fabric);
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
 
