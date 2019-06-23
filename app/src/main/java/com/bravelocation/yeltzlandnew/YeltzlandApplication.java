@@ -7,6 +7,7 @@ import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.tweetui.TweetUi;
 
 public class YeltzlandApplication extends MultiDexApplication
 {
@@ -27,6 +28,15 @@ public class YeltzlandApplication extends MultiDexApplication
                 .debug(true)
                 .build();
         Twitter.initialize(config);
+
+        // Initialise TweetUI on a background thread - see https://twittercommunity.com/t/a-lot-of-anr-after-twitter-sdk-update-to-3-0-0/89701/3
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                TweetUi.getInstance();
+            }
+        };
+        thread.start();
 
         // Setup handler for uncaught exceptions.
         Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler()
