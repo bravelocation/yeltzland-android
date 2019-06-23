@@ -2,6 +2,7 @@ package com.bravelocation.yeltzlandnew;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -50,12 +51,25 @@ public class TwitterFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         final UserTimeline userTimeline = new UserTimeline.Builder().screenName("halesowentownfc").build();
-        this.adapter = new TweetTimelineListAdapter.Builder(getActivity())
-                .setTimeline(userTimeline)
-                .build();
-        this.setListAdapter(this.adapter);
+        final FragmentActivity currentContext = getActivity();
 
-        this.setupTimedReload();
+        userTimeline.next(null, new Callback<TimelineResult<Tweet>>() {
+            // Do nothing for now
+            @Override
+            public void success(Result<TimelineResult<Tweet>> result) {
+                adapter = new TweetTimelineListAdapter.Builder(currentContext)
+                        .setTimeline(userTimeline)
+                        .build();
+
+                setListAdapter(adapter);
+                setupTimedReload();
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                //
+            }
+        });
     }
 
     @Override
