@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 position = 1;
                 break;
             case R.id.menu_yeltz_tv:
-                this.currentFragment = WebPageFragment.newInstance("https://www.youtube.com/user/HalesowenTownFC");
+                this.currentFragment = WebPageFragment.newInstance("https://www.youtube.com/channel/UCGZMWQtMsC4Tep6uLm5V0nQ");
                 position = 2;
                 break;
             case R.id.menu_twitter:
