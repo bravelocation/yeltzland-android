@@ -62,7 +62,7 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
         ImageView pointerImageView = (ImageView) convertView.findViewById(R.id.pointer);
         if (moreListDataItem.icon != 0) {
             expandedListImageView.setImageResource(moreListDataItem.icon);
-            expandedListImageView.setColorFilter(ContextCompat.getColor(context, moreListDataItem.iconTint), PorterDuff.Mode.MULTIPLY);
+            expandedListImageView.setColorFilter(ContextCompat.getColor(context, moreListDataItem.iconTint), PorterDuff.Mode.SRC_IN);
 
             pointerImageView.setImageResource(R.drawable.ic_angle_right);
             pointerImageView.setColorFilter(ContextCompat.getColor(context, R.color.yeltzLightBlueOverlay), PorterDuff.Mode.MULTIPLY);
