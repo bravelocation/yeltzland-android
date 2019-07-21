@@ -26,7 +26,7 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
 
-        this.textFont = Typeface.createFromAsset(context.getAssets(), "american_typewriter_regular.ttf");
+        this.textFont = Typeface.DEFAULT;
 
         // Trigger a background refresh of the fixtures and game score
         FixtureListDataPump.updateFixtures(context, null);
@@ -109,7 +109,7 @@ public class MoreListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
-        listTitleTextView.setTypeface(this.textFont, Typeface.BOLD);
+        listTitleTextView.setTypeface(this.textFont);
 
         String listTitle = (String) getGroup(listPosition);
         listTitleTextView.setText(listTitle);

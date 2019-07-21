@@ -16,12 +16,12 @@ public class FontableSwitchPreference  extends SwitchPreference {
 
     public FontableSwitchPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.textFont = Typeface.createFromAsset(context.getAssets(), "american_typewriter_regular.ttf");
+        this.textFont = Typeface.DEFAULT;
     }
 
     public FontableSwitchPreference(Context context) {
         super(context);
-        this.textFont = Typeface.createFromAsset(context.getAssets(), "american_typewriter_regular.ttf");
+        this.textFont = Typeface.DEFAULT;
     }
 
     @Override

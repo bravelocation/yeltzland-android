@@ -26,7 +26,7 @@ public class  FixtureListAdapter extends BaseExpandableListAdapter {
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
 
-        this.textFont = Typeface.createFromAsset(context.getAssets(), "american_typewriter_regular.ttf");
+        this.textFont = Typeface.DEFAULT;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class  FixtureListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
-        listTitleTextView.setTypeface(this.textFont, Typeface.BOLD);
+        listTitleTextView.setTypeface(this.textFont);
 
         String listTitle = (String) getGroup(listPosition);
         listTitleTextView.setText(listTitle);

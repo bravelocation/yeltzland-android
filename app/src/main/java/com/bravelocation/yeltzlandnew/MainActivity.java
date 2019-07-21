@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         this.setSupportActionBar(toolbar);
 
         this.bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        this.changeTabsFont();
 
         this.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -267,44 +266,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onKeyDown(keyCode, event);
-    }
-
-    private void changeTabsFont() {
-
-        Menu navigationMenu = this.bottomNavigation.getMenu();
-        NavigationTypefaceSpan typeface = new NavigationTypefaceSpan();
-
-        for (int i = 0; i < navigationMenu.size(); i++)
-        {
-            MenuItem menuItem = navigationMenu.getItem(i);
-            menuItem.setTitle(this.AddRegularFont(menuItem.getTitle()));
-        }
-    }
-
-    private SpannableString AddRegularFont(CharSequence text) {
-        NavigationTypefaceSpan typeface = new NavigationTypefaceSpan();
-
-        SpannableString s = new SpannableString(text);
-        s.setSpan(typeface, 0, s.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        return s;
-    }
-
-    private class NavigationTypefaceSpan extends TypefaceSpan {
-        Typeface tabFont = Typeface.createFromAsset(getApplicationContext().getAssets(), "american_typewriter_regular.ttf");
-
-        public NavigationTypefaceSpan() {
-            super("");
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-            ds.setTypeface(this.tabFont);
-        }
-
-        @Override
-        public void updateMeasureState(TextPaint paint) {
-            paint.setTypeface(this.tabFont);
-        }
     }
 }

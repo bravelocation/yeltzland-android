@@ -51,10 +51,6 @@ public class LatestScoreActivity extends AppCompatActivity {
         this.opponentTextView = view.findViewById(R.id.opponent_name);
         this.scoreTextView = view.findViewById(R.id.score);
 
-        // Set the font on the warning
-        Typeface textFont = Typeface.createFromAsset(this.getBaseContext().getAssets(), "american_typewriter_regular.ttf");
-        this.bestGuessTextView.setTypeface(textFont);
-
         // Update the UI
         this.updateScoreUI();
 
