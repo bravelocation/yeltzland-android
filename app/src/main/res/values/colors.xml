@@ -9,6 +9,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="lightgrey">#cccccc</color>
+    <color name="grey">#7c7c81</color>
 
     <!-- Fixture colors -->
     <color name="matchWin">#003F00</color>
