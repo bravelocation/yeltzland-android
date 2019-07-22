@@ -19,7 +19,7 @@ public class MoreListDataPump {
         others.add(new MoreListDataItem("Southern League site", "https://www.betvictorsouthern.co.uk", R.drawable.ic_soccerball_o, R.color.yeltzBlueOverlay));
         others.add(new MoreListDataItem("Fantasy Island", "https://fantasyisland.yeltz.co.uk", R.drawable.ic_plane, R.color.yeltzBlueOverlay));
         others.add(new MoreListDataItem("Stourbridge Town FC", "https://www.youtube.com/watch?v=dQw4w9WgXcQ", R.drawable.ic_thumbs_down, R.color.yeltzBlueOverlay));
-        others.add(new MoreListDataItem("Club Shop", "https://www.yeltzclubshop.co.uk", R.drawable.ic_shop, R.color.yeltzBlueOverlay));
+        others.add(new MoreListDataItem("Club Shop", "https://www.yeltzclubshop.com", R.drawable.ic_shop, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> history = new ArrayList<MoreListDataItem>();
         history.add(new MoreListDataItem("Follow Your Instinct", "https://www.yeltzland.net/followyourinstinct/", R.drawable.ic_newspaper, R.color.yeltzBlueOverlay));
