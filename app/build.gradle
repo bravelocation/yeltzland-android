@@ -16,12 +16,12 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField 'String', "TwitterKey", yeltzland_twitter_key
-            buildConfigField 'String', "TwitterSecret", yeltzland_twitter_secret
+            buildConfigField('String', "TwitterKey", yeltzland_twitter_key)
+            buildConfigField('String', "TwitterSecret", yeltzland_twitter_secret)
         }
         release {
-            buildConfigField 'String', "TwitterKey", yeltzland_twitter_key
-            buildConfigField 'String', "TwitterSecret", yeltzland_twitter_secret
+            buildConfigField('String', "TwitterKey", yeltzland_twitter_key)
+            buildConfigField('String', "TwitterSecret", yeltzland_twitter_secret)
 
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
