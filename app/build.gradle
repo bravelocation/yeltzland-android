@@ -27,15 +27,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
 
-    implementation('com.twitter.sdk.android:twitter:3.1.1') { // Have to leave this as 3.1.1 otherwise it breaks build
-        transitive = true
-    }
+    implementation(name:'tweet-ui-release', ext:'aar')
+    implementation(name:'twitter-core-release', ext:'aar')
 
     implementation 'androidx.mediarouter:mediarouter:1.1.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
@@ -46,7 +56,11 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.squareup.picasso:picasso:2.5.2' // Have to leave this as 2.5.2 otherwise it breaks Twitter code
+
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.squareup.picasso:picasso:2.71828' // Have to leave this as 2.71828 otherwise it breaks Twitter code
 }
 
 apply plugin: 'com.google.gms.google-services'
