@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.bravelocation.yeltzlandnew"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 33
         versionName "4.0.2"
@@ -47,9 +47,9 @@ dependencies {
     implementation(name:'tweet-ui-release', ext:'aar')
     implementation(name:'twitter-core-release', ext:'aar')
 
-    implementation 'androidx.mediarouter:mediarouter:1.1.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.mediarouter:mediarouter:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-core:17.2.3'
     implementation 'com.google.firebase:firebase-messaging:20.1.2'
