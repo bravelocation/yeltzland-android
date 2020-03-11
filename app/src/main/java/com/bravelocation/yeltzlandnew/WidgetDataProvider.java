@@ -2,11 +2,10 @@ package com.bravelocation.yeltzlandnew;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import androidx.core.content.ContextCompat;
+
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;

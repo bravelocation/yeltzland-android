@@ -1,11 +1,9 @@
 package com.bravelocation.yeltzlandnew;
 
-import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;

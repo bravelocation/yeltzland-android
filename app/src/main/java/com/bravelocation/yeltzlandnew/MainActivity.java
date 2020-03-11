@@ -3,31 +3,20 @@ package com.bravelocation.yeltzlandnew;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.style.TypefaceSpan;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.TextView;
-
-import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String LAST_TAB_PREF_NAME = "lastSelectedTab";
 
     private BottomNavigationView bottomNavigation;
-    private android.support.v7.widget.Toolbar toolbar;
+    private androidx.appcompat.widget.Toolbar toolbar;
     private Fragment currentFragment;
 
     @Override

@@ -1,13 +1,12 @@
 package com.bravelocation.yeltzlandnew;
 
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
-import com.twitter.sdk.android.tweetui.TweetUi;
 
 public class YeltzlandApplication extends MultiDexApplication
 {

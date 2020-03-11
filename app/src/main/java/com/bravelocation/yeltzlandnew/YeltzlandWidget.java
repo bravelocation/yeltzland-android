@@ -1,12 +1,11 @@
 package com.bravelocation.yeltzlandnew;
 
-import android.annotation.TargetApi;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.widget.RemoteViews;
 
