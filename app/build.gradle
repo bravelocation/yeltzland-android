@@ -47,9 +47,7 @@ dependencies {
     implementation(name:'tweet-ui-release', ext:'aar')
     implementation(name:'twitter-core-release', ext:'aar')
 
-    implementation 'androidx.mediarouter:mediarouter:1.0.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0' // Leave at 1.0.0 for now as a bug in Android 21 in inflating WebView XML
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-core:17.2.3'
     implementation 'com.google.firebase:firebase-messaging:20.1.2'
@@ -60,7 +58,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
-    implementation 'com.squareup.picasso:picasso:2.71828' // Have to leave this as 2.71828 otherwise it breaks Twitter code
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
 
 apply plugin: 'com.google.gms.google-services'
