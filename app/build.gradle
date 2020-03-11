@@ -37,15 +37,15 @@ dependencies {
         transitive = true
     }
 
-    implementation 'androidx.mediarouter:mediarouter:1.0.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.mediarouter:mediarouter:1.1.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation 'com.google.firebase:firebase-messaging:18.0.0'
-    implementation 'com.google.android.gms:play-services-maps:16.1.0'
+    implementation 'com.google.firebase:firebase-core:17.2.3'
+    implementation 'com.google.firebase:firebase-messaging:20.1.2'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
-    implementation 'androidx.multidex:multidex:2.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.squareup.picasso:picasso:2.5.2' // Have to leave this as 2.5.2 otherwise it breaks Twitter code
 }
 
