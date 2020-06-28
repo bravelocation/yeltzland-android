@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 static def generateVersionCode() {
-    def result = "git rev-list HEAD --count".execute().text.trim() //unix
+    def result = "git rev-list --all --count".execute().text.trim() //unix
     if(result.empty) throw new RuntimeException("Could not generate versioncode on this platform?")
     return result.toInteger()
 }
