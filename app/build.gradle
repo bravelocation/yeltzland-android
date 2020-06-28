@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+static def generateVersionCode() {
+    def result = "git rev-list HEAD --count".execute().text.trim() //unix
+    if(result.empty) throw new RuntimeException("Could not generate versioncode on this platform?")
+    return result.toInteger()
+}
+
+def majorVersion = "4.1.0"
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -8,8 +16,8 @@ android {
         applicationId "com.bravelocation.yeltzlandnew"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 36
-        versionName "4.1.0"
+        versionCode generateVersionCode()
+        versionName "${majorVersion}.${generateVersionCode()}"
 
         // Enabling multidex support.
         multiDexEnabled true
