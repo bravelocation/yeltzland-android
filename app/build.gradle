@@ -8,8 +8,8 @@ android {
         applicationId "com.bravelocation.yeltzlandnew"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 35
-        versionName "4.0.4"
+        versionCode 36
+        versionName "4.1.0"
 
         // Enabling multidex support.
         multiDexEnabled true
@@ -47,11 +47,14 @@ dependencies {
     implementation(name:'tweet-ui-release', ext:'aar')
     implementation(name:'twitter-core-release', ext:'aar')
 
-    implementation 'com.google.android.material:material:1.0.0' // Leave at 1.0.0 for now as a bug in Android 21 in inflating WebView XML
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0-rc01' // Need thei RC version to fix a bug in Android 21 in inflating WebView XML - https://stackoverflow.com/questions/59572065/error-inflating-class-android-webkit-webview-on-android-5
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-core:17.4.3'
-    implementation 'com.google.firebase:firebase-messaging:20.2.0'
+    implementation 'com.google.firebase:firebase-messaging:20.2.1'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'androidx.webkit:webkit:1.2.0'
 
     implementation 'androidx.multidex:multidex:2.0.1'
 

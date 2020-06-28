@@ -24,6 +24,7 @@ public class WebPageFragment extends Fragment {
     public String homeUrl;
     public WebView webView;
     private View rootView;
+    private CookieManager cookieManager;
 
     public WebPageFragment() {
         // Required empty public constructor
@@ -45,22 +46,21 @@ public class WebPageFragment extends Fragment {
         ProgressBar progressBar = (ProgressBar) this.rootView.findViewById(R.id.progressBar);
         progressBar.setMax(100);
 
+        this.cookieManager = CookieManager.getInstance();
+        this.cookieManager.setAcceptCookie(true);
+        this.cookieManager.flush();
+
         // Setup web view
         this.webView = (WebView) this.rootView.findViewById(R.id.fragmentWebView);
-        this.webView.setWebViewClient(new YeltzlandWebViewClient(progressBar));
+        this.webView.setWebViewClient(new YeltzlandWebViewClient(progressBar, cookieManager));
         this.webView.setWebChromeClient(new YeltzlandWebChromeClient(progressBar));
         this.webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-
-        if (Build.VERSION.SDK_INT >= 21) {
-            CookieManager.getInstance().setAcceptThirdPartyCookies(this.webView, true);
-        } else {
-            CookieManager.getInstance().setAcceptCookie(true);
-        }
-        CookieSyncManager.getInstance().sync();
+        cookieManager.setAcceptThirdPartyCookies(this.webView, true);
 
         WebSettings webSettings = this.webView.getSettings();
         webSettings.setLoadsImagesAutomatically(true);
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
 
         // Load home URL
         progressBar.setProgress(0);
@@ -83,6 +83,7 @@ public class WebPageFragment extends Fragment {
             } else {
                 Log.d("WebPageFragment", "Pausing fragment now not visible: " + this.homeUrl);
                 this.webView.onPause();
+                this.cookieManager.flush();
             }
         }
     }
@@ -112,9 +113,11 @@ public class WebPageFragment extends Fragment {
 
     private class YeltzlandWebViewClient extends WebViewClient {
         private ProgressBar progressBar;
+        CookieManager cookieManager;
 
-        public YeltzlandWebViewClient(ProgressBar progressBar) {
+        public YeltzlandWebViewClient(ProgressBar progressBar, CookieManager cookieManager) {
             this.progressBar = progressBar;
+            this.cookieManager = cookieManager;
         }
 
         @Override
@@ -135,7 +138,7 @@ public class WebPageFragment extends Fragment {
                 currentActivity.invalidateOptionsMenu();
             }
 
-            CookieSyncManager.getInstance().sync();
+            this.cookieManager.flush();
         }
 
         @Override
