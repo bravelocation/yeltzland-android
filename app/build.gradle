@@ -11,6 +11,15 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    // Download the latest data file on build
+    def matchesUrl = "https://bravelocation.com/automation/feeds/matches.json"
+    def matchesFile = new File('app/src/main/assets/matches.json')
+    new URL(matchesUrl).withInputStream{ i -> matchesFile.withOutputStream{ it << i }}
+
+    def gameScoreUrl = "https://bravelocation.com/automation/feeds/gamescore.json"
+    def gameScoreFile = new File('app/src/main/assets/gamescore.json')
+    new URL(gameScoreUrl).withInputStream{ i -> gameScoreFile.withOutputStream{ it << i }}
+
     defaultConfig {
         applicationId "com.bravelocation.yeltzlandnew"
         minSdkVersion 21
@@ -55,7 +64,7 @@ dependencies {
     implementation(name:'twitter-core-release', ext:'aar')
 
     implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0-rc01' // Need thei RC version to fix a bug in Android 21 in inflating WebView XML - https://stackoverflow.com/questions/59572065/error-inflating-class-android-webkit-webview-on-android-5
+    implementation 'androidx.appcompat:appcompat:1.2.0-rc01' // Need the RC version to fix a bug in Android 21 in inflating WebView XML - https://stackoverflow.com/questions/59572065/error-inflating-class-android-webkit-webview-on-android-5
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-core:17.4.3'
