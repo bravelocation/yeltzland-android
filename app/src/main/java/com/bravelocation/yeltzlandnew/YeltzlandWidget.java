@@ -63,7 +63,10 @@ public class YeltzlandWidget extends AppWidgetProvider {
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yeltzland_widget);
 
                 // Set up the collection
-                views.setRemoteAdapter(R.id.widget_list, new Intent(context, WidgetService.class));
+                Intent intent = new Intent(context, WidgetService.class);
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+
+                views.setRemoteAdapter(R.id.widget_list, intent);
 
                 // Instruct the widget manager to update the widget
                 this.appWidgetManager.updateAppWidget(appWidgetId, views);
