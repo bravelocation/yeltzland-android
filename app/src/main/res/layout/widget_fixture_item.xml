@@ -10,24 +10,27 @@
     <TextView
         android:id="@+id/fixtureStatus"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="FIXTURE"
+        android:layout_height="19dp"
+        android:text=""
         android:textColor="@color/white"
+        android:autoSizeTextType="uniform"
         />
 
     <TextView
         android:id="@+id/opponent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="19dp"
         android:text=""
         android:textColor="@color/white"
+        android:autoSizeTextType="uniform"
         />
 
     <TextView
         android:id="@+id/scoreordate"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="19dp"
         android:text=""
         android:textColor="@color/white"
+        android:autoSizeTextType="uniform"
             />
 </LinearLayout>
