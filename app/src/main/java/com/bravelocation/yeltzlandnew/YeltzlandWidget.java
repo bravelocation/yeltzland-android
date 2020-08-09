@@ -14,8 +14,6 @@ import android.widget.RemoteViews;
  */
 public class YeltzlandWidget extends AppWidgetProvider {
 
-    public static final String ACTION_AUTO_UPDATE = "AUTO_UPDATE";
-
     private AppWidgetManager appWidgetManager;
     private int[] appWidgetIds;
 
@@ -26,19 +24,19 @@ public class YeltzlandWidget extends AppWidgetProvider {
 
         Log.d("YeltzlandWidget", "In onReceive for " + intent.getAction());
 
-        if(intent.getAction().equals(ACTION_AUTO_UPDATE))
-        {
-            // Update all widgets
-            this.updateAllWidgets(context);
+        // Fetch the latest fixture data and lastest score ready for next update
+        FixtureListDataPump.updateFixtures(context, null);
+        GameScoreDataPump.updateGameScore(context, null);
 
-            // Fetch the latest fixture data ready for next update
-            FixtureListDataPump.updateFixtures(context, null);
-        }
+        // Update all widgets
+        this.updateAllWidgets(context);
     }
 
     @Override
     public void onEnabled(Context context)
     {
+        Log.d("YeltzlandWidget", "In onEnabled ...");
+
         // Update all widgets
         this.updateAllWidgets(context);
     }
@@ -59,15 +57,22 @@ public class YeltzlandWidget extends AppWidgetProvider {
         if (this.appWidgetManager != null && this.appWidgetIds != null) {
             // There may be multiple widgets active, so update all of them
             for (int appWidgetId : this.appWidgetIds) {
+                Log.d("YeltzlandWidget", "Updating widget with ID " + appWidgetId);
+
                 // Construct the RemoteViews object
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yeltzland_widget);
 
                 // Set up the collection
-                views.setRemoteAdapter(R.id.widget_list, new Intent(context, WidgetService.class));
+                Intent intent = new Intent(context, WidgetService.class);
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+
+                views.setRemoteAdapter(R.id.widget_grid, intent);
 
                 // Instruct the widget manager to update the widget
                 this.appWidgetManager.updateAppWidget(appWidgetId, views);
             }
+        } else {
+            Log.d("YeltzlandWidget", "No widgets to update");
         }
     }
 }

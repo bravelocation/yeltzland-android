@@ -15,23 +15,19 @@ import java.util.List;
  */
 
 public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
-    List<FixtureListDataItem> fixtures = new ArrayList<FixtureListDataItem>();
     Context context;
     Intent intent;
+    TimelineManager timelineManager;
 
     private void initData() {
-        fixtures.clear();
-
-        // Add the last results
-        fixtures.addAll(FixtureListDataPump.getLastResults(1));
-
-        // Add the next matches
-        fixtures.addAll(FixtureListDataPump.getNextFixtures(6));
+        this.timelineManager.loadLatestData();
     }
 
     public WidgetDataProvider(Context context, Intent intent) {
         this.context = context;
         this.intent = intent;
+
+        this.timelineManager = new TimelineManager();
     }
 
     @Override
@@ -49,33 +45,26 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public int getCount() {
-        return this.fixtures.size();
+        return this.timelineManager.timelineEntries().size();
     }
 
     @Override
     public RemoteViews getViewAt(int i) {
-        FixtureListDataItem fixture = this.fixtures.get(i);
+        TimelineDataItem fixture = this.timelineManager.timelineEntries().get(i);
 
-        RemoteViews remoteView = new RemoteViews(this.context.getPackageName(),R.layout.fixture_list_item);
+        RemoteViews remoteView = new RemoteViews(this.context.getPackageName(),R.layout.widget_fixture_item);
 
-        remoteView.setTextViewText(R.id.opponent, fixture.displayOpponent());
-        remoteView.setTextViewText(R.id.scoreordate, fixture.fullDetails());
+        remoteView.setTextViewText(R.id.opponent, fixture.opponentPlusHomeAway());
 
-        // Set colors
-        if (fixture.teamScore != null && fixture.opponentScore != null) {
-            if (fixture.teamScore > fixture.opponentScore) {
-                remoteView.setTextColor(R.id.opponent,ContextCompat.getColor(context, R.color.matchWin));
-                remoteView.setTextColor(R.id.scoreordate,ContextCompat.getColor(context, R.color.matchWin));
-            } else if (fixture.teamScore < fixture.opponentScore) {
-                remoteView.setTextColor(R.id.opponent,ContextCompat.getColor(context, R.color.matchLose));
-                remoteView.setTextColor(R.id.scoreordate,ContextCompat.getColor(context, R.color.matchLose));
-            } else {
-                remoteView.setTextColor(R.id.opponent,ContextCompat.getColor(context, R.color.matchDraw));
-                remoteView.setTextColor(R.id.scoreordate,ContextCompat.getColor(context, R.color.matchDraw));
-            }
-        } else {
-            remoteView.setTextColor(R.id.opponent,ContextCompat.getColor(context, R.color.matchNone));
-            remoteView.setTextColor(R.id.scoreordate,ContextCompat.getColor(context, R.color.matchNone));
+        if (fixture.status == TimelineDataItem.TimelineFixtureStatus.result) {
+            remoteView.setTextViewText(R.id.fixtureStatus, "RESULT");
+            remoteView.setTextViewText(R.id.scoreordate, fixture.score());
+        } else if (fixture.status == TimelineDataItem.TimelineFixtureStatus.inProgress) {
+            remoteView.setTextViewText(R.id.fixtureStatus, "LATEST SCORE");
+            remoteView.setTextViewText(R.id.scoreordate, fixture.score());
+        } else if (fixture.status == TimelineDataItem.TimelineFixtureStatus.fixture) {
+            remoteView.setTextViewText(R.id.fixtureStatus, "FIXTURE");
+            remoteView.setTextViewText(R.id.scoreordate, fixture.kickoffTime());
         }
 
         return remoteView;
