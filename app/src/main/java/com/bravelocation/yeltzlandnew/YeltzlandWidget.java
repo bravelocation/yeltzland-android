@@ -24,11 +24,12 @@ public class YeltzlandWidget extends AppWidgetProvider {
 
         Log.d("YeltzlandWidget", "In onReceive for " + intent.getAction());
 
+        // Fetch the latest fixture data and lastest score ready for next update
+        FixtureListDataPump.updateFixtures(context, null);
+        GameScoreDataPump.updateGameScore(context, null);
+
         // Update all widgets
         this.updateAllWidgets(context);
-
-        // Fetch the latest fixture data ready for next update
-        FixtureListDataPump.updateFixtures(context, null);
     }
 
     @Override
