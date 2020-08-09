@@ -57,6 +57,8 @@ public class YeltzlandWidget extends AppWidgetProvider {
         if (this.appWidgetManager != null && this.appWidgetIds != null) {
             // There may be multiple widgets active, so update all of them
             for (int appWidgetId : this.appWidgetIds) {
+                Log.d("YeltzlandWidget", "Updating widget with ID " + appWidgetId);
+
                 // Construct the RemoteViews object
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yeltzland_widget);
 
