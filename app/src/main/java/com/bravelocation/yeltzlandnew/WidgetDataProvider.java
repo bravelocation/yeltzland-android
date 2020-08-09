@@ -56,11 +56,12 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     public RemoteViews getViewAt(int i) {
         FixtureListDataItem fixture = this.fixtures.get(i);
 
-        RemoteViews remoteView = new RemoteViews(this.context.getPackageName(),R.layout.fixture_list_item);
+        RemoteViews remoteView = new RemoteViews(this.context.getPackageName(),R.layout.widget_fixture_item);
 
         remoteView.setTextViewText(R.id.opponent, fixture.displayOpponent());
         remoteView.setTextViewText(R.id.scoreordate, fixture.fullDetails());
 
+        /*
         // Set colors
         if (fixture.teamScore != null && fixture.opponentScore != null) {
             if (fixture.teamScore > fixture.opponentScore) {
@@ -77,6 +78,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
             remoteView.setTextColor(R.id.opponent,ContextCompat.getColor(context, R.color.matchNone));
             remoteView.setTextColor(R.id.scoreordate,ContextCompat.getColor(context, R.color.matchNone));
         }
+        */
 
         return remoteView;
     }

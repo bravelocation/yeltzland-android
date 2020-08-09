@@ -6,7 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/yeltzLightBlue"
+        android:background="@color/yeltzBlue"
         android:padding="4dp"
         android:orientation="horizontal">
         <ImageView
@@ -16,14 +16,17 @@
             android:layout_gravity="top"
             android:padding="4dp"
             android:src="@mipmap/ic_launcher"/>
-        <ListView
-            android:id="@+id/widget_list"
+        <GridView
+            android:id="@+id/widget_grid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
+            android:columnWidth="100dp"
+            android:numColumns="2"
             android:padding="4dp"
-            android:background="@color/yeltzLightBlue">
-        </ListView>
+            android:horizontalSpacing="8dp"
+            android:background="@color/yeltzBlue">
+        </GridView>
     </LinearLayout>
 
 </FrameLayout>
