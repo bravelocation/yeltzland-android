@@ -264,6 +264,8 @@ public class FixtureListDataPump {
                 }
             }
 
+            Log.d("FixtureListDataPump", "Fixtures updated");
+
             if (handler != null) {
                 Log.d("FixtureListDataPump", "Updating handler after fixtures update");
                 Message successMessage = new Message();

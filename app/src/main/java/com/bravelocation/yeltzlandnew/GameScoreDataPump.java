@@ -171,12 +171,13 @@ public class GameScoreDataPump {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.UK);
             Date convertedMatchDate = dateFormat.parse(matchDateTime);
 
-            FixtureListDataItem fixture = null;
             if (teamScore == null || teamScore.equals("null") || opponentScore == null || opponentScore.equals("null")) {
                 GameScoreDataPump.latestScore = new FixtureListDataItem(convertedMatchDate, opponent, home.equals("1"));
             } else {
                 GameScoreDataPump.latestScore = new FixtureListDataItem(convertedMatchDate, opponent, home.equals("1"), Integer.valueOf(teamScore), Integer.valueOf(opponentScore));
             }
+
+            Log.d("GameScoreDataPump", "Game score updated");
 
             if (handler != null) {
                 Log.d("GameScoreDataPump", "Updating handler after game score update");

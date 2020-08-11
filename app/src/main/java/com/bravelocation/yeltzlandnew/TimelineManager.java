@@ -1,5 +1,7 @@
 package com.bravelocation.yeltzlandnew;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,23 +26,32 @@ class TimelineManager {
         // 2. If current game is in progress, put it into slot one
         if (this.currentScore != null) {
             firstEntry = this.currentScore;
+            Log.d("TimelineManager", "Added current score in first entry");
         }
 
         // 3. Get next fixture
         if (this.nextGames.size() > 0) {
             TimelineDataItem nextGame = this.nextGames.get(0);
 
+            Log.d("TimelineManager", "Current Score is against " + this.currentScore.opponent + " " + this.currentScore.fixtureDate.toString());
+            Log.d("TimelineManager", "First next game is against " + nextGame.opponent + " " + nextGame.fixtureDate.toString());
+
             // 1. If it is not the current game
-            if (nextGame != this.currentScore) {
+            if (nextGame.fixtureDate.toString().compareTo(this.currentScore.fixtureDate.toString()) != 0) {
+                Log.d("TimelineManager", "Next game is not the current score");
+
                 // If the last game was yesterday or today, put it into slot two, otherwise slot one
                 if (this.lastGame != null) {
                     if (daysSinceResult(this.lastGame) <= 1) {
                         secondEntry = nextGame;
+                        Log.d("TimelineManager", "Second entry is next game");
                     } else {
                         firstEntry = nextGame;
+                        Log.d("TimelineManager", "First entry is next game");
                     }
                 } else {
                     firstEntry = nextGame;
+                    Log.d("TimelineManager", "First entry is next game");
                 }
             }
         }
@@ -49,13 +60,16 @@ class TimelineManager {
         if (firstEntry == null) {
             if (this.nextGames.size() > 0) {
                 firstEntry = this.nextGames.get(0);
+                Log.d("TimelineManager", "First entry is next game");
             }
             if (this.nextGames.size() > 1) {
                 secondEntry = this.nextGames.get(1);
+                Log.d("TimelineManager", "Second entry is next but one game");
             }
         } else if (secondEntry == null) {
             if (this.nextGames.size() > 1) {
                 secondEntry = this.nextGames.get(1);
+                Log.d("TimelineManager", "Second entry is next but one game");
             }
         }
 
@@ -82,6 +96,7 @@ class TimelineManager {
                     currentFixture.teamScore,
                     currentFixture.opponentScore,
                     TimelineDataItem.TimelineFixtureStatus.inProgress);
+            Log.d("TimelineManager", "Current score - " + this.currentScore.opponent);
         }
 
         // Load last game details
@@ -97,6 +112,7 @@ class TimelineManager {
                     lastResult.teamScore,
                     lastResult.opponentScore,
                     TimelineDataItem.TimelineFixtureStatus.result);
+            Log.d("TimelineManager", "Last game - " + this.lastGame.opponent);
         }
 
         // Get next 2 fixtures
