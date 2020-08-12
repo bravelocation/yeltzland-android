@@ -2,26 +2,22 @@ package com.bravelocation.yeltzlandnew;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
-import android.content.Context;
+import android.service.notification.NotificationListenerService;
+import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
+import android.content.Intent;
+import android.os.IBinder;
 
-public class NotificationService extends FirebaseMessagingService {
-
-    Context context;
+public class NotificationService extends NotificationListenerService {
 
     @Override
-    public void onCreate () {
-        super.onCreate() ;
-        this.context = getApplicationContext();
-
-        Log.d("YeltzlandWidget", "Notification service created");
+    public IBinder onBind(Intent intent) {
+        return super.onBind(intent);
     }
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onNotificationPosted(StatusBarNotification sbn) {
         Log.d("YeltzlandWidget", "Notification received, updating widget ...");
 
         // Notification posted, so update the widget
@@ -31,6 +27,6 @@ public class NotificationService extends FirebaseMessagingService {
         // Get a list of the widgets that need updating
         int[] widgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, widget.getClass()));
 
-        widget.onUpdate(context, appWidgetManager, widgetIds);
+        widget.onUpdate(getApplicationContext(), appWidgetManager, widgetIds);
     }
 }
