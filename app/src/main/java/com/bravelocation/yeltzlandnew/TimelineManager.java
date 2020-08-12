@@ -33,11 +33,10 @@ class TimelineManager {
         if (this.nextGames.size() > 0) {
             TimelineDataItem nextGame = this.nextGames.get(0);
 
-            Log.d("TimelineManager", "Current Score is against " + this.currentScore.opponent + " " + this.currentScore.fixtureDate.toString());
             Log.d("TimelineManager", "First next game is against " + nextGame.opponent + " " + nextGame.fixtureDate.toString());
 
             // 1. If it is not the current game
-            if (nextGame.fixtureDate.toString().compareTo(this.currentScore.fixtureDate.toString()) != 0) {
+            if (this.currentScore == null || nextGame.fixtureDate.toString().compareTo(this.currentScore.fixtureDate.toString()) != 0) {
                 Log.d("TimelineManager", "Next game is not the current score");
 
                 // If the last game was yesterday or today, put it into slot two, otherwise slot one
@@ -80,6 +79,7 @@ class TimelineManager {
         if (secondEntry != null) {
             entries.add(secondEntry);
         }
+
         return entries;
     }
 

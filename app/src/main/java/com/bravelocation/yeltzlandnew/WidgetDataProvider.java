@@ -28,6 +28,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         this.intent = intent;
 
         this.timelineManager = new TimelineManager();
+        this.timelineManager.loadLatestData();
     }
 
     @Override
