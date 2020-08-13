@@ -3,7 +3,9 @@ package com.bravelocation.yeltzlandnew;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -133,8 +135,21 @@ class TimelineManager {
     }
 
     private long daysSinceResult(TimelineDataItem result) {
+
+        Calendar cal = new GregorianCalendar();
         Date now = new Date();
-        long diff = now.getTime() - result.fixtureDate.getTime();
-        return (diff / (1000*60*60*24));
+
+        cal.setTime(now);
+        int currentDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
+        int currentYear = cal.get(Calendar.YEAR);
+        long currentDay = (currentYear * 365) + currentDayOfYear;
+
+        cal.setTime(result.fixtureDate);
+        int fixtureDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
+        int fixtureYear = cal.get(Calendar.YEAR);
+        long fixtureDay = (fixtureYear * 365) + fixtureDayOfYear;
+
+        Log.d("TimelineManager", "Days since result: " + (currentDay - fixtureDay));
+        return currentDay - fixtureDay;
     }
 }
