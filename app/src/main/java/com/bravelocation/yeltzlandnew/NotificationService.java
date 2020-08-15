@@ -2,22 +2,15 @@ package com.bravelocation.yeltzlandnew;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
-import android.service.notification.NotificationListenerService;
-import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
-import android.content.Intent;
-import android.os.IBinder;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
-public class NotificationService extends NotificationListenerService {
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return super.onBind(intent);
-    }
+public class NotificationService extends FirebaseMessagingService {
 
     @Override
-    public void onNotificationPosted(StatusBarNotification sbn) {
+    public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d("YeltzlandWidget", "Notification received, updating widget ...");
 
         // Notification posted, so update the widget
