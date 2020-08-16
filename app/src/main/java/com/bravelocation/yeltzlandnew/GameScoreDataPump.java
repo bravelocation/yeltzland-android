@@ -20,7 +20,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,7 +59,7 @@ public class GameScoreDataPump {
         }
 
         FixtureListDataItem nextGame = GameScoreDataPump.getNextFixture();
-        if (nextGame != null && nextGame.fixtureDate.compareTo(GameScoreDataPump.latestScore.fixtureDate) == 0) {
+        if (nextGame != null && nextGame.equals(GameScoreDataPump.latestScore)) {
             return true;
         }
 

@@ -93,4 +93,11 @@ public class FixtureListDataItem implements Comparable<FixtureListDataItem> {
 
         return this.fixtureDate.compareTo(o.fixtureDate);
     }
+
+    public boolean equals(FixtureListDataItem obj) {
+        return this.opponent == obj.opponent &&
+                this.home == obj.home &&
+                DateHelper.dayNumber(this.fixtureDate) == DateHelper.dayNumber(obj.fixtureDate) &&
+                DateHelper.hourNumber(this.fixtureDate) == DateHelper.hourNumber(obj.fixtureDate);
+    }
 }
