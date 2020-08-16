@@ -173,11 +173,39 @@ public class GameScoreDataPump {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.UK);
             Date convertedMatchDate = dateFormat.parse(matchDateTime);
 
+            FixtureListDataItem latestScore = null;
+            FixtureListDataItem nextFixture = null;
+
             if (teamScore == null || teamScore.equals("null") || opponentScore == null || opponentScore.equals("null")) {
-                GameScoreDataPump.latestScore = new FixtureListDataItem(convertedMatchDate, opponent, home.equals("1"));
+                latestScore = new FixtureListDataItem(convertedMatchDate, opponent, home.equals("1"));
             } else {
-                GameScoreDataPump.latestScore = new FixtureListDataItem(convertedMatchDate, opponent, home.equals("1"), Integer.valueOf(teamScore), Integer.valueOf(opponentScore));
+                latestScore = new FixtureListDataItem(convertedMatchDate, opponent, home.equals("1"), Integer.valueOf(teamScore), Integer.valueOf(opponentScore));
             }
+
+            List<FixtureListDataItem> nextFixtures = FixtureListDataPump.getNextFixtures(1);
+            if (nextFixtures.size() > 0) {
+                nextFixture = nextFixtures.get(0);
+            }
+
+            // Is the game in progress
+            if (latestScore != null && nextFixture != null) {
+                // If same game
+                if (latestScore.equals(nextFixture)) {
+                    GameScoreDataPump.latestScore = latestScore;
+                } else {
+                    // Are we after kickoff?
+                    Date now = new Date();
+                    if (now.after(nextFixture.fixtureDate)) {
+                        // If so, we are in progress with no score yet
+                        GameScoreDataPump.latestScore = new FixtureListDataItem(convertedMatchDate, opponent, home.equals("1"), 0, 0);
+                    } else {
+                        // Get last game
+                        FixtureListDataItem lastGame = FixtureListDataPump.getLastGame();
+                        GameScoreDataPump.latestScore = lastGame;
+                    }
+                }
+            }
+
 
             Log.d("GameScoreDataPump", "Game score updated");
 

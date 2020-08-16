@@ -77,7 +77,7 @@ public class FixtureListDataPump {
         }
 
         return sorted;
-     }
+    }
 
     public static List<FixtureListDataItem> getNextFixtures(int maxCount) {
         ArrayList<FixtureListDataItem> matches = new ArrayList<FixtureListDataItem>();
@@ -96,6 +96,15 @@ public class FixtureListDataPump {
         }
 
         return matches;
+    }
+
+    public static FixtureListDataItem getLastGame() {
+        List<FixtureListDataItem> allFixtures = getAllMatches();
+        if (allFixtures.size() == 0) {
+            return null;
+        }
+
+        return allFixtures.get(allFixtures.size() - 1);
     }
 
     private static List<FixtureListDataItem> getAllMatches() {
