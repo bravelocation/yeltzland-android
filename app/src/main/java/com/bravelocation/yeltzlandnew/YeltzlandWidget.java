@@ -2,6 +2,7 @@ package com.bravelocation.yeltzlandnew;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
@@ -24,12 +25,8 @@ public class YeltzlandWidget extends AppWidgetProvider {
 
         Log.d("YeltzlandWidget", "In onReceive for " + intent.getAction());
 
-        // Fetch the latest fixture data and lastest score ready for next update
-        FixtureListDataPump.updateFixtures(context, null);
-        GameScoreDataPump.updateGameScore(context, null);
-
         // Update all widgets
-        this.updateAllWidgets(context);
+        this.updateWidgets(context);
     }
 
     @Override
@@ -38,7 +35,7 @@ public class YeltzlandWidget extends AppWidgetProvider {
         Log.d("YeltzlandWidget", "In onEnabled ...");
 
         // Update all widgets
-        this.updateAllWidgets(context);
+        this.updateWidgets(context);
     }
 
     @Override
@@ -48,10 +45,17 @@ public class YeltzlandWidget extends AppWidgetProvider {
         this.appWidgetManager = appWidgetManager;
         this.appWidgetIds = appWidgetIds;
 
-        this.updateAllWidgets(context);
+        this.updateWidgets(context);
     }
 
-    private void updateAllWidgets(Context context) {
+    public static void updateAllWidgets(Context context) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        YeltzlandWidget widget = new YeltzlandWidget();
+        int[] widgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, widget.getClass()));
+        widget.onUpdate(context, appWidgetManager, widgetIds);
+    }
+
+    private void updateWidgets(Context context) {
         Log.d("YeltzlandWidget", "Updating all widgets ...");
 
         if (this.appWidgetManager != null && this.appWidgetIds != null) {

@@ -1,5 +1,7 @@
 package com.bravelocation.yeltzlandnew;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,6 +27,9 @@ public class SplashActivity extends AppCompatActivity {
             editor.putInt(MainActivity.LAST_TAB_PREF_NAME, incomingPosition);
             editor.commit();
         }
+
+        // Update any widgets
+        YeltzlandWidget.updateAllWidgets(this);
 
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/

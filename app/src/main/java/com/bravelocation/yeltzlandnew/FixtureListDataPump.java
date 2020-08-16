@@ -129,6 +129,9 @@ public class FixtureListDataPump {
 
         // Refresh data from server
         FixtureListDataPump.refreshFixturesFromServer(context, handler);
+
+        // Update all widgets on data refreshed
+        YeltzlandWidget.updateAllWidgets(context);
     }
 
     private static void moveBundleFileToAppDirectory(Context context) {
