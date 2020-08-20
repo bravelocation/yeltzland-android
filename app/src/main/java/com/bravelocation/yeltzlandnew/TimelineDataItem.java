@@ -74,9 +74,12 @@ public class TimelineDataItem implements Comparable<TimelineDataItem>  {
 
     public String kickoffTime() {
         if (this.isGameToday()) {
+            Log.d("TimelineDataItem", "Kickoff vs " + this.opponent + " is today");
             java.text.SimpleDateFormat hourDateFormat = new java.text.SimpleDateFormat("HH:mm", Locale.UK);
             return hourDateFormat.format(this.fixtureDate);
         }
+
+        Log.d("TimelineDataItem", "Kickoff vs " + this.opponent + " is NOT today");
         java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("EEE dd MMM HH:mm", Locale.UK);
         return simpleDateFormat.format(this.fixtureDate);
     }
