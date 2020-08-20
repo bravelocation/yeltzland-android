@@ -200,7 +200,7 @@ public class GameScoreDataPump {
                     Date now = new Date();
                     if (now.after(nextFixture.fixtureDate)) {
                         // If so, we are in progress with no score yet
-                        GameScoreDataPump.latestScore = new FixtureListDataItem(convertedMatchDate, opponent, home.equals("1"), 0, 0);
+                        GameScoreDataPump.latestScore = nextFixture;
                     } else {
                         // Get last game
                         FixtureListDataItem lastGame = FixtureListDataPump.getLastGame();

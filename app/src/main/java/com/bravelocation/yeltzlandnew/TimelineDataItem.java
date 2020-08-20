@@ -61,7 +61,7 @@ public class TimelineDataItem implements Comparable<TimelineDataItem>  {
 
     public String score() {
         if (this.teamScore == null || this.opponentScore == null) {
-            return "";
+            return "0-0*";
         }
 
         String inProgressSuffix = "";

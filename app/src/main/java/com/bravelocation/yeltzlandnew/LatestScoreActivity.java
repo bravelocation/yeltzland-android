@@ -78,18 +78,11 @@ public class LatestScoreActivity extends AppCompatActivity {
 
     public void updateScoreUI() {
         // Populate the data
-        FixtureListDataItem latestScoreFixture;
+        FixtureListDataItem latestScoreFixture = GameScoreDataPump.getLatestScore();
         boolean inPlay = false;
 
         if (GameScoreDataPump.IsGameScoreForLatestGame()) {
-            latestScoreFixture = GameScoreDataPump.getLatestScore();
             inPlay = true;
-        } else {
-            latestScoreFixture = GameScoreDataPump.getLastResult();
-        }
-
-        if (latestScoreFixture == null) {
-            latestScoreFixture = GameScoreDataPump.getNextFixture();
         }
 
         if (latestScoreFixture != null) {
@@ -104,7 +97,7 @@ public class LatestScoreActivity extends AppCompatActivity {
             this.opponentTextView.setText(latestScoreFixture.opponent);
 
             if (latestScoreFixture.teamScore == null || latestScoreFixture.opponentScore == null) {
-                this.scoreTextView.setText("TBD");
+                this.scoreTextView.setText("0-0*");
                 this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchDraw));
             } else if (inPlay) {
                 this.scoreTextView.setText(String.format(" %d-%d*", latestScoreFixture.teamScore, latestScoreFixture.opponentScore));
