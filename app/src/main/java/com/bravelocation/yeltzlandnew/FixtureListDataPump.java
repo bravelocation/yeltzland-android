@@ -107,6 +107,15 @@ public class FixtureListDataPump {
         return allFixtures.get(allFixtures.size() - 1);
     }
 
+    public static FixtureListDataItem getLastResult() {
+        List<FixtureListDataItem> lastResults = getLastResults(1);
+        if (lastResults.size() == 0) {
+            return null;
+        }
+
+        return lastResults.get(0);
+    }
+
     private static List<FixtureListDataItem> getAllMatches() {
         ArrayList<FixtureListDataItem> matches = new ArrayList<FixtureListDataItem>();
 

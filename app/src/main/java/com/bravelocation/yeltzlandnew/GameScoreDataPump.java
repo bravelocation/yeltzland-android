@@ -202,9 +202,9 @@ public class GameScoreDataPump {
                         // If so, we are in progress with no score yet
                         GameScoreDataPump.latestScore = nextFixture;
                     } else {
-                        // Get last game
-                        FixtureListDataItem lastGame = FixtureListDataPump.getLastGame();
-                        GameScoreDataPump.latestScore = lastGame;
+                        // Get last result
+                        FixtureListDataItem lastResult = FixtureListDataPump.getLastResult();
+                        GameScoreDataPump.latestScore = lastResult;
                     }
                 }
             }

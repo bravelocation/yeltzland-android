@@ -97,7 +97,7 @@ public class LatestScoreActivity extends AppCompatActivity {
             this.opponentTextView.setText(latestScoreFixture.opponent);
 
             if (latestScoreFixture.teamScore == null || latestScoreFixture.opponentScore == null) {
-                this.scoreTextView.setText("0-0*");
+                this.scoreTextView.setText(inPlay ? "0-0*" : latestScoreFixture.fullKickoffTime());
                 this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchDraw));
             } else if (inPlay) {
                 this.scoreTextView.setText(String.format(" %d-%d*", latestScoreFixture.teamScore, latestScoreFixture.opponentScore));
