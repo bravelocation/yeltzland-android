@@ -11,7 +11,7 @@ public class NotificationService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.d("YeltzlandWidget", "Notification received, updating widget ...");
+        Log.d("NotificationService", "Notification received, updating widget ...");
 
         // Notification posted, so update the widget
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);

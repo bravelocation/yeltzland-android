@@ -49,6 +49,7 @@ public class YeltzlandWidget extends AppWidgetProvider {
     }
 
     public static void updateAllWidgets(Context context) {
+        Log.d("YeltzlandWidget", "Updating all widgets from static updateAllWidgets() ...");
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         YeltzlandWidget widget = new YeltzlandWidget();
         int[] widgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, widget.getClass()));

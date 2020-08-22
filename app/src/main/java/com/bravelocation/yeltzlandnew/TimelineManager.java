@@ -86,6 +86,8 @@ class TimelineManager {
     }
 
     public void loadLatestData() {
+        Log.d("TimelineManager", "Loading latest data ...");
+
         // Load current score
         this.currentScore = null;
 
@@ -132,6 +134,8 @@ class TimelineManager {
 
             this.nextGames.add(nextTimelineEntry);
         }
+
+        Log.d("TimelineManager", "Latest data loaded");
     }
 
     private long daysSinceResult(TimelineDataItem result) {
