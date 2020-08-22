@@ -70,6 +70,7 @@ public class YeltzlandWidget extends AppWidgetProvider {
                 // Set up the collection
                 Intent intent = new Intent(context, WidgetService.class);
                 intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                intent.putExtra("Random", Math.random() * 1000); // Add a random integer to stop the Intent being ignored/cached
 
                 views.setRemoteAdapter(R.id.widget_grid, intent);
 
