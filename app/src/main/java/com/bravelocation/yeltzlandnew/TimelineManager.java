@@ -7,14 +7,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 class TimelineManager {
     private TimelineDataItem lastGame;
     private TimelineDataItem currentScore;
     private List<TimelineDataItem> nextGames;
 
-    public TimelineManager() {
+    // Made singleton to make updateable during widget lifecycle
+    private static TimelineManager instance = null;
+
+    public static TimelineManager getInstance() {
+        if (instance == null) {
+            instance = new TimelineManager();
+        }
+        return instance;
+    }
+
+    private TimelineManager() {
         this.loadLatestData();
     }
 

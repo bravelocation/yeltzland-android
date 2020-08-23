@@ -50,6 +50,10 @@ public class YeltzlandWidget extends AppWidgetProvider {
 
     public static void updateAllWidgets(Context context) {
         Log.d("YeltzlandWidget", "Updating all widgets from static updateAllWidgets() ...");
+
+        // Update the data first
+        TimelineManager.getInstance().loadLatestData();
+
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         YeltzlandWidget widget = new YeltzlandWidget();
         int[] widgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, widget.getClass()));
@@ -60,6 +64,9 @@ public class YeltzlandWidget extends AppWidgetProvider {
         Log.d("YeltzlandWidget", "Updating all widgets ...");
 
         if (this.appWidgetManager != null && this.appWidgetIds != null) {
+            // Update the data first
+            TimelineManager.getInstance().loadLatestData();
+
             // There may be multiple widgets active, so update all of them
             for (int appWidgetId : this.appWidgetIds) {
                 Log.d("YeltzlandWidget", "Updating widget with ID " + appWidgetId);

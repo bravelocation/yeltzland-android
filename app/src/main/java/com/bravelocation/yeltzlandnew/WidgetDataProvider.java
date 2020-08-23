@@ -2,33 +2,22 @@ package com.bravelocation.yeltzlandnew;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.core.content.ContextCompat;
-
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by john on 28/11/2017.
- */
 
 public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
     Context context;
     Intent intent;
-    TimelineManager timelineManager;
 
     private void initData() {
-        this.timelineManager.loadLatestData();
+        TimelineManager.getInstance().loadLatestData();
     }
 
     public WidgetDataProvider(Context context, Intent intent) {
         this.context = context;
         this.intent = intent;
 
-        this.timelineManager = new TimelineManager();
-        this.timelineManager.loadLatestData();
+        initData();
     }
 
     @Override
@@ -46,12 +35,12 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public int getCount() {
-        return this.timelineManager.timelineEntries().size();
+        return TimelineManager.getInstance().timelineEntries().size();
     }
 
     @Override
     public RemoteViews getViewAt(int i) {
-        TimelineDataItem fixture = this.timelineManager.timelineEntries().get(i);
+        TimelineDataItem fixture = TimelineManager.getInstance().timelineEntries().get(i);
 
         RemoteViews remoteView = new RemoteViews(this.context.getPackageName(),R.layout.widget_fixture_item);
 
