@@ -74,7 +74,7 @@ public class LocationsDataPump {
 
             LocationsDataPump.parseJSON(new String(buffer, "UTF-8"));
         } catch (Exception e) {
-            Log.d("LocationsDataPump", "Error parsing JSON:" + e.toString());
+            Log.e("LocationsDataPump", "Error parsing JSON:" + e.toString());
         } finally {
             if (in != null) {
                 try {
@@ -141,7 +141,7 @@ public class LocationsDataPump {
 
             return true;
         } catch (Exception e) {
-            Log.d("LocationsDataPump", "Error parsing JSON:" + e.toString());
+            Log.e("LocationsDataPump", "Error parsing JSON:" + e.toString());
             return false;
         }
     }

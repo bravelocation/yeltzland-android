@@ -168,7 +168,7 @@ public class FixtureListDataPump {
 
             Log.d("FixtureListDataPump", "Asset file copied to file cache");
         } catch (Exception e) {
-            Log.d("FixtureListDataPump", "Error copying asset to cache:" + e.toString());
+            Log.e("FixtureListDataPump", "Error copying asset to cache:" + e.toString());
         } finally {
             if (in != null) {
                 try {
@@ -206,7 +206,7 @@ public class FixtureListDataPump {
 
             FixtureListDataPump.parseJSON(new String(buffer, "UTF-8"), handler);
         } catch (Exception e) {
-            Log.d("FixtureListDataPump", "Error parsing JSON:" + e.toString());
+            Log.e("FixtureListDataPump", "Error parsing JSON:" + e.toString());
         } finally {
             if (in != null) {
                 try {
@@ -295,7 +295,7 @@ public class FixtureListDataPump {
 
             return true;
         } catch (Exception e) {
-            Log.d("FixtureListDataPump", "Error parsing JSON:" + e.toString());
+            Log.e("FixtureListDataPump", "Error parsing JSON:" + e.toString());
             return false;
         }
     }
@@ -340,7 +340,7 @@ public class FixtureListDataPump {
                     Log.d("FixtureListDataPump", "No matches found in server data");
                 }
             } catch (Exception e) {
-                Log.d("FixtureListDataPump", "Problem occurred getting server data: " + e.toString());
+                Log.e("FixtureListDataPump", "Problem occurred getting server data: " + e.toString());
             } finally {
                 if (in != null) {
                     try {
