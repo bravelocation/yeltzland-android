@@ -76,8 +76,8 @@ public class GameScoreDataPump {
         // Refresh data from server
         GameScoreDataPump.refreshFixturesFromServer(context, handler);
 
-        // Update all widgets on data refreshed
-        YeltzlandWidget.updateAllWidgets(context);
+        // Update timeline on data refreshed
+        TimelineManager.getInstance().loadLatestData();
     }
 
     private static void moveBundleFileToAppDirectory(Context context) {
