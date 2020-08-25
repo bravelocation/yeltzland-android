@@ -129,15 +129,15 @@ public class FixtureListDataPump {
         return matches;
     }
 
-    public static void updateFixtures(Context context, Handler handler) {
+    public static void updateFixtures(Context context, Runnable completion) {
         // Copy bundled matches to cache
         FixtureListDataPump.moveBundleFileToAppDirectory(context);
 
         // Load data from cached JSON file
-        FixtureListDataPump.loadDataFromCachedJson(context, handler);
+        FixtureListDataPump.loadDataFromCachedJson(context, completion);
 
         // Refresh data from server
-        FixtureListDataPump.refreshFixturesFromServer(context, handler);
+        FixtureListDataPump.refreshFixturesFromServer(context, completion);
 
         // Update timeline on data refreshed
         TimelineManager.getInstance().loadLatestData();
@@ -193,7 +193,7 @@ public class FixtureListDataPump {
         }
     }
 
-    private static void loadDataFromCachedJson(Context context, Handler handler) {
+    private static void loadDataFromCachedJson(Context context, Runnable completion) {
         FileInputStream in = null;
         try {
             // Load the JSON data
@@ -204,7 +204,7 @@ public class FixtureListDataPump {
             byte[] buffer = new byte[size];
             in.read(buffer);
 
-            FixtureListDataPump.parseJSON(new String(buffer, "UTF-8"), handler);
+            FixtureListDataPump.parseJSON(new String(buffer, "UTF-8"), completion);
         } catch (Exception e) {
             Log.e("FixtureListDataPump", "Error parsing JSON:" + e.toString());
         } finally {
@@ -220,7 +220,7 @@ public class FixtureListDataPump {
         }
     }
 
-    private static boolean parseJSON(String input, Handler handler) {
+    private static boolean parseJSON(String input, Runnable completion) {
         try {
             if (input.length() == 0) {
                 return false;
@@ -287,10 +287,9 @@ public class FixtureListDataPump {
 
             Log.d("FixtureListDataPump", "Fixtures updated");
 
-            if (handler != null) {
-                Log.d("FixtureListDataPump", "Updating handler after fixtures update");
-                Message successMessage = new Message();
-                handler.dispatchMessage(successMessage);
+            if (completion != null) {
+                Log.d("FixtureListDataPump", "Running completion after fixtures update");
+                completion.run();
             }
 
             return true;
@@ -300,19 +299,19 @@ public class FixtureListDataPump {
         }
     }
 
-    public static void refreshFixturesFromServer(Context context, Handler handler) {
+    public static void refreshFixturesFromServer(Context context, Runnable completion) {
         // Fetch server data on background thread
-        new Thread(new FetchFixturesFromServer(context, handler)).start();
+        new Thread(new FetchFixturesFromServer(context, completion)).start();
     }
 
     private static class FetchFixturesFromServer implements Runnable {
 
         private Context context;
-        private Handler handler;
+        private Runnable completion;
 
-        public FetchFixturesFromServer(Context context, Handler handler) {
+        public FetchFixturesFromServer(Context context, Runnable completion) {
             this.context = context;
-            this.handler = handler;
+            this.completion = completion;
         }
 
         public void run() {
@@ -331,7 +330,7 @@ public class FixtureListDataPump {
                 }
 
                 // Check it's valid JSON, and if so, replace cache
-                if (FixtureListDataPump.parseJSON(result.toString(), handler)) {
+                if (FixtureListDataPump.parseJSON(result.toString(), completion)) {
                     File cacheFile = new File(context.getExternalFilesDir(null), LOCALFILENAME);
                     out = new FileOutputStream(cacheFile);
                     out.write(result.toString().getBytes());

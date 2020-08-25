@@ -66,15 +66,15 @@ public class GameScoreDataPump {
         return false;
     }
 
-    public static void updateGameScore(Context context, Handler handler) {
+    public static void updateGameScore(Context context, Runnable completion) {
         // Copy bundled matches to cache
         GameScoreDataPump.moveBundleFileToAppDirectory(context);
 
         // Load data from cached JSON file
-        GameScoreDataPump.loadDataFromCachedJson(context, handler);
+        GameScoreDataPump.loadDataFromCachedJson(context, completion);
 
         // Refresh data from server
-        GameScoreDataPump.refreshFixturesFromServer(context, handler);
+        GameScoreDataPump.refreshFixturesFromServer(context, completion);
 
         // Update timeline on data refreshed
         TimelineManager.getInstance().loadLatestData();
@@ -128,7 +128,7 @@ public class GameScoreDataPump {
         }
     }
 
-    private static void loadDataFromCachedJson(Context context, Handler handler) {
+    private static void loadDataFromCachedJson(Context context, Runnable completion) {
         FileInputStream in = null;
         try {
             // Load the JSON data
@@ -139,7 +139,7 @@ public class GameScoreDataPump {
             byte[] buffer = new byte[size];
             in.read(buffer);
 
-            GameScoreDataPump.parseJSON(new String(buffer, "UTF-8"), handler);
+            GameScoreDataPump.parseJSON(new String(buffer, "UTF-8"), completion);
         } catch (Exception e) {
             Log.e("GameScoreDataPump", "Error parsing JSON:" + e.toString());
         } finally {
@@ -154,7 +154,7 @@ public class GameScoreDataPump {
         }
     }
 
-    private static boolean parseJSON(String input, Handler handler) {
+    private static boolean parseJSON(String input, Runnable completion) {
         try {
             if (input.length() == 0) {
                 return false;
@@ -212,10 +212,9 @@ public class GameScoreDataPump {
 
             Log.d("GameScoreDataPump", "Game score updated");
 
-            if (handler != null) {
-                Log.d("GameScoreDataPump", "Updating handler after game score update");
-                Message successMessage = new Message();
-                handler.dispatchMessage(successMessage);
+            if (completion != null) {
+                Log.d("GameScoreDataPump", "Running completion after game score update");
+                completion.run();
             }
 
             return true;
@@ -225,19 +224,19 @@ public class GameScoreDataPump {
         }
     }
 
-    public static void refreshFixturesFromServer(Context context, Handler handler) {
+    public static void refreshFixturesFromServer(Context context, Runnable completion) {
         // Fetch server data on background thread
-        new Thread(new GameScoreDataPump.FetchGameScoreFromServer(context, handler)).start();
+        new Thread(new GameScoreDataPump.FetchGameScoreFromServer(context, completion)).start();
     }
 
     private static class FetchGameScoreFromServer implements Runnable {
 
         private Context context;
-        private Handler handler;
+        private Runnable completion;
 
-        public FetchGameScoreFromServer(Context context, Handler handler) {
+        public FetchGameScoreFromServer(Context context, Runnable completion) {
             this.context = context;
-            this.handler = handler;
+            this.completion = completion;
         }
 
         public void run() {
@@ -256,7 +255,7 @@ public class GameScoreDataPump {
                 }
 
                 // Check it's valid JSON, and if so, replace cache
-                if (GameScoreDataPump.parseJSON(result.toString(), handler)) {
+                if (GameScoreDataPump.parseJSON(result.toString(), completion)) {
                     File cacheFile = new File(context.getExternalFilesDir(null), LOCALFILENAME);
                     out = new FileOutputStream(cacheFile);
                     out.write(result.toString().getBytes());

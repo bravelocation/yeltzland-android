@@ -149,16 +149,15 @@ public class LatestScoreActivity extends AppCompatActivity {
     }
 
 
-    private static class LatestScoreUpdateHandler extends Handler {
+    private static class LatestScoreUpdateHandler implements Runnable {
         private LatestScoreActivity activity;
 
         LatestScoreUpdateHandler(LatestScoreActivity activity) {
             this.activity = activity;
         }
 
-        public void handleMessage(Message msg) {
-            Log.d("LatestScoreUpdate", "Handling latest score update");
-
+        @Override
+        public void run() {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

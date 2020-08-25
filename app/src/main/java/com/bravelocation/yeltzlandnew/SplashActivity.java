@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         // Update any widgets
-        YeltzlandWidget.updateAllWidgets(this);
+        // YeltzlandWidget.updateAllWidgets(this);
 
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
