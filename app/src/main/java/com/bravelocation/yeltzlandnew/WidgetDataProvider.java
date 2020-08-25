@@ -10,14 +10,14 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     Intent intent;
 
     private void initData() {
-        TimelineManager.getInstance().loadLatestData();
+        TimelineManager.getInstance().fetchLatestData(this.context, null);
     }
 
     public WidgetDataProvider(Context context, Intent intent) {
         this.context = context;
         this.intent = intent;
 
-        initData();
+        this.initData();
     }
 
     @Override

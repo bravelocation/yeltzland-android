@@ -28,8 +28,8 @@ public class SplashActivity extends AppCompatActivity {
             editor.commit();
         }
 
-        // Update any widgets
-        // YeltzlandWidget.updateAllWidgets(this);
+        // Update fixtures data and any widgets
+        YeltzlandWidget.updateAllWidgets(this);
 
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/

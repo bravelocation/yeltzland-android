@@ -1,5 +1,6 @@
 package com.bravelocation.yeltzlandnew;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -145,6 +146,23 @@ class TimelineManager {
         }
 
         Log.d("TimelineManager", "Latest data loaded");
+    }
+
+    public void fetchLatestData(Context context, Runnable completion) {
+        FixtureListDataPump.refreshFixturesFromServer(context, new Runnable() {
+            @Override
+            public void run() {
+                GameScoreDataPump.refreshFixturesFromServer(context, new Runnable() {
+                    @Override
+                    public void run() {
+                        TimelineManager.getInstance().loadLatestData();
+                        if (completion != null) {
+                            completion.run();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private long daysSinceResult(TimelineDataItem result) {
