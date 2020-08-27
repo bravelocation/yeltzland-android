@@ -149,12 +149,17 @@ class TimelineManager {
     }
 
     public void fetchLatestData(Context context, Runnable completion) {
+        Log.d("TimelineManager", "Fetching latest data ...");
+
         FixtureListDataPump.refreshFixturesFromServer(context, new Runnable() {
             @Override
             public void run() {
+                Log.d("TimelineManager", "Fetching latest game data ...");
                 GameScoreDataPump.refreshFixturesFromServer(context, new Runnable() {
                     @Override
                     public void run() {
+                        Log.d("TimelineManager", "Loading latest data after fetching data...");
+
                         TimelineManager.getInstance().loadLatestData();
                         if (completion != null) {
                             completion.run();
