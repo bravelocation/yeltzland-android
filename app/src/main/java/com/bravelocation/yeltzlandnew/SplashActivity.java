@@ -28,16 +28,13 @@ public class SplashActivity extends AppCompatActivity {
             editor.commit();
         }
 
-        // Update fixtures data and any widgets
-        YeltzlandWidget.updateAllWidgets(this);
-
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(SplashActivity.this,MainActivity.class);
+                /* Create an Intent that will start the  main activity. */
+                Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
                 SplashActivity.this.startActivity(mainIntent);
                 SplashActivity.this.finish();
             }
