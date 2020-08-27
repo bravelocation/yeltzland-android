@@ -24,7 +24,7 @@ public class YeltzlandWidget extends AppWidgetProvider {
 
         Log.d("YeltzlandWidget", "In onReceive for " + intent.getAction());
 
-        // Fetch the latest fixture data and lastest score ready for next update
+        // Fetch the latest fixture data and latest score ready for next update
         FixtureListDataPump.updateFixtures(context, null);
         GameScoreDataPump.updateGameScore(context, null);
 
@@ -53,6 +53,9 @@ public class YeltzlandWidget extends AppWidgetProvider {
 
     private void updateAllWidgets(Context context) {
         Log.d("YeltzlandWidget", "Updating all widgets ...");
+
+        // Invalidate the data every time
+        this.appWidgetManager.notifyAppWidgetViewDataChanged(this.appWidgetIds, R.layout.yeltzland_widget);
 
         if (this.appWidgetManager != null && this.appWidgetIds != null) {
             // There may be multiple widgets active, so update all of them
