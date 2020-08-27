@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import java.util.List;
+
 /**
  * Implementation of App Widget functionality.
  */
@@ -68,6 +70,9 @@ public class YeltzlandWidget extends AppWidgetProvider {
     private void updateWidgets(Context context) {
         Log.d("YeltzlandWidget", "Updating all widgets ...");
 
+        TimelineManager timelineManager = TimelineManager.getInstance();
+        timelineManager.loadLatestData();
+
         if (this.appWidgetManager != null && this.appWidgetIds != null) {
             // Update the data first
             TimelineManager.getInstance().loadLatestData();
@@ -81,12 +86,41 @@ public class YeltzlandWidget extends AppWidgetProvider {
                 // Construct the RemoteViews object
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.yeltzland_widget);
 
-                // Set up the collection
-                Intent intent = new Intent(context, WidgetService.class);
-                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-                intent.putExtra("Random", Math.random() * 1000); // Add a random integer to stop the Intent being ignored/cached
 
-                views.setRemoteAdapter(R.id.widget_grid, intent);
+                // Update the views with timeline info
+                List<TimelineDataItem> timelineEntries = timelineManager.timelineEntries();
+
+                if (timelineEntries.size() > 0) {
+                    TimelineDataItem fixture = timelineEntries.get(0);
+                    views.setTextViewText(R.id.opponent1, fixture.opponentPlusHomeAway());
+
+                    if (fixture.status == TimelineDataItem.TimelineFixtureStatus.result) {
+                        views.setTextViewText(R.id.fixtureStatus1, "RESULT");
+                        views.setTextViewText(R.id.scoreordate1, fixture.score());
+                    } else if (fixture.status == TimelineDataItem.TimelineFixtureStatus.inProgress) {
+                        views.setTextViewText(R.id.fixtureStatus1, "LATEST SCORE");
+                        views.setTextViewText(R.id.scoreordate1, fixture.score());
+                    } else if (fixture.status == TimelineDataItem.TimelineFixtureStatus.fixture) {
+                        views.setTextViewText(R.id.fixtureStatus1, "FIXTURE");
+                        views.setTextViewText(R.id.scoreordate1, fixture.kickoffTime());
+                    }
+                }
+
+                if (timelineEntries.size() > 1) {
+                    TimelineDataItem fixture = timelineEntries.get(1);
+                    views.setTextViewText(R.id.opponent2, fixture.opponentPlusHomeAway());
+
+                    if (fixture.status == TimelineDataItem.TimelineFixtureStatus.result) {
+                        views.setTextViewText(R.id.fixtureStatus2, "RESULT");
+                        views.setTextViewText(R.id.scoreordate2, fixture.score());
+                    } else if (fixture.status == TimelineDataItem.TimelineFixtureStatus.inProgress) {
+                        views.setTextViewText(R.id.fixtureStatus2, "LATEST SCORE");
+                        views.setTextViewText(R.id.scoreordate2, fixture.score());
+                    } else if (fixture.status == TimelineDataItem.TimelineFixtureStatus.fixture) {
+                        views.setTextViewText(R.id.fixtureStatus2, "FIXTURE");
+                        views.setTextViewText(R.id.scoreordate2, fixture.kickoffTime());
+                    }
+                }
 
                 // Instruct the widget manager to update the widget
                 this.appWidgetManager.updateAppWidget(appWidgetId, views);
