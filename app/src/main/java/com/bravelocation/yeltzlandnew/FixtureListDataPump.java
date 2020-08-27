@@ -143,6 +143,9 @@ public class FixtureListDataPump {
 
         // Update timeline on data refreshed
         TimelineManager.getInstance().loadLatestData();
+
+        // Update widgets
+        YeltzlandWidget.updateAllWidgetsNoDataFetch(context);
     }
 
     private static void moveBundleFileToAppDirectory(Context context) {
