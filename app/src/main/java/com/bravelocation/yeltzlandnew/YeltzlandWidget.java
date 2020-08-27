@@ -58,6 +58,8 @@ public class YeltzlandWidget extends AppWidgetProvider {
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                 YeltzlandWidget widget = new YeltzlandWidget();
                 int[] widgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, widget.getClass()));
+
+                appWidgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.layout.yeltzland_widget);
                 widget.onUpdate(context, appWidgetManager, widgetIds);
             }
         });
@@ -69,8 +71,10 @@ public class YeltzlandWidget extends AppWidgetProvider {
         if (this.appWidgetManager != null && this.appWidgetIds != null) {
             // Update the data first
             TimelineManager.getInstance().loadLatestData();
+            this.appWidgetManager.notifyAppWidgetViewDataChanged(this.appWidgetIds, R.layout.yeltzland_widget);
 
             // There may be multiple widgets active, so update all of them
+
             for (int appWidgetId : this.appWidgetIds) {
                 Log.d("YeltzlandWidget", "Updating widget with ID " + appWidgetId);
 

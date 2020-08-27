@@ -2,6 +2,7 @@ package com.bravelocation.yeltzlandnew;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -27,6 +28,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public void onDataSetChanged() {
+        Log.d("WidgetDataProvider", "Data set changed");
         this.initData();
     }
 
@@ -40,6 +42,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public RemoteViews getViewAt(int i) {
+        Log.d("WidgetDataProvider", "Loading view " + i);
         TimelineDataItem fixture = TimelineManager.getInstance().timelineEntries().get(i);
 
         RemoteViews remoteView = new RemoteViews(this.context.getPackageName(),R.layout.widget_fixture_item);
