@@ -105,7 +105,9 @@ public class FixtureListDataPump {
 
         for (int m = 0; m < months.size(); m++) {
             List<FixtureListDataItem> monthFixtures = fixtures.get(months.get(m));
-            matches.addAll(monthFixtures);
+            if (monthFixtures != null) {
+                matches.addAll(monthFixtures);
+            }
         }
 
         return matches;
