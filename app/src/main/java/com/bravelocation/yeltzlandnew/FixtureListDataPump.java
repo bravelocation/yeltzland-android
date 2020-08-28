@@ -77,7 +77,7 @@ public class FixtureListDataPump {
         }
 
         return sorted;
-     }
+    }
 
     public static List<FixtureListDataItem> getNextFixtures(int maxCount) {
         ArrayList<FixtureListDataItem> matches = new ArrayList<FixtureListDataItem>();
@@ -98,6 +98,24 @@ public class FixtureListDataPump {
         return matches;
     }
 
+    public static FixtureListDataItem getLastGame() {
+        List<FixtureListDataItem> allFixtures = getAllMatches();
+        if (allFixtures.size() == 0) {
+            return null;
+        }
+
+        return allFixtures.get(allFixtures.size() - 1);
+    }
+
+    public static FixtureListDataItem getLastResult() {
+        List<FixtureListDataItem> lastResults = getLastResults(1);
+        if (lastResults.size() == 0) {
+            return null;
+        }
+
+        return lastResults.get(0);
+    }
+
     private static List<FixtureListDataItem> getAllMatches() {
         ArrayList<FixtureListDataItem> matches = new ArrayList<FixtureListDataItem>();
 
@@ -113,15 +131,21 @@ public class FixtureListDataPump {
         return matches;
     }
 
-    public static void updateFixtures(Context context, Handler handler) {
+    public static void updateFixtures(Context context, Runnable completion) {
         // Copy bundled matches to cache
         FixtureListDataPump.moveBundleFileToAppDirectory(context);
 
         // Load data from cached JSON file
-        FixtureListDataPump.loadDataFromCachedJson(context, handler);
+        FixtureListDataPump.loadDataFromCachedJson(context, completion);
 
         // Refresh data from server
-        FixtureListDataPump.refreshFixturesFromServer(context, handler);
+        FixtureListDataPump.refreshFixturesFromServer(context, completion);
+
+        // Update timeline on data refreshed
+        TimelineManager.getInstance().loadLatestData();
+
+        // Update widgets
+        YeltzlandWidget.updateAllWidgetsNoDataFetch(context);
     }
 
     private static void moveBundleFileToAppDirectory(Context context) {
@@ -149,7 +173,7 @@ public class FixtureListDataPump {
 
             Log.d("FixtureListDataPump", "Asset file copied to file cache");
         } catch (Exception e) {
-            Log.d("FixtureListDataPump", "Error copying asset to cache:" + e.toString());
+            Log.e("FixtureListDataPump", "Error copying asset to cache:" + e.toString());
         } finally {
             if (in != null) {
                 try {
@@ -174,7 +198,7 @@ public class FixtureListDataPump {
         }
     }
 
-    private static void loadDataFromCachedJson(Context context, Handler handler) {
+    private static void loadDataFromCachedJson(Context context, Runnable completion) {
         FileInputStream in = null;
         try {
             // Load the JSON data
@@ -185,9 +209,9 @@ public class FixtureListDataPump {
             byte[] buffer = new byte[size];
             in.read(buffer);
 
-            FixtureListDataPump.parseJSON(new String(buffer, "UTF-8"), handler);
+            FixtureListDataPump.parseJSON(new String(buffer, "UTF-8"), completion);
         } catch (Exception e) {
-            Log.d("FixtureListDataPump", "Error parsing JSON:" + e.toString());
+            Log.e("FixtureListDataPump", "Error parsing JSON:" + e.toString());
         } finally {
             if (in != null) {
                 try {
@@ -201,7 +225,7 @@ public class FixtureListDataPump {
         }
     }
 
-    private static boolean parseJSON(String input, Handler handler) {
+    private static boolean parseJSON(String input, Runnable completion) {
         try {
             if (input.length() == 0) {
                 return false;
@@ -266,32 +290,33 @@ public class FixtureListDataPump {
                 }
             }
 
-            if (handler != null) {
-                Log.d("FixtureListDataPump", "Updating handler after fixtures update");
-                Message successMessage = new Message();
-                handler.dispatchMessage(successMessage);
+            Log.d("FixtureListDataPump", "Fixtures updated");
+
+            if (completion != null) {
+                Log.d("FixtureListDataPump", "Running completion after fixtures update");
+                completion.run();
             }
 
             return true;
         } catch (Exception e) {
-            Log.d("FixtureListDataPump", "Error parsing JSON:" + e.toString());
+            Log.e("FixtureListDataPump", "Error parsing JSON:" + e.toString());
             return false;
         }
     }
 
-    public static void refreshFixturesFromServer(Context context, Handler handler) {
+    public static void refreshFixturesFromServer(Context context, Runnable completion) {
         // Fetch server data on background thread
-        new Thread(new FetchFixturesFromServer(context, handler)).start();
+        new Thread(new FetchFixturesFromServer(context, completion)).start();
     }
 
     private static class FetchFixturesFromServer implements Runnable {
 
         private Context context;
-        private Handler handler;
+        private Runnable completion;
 
-        public FetchFixturesFromServer(Context context, Handler handler) {
+        public FetchFixturesFromServer(Context context, Runnable completion) {
             this.context = context;
-            this.handler = handler;
+            this.completion = completion;
         }
 
         public void run() {
@@ -310,7 +335,7 @@ public class FixtureListDataPump {
                 }
 
                 // Check it's valid JSON, and if so, replace cache
-                if (FixtureListDataPump.parseJSON(result.toString(), handler)) {
+                if (FixtureListDataPump.parseJSON(result.toString(), completion)) {
                     File cacheFile = new File(context.getExternalFilesDir(null), LOCALFILENAME);
                     out = new FileOutputStream(cacheFile);
                     out.write(result.toString().getBytes());
@@ -319,7 +344,7 @@ public class FixtureListDataPump {
                     Log.d("FixtureListDataPump", "No matches found in server data");
                 }
             } catch (Exception e) {
-                Log.d("FixtureListDataPump", "Problem occurred getting server data: " + e.toString());
+                Log.e("FixtureListDataPump", "Problem occurred getting server data: " + e.toString());
             } finally {
                 if (in != null) {
                     try {

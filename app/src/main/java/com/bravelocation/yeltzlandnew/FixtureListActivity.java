@@ -86,17 +86,15 @@ public class FixtureListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    private class FixtureUpdateHandler extends Handler {
+    private class FixtureUpdateHandler implements Runnable {
         private FixtureListActivity activity;
 
         FixtureUpdateHandler(FixtureListActivity activity) {
             this.activity = activity;
         }
 
-        public void handleMessage(Message msg) {
-            Log.d("FixtureUpdateHandler", "Handling fixture update");
-
+        @Override
+        public void run() {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

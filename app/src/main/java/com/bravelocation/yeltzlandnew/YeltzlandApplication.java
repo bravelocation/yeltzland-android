@@ -60,7 +60,7 @@ public class YeltzlandApplication extends MultiDexApplication
 
     public void handleUncaughtException (Thread thread, Throwable e)
     {
-        Log.d("Unhandled exception", e.toString());
+        Log.e("Unhandled exception", e.toString());
         e.printStackTrace(); // not all Android versions will print the stack trace automatically
         System.exit(1); // kill off the crashed app
     }

@@ -1,7 +1,10 @@
 package com.bravelocation.yeltzlandnew;
 
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class TimelineDataItem implements Comparable<TimelineDataItem>  {
@@ -58,7 +61,7 @@ public class TimelineDataItem implements Comparable<TimelineDataItem>  {
 
     public String score() {
         if (this.teamScore == null || this.opponentScore == null) {
-            return "";
+            return "0-0*";
         }
 
         String inProgressSuffix = "";
@@ -70,10 +73,13 @@ public class TimelineDataItem implements Comparable<TimelineDataItem>  {
     }
 
     public String kickoffTime() {
-        if (TimelineDataItem.isToday(this.fixtureDate)) {
+        if (this.isGameToday()) {
+            Log.d("TimelineDataItem", "Kickoff vs " + this.opponent + " is today");
             java.text.SimpleDateFormat hourDateFormat = new java.text.SimpleDateFormat("HH:mm", Locale.UK);
             return hourDateFormat.format(this.fixtureDate);
         }
+
+        Log.d("TimelineDataItem", "Kickoff vs " + this.opponent + " is NOT today");
         java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("EEE dd MMM HH:mm", Locale.UK);
         return simpleDateFormat.format(this.fixtureDate);
     }
@@ -82,28 +88,21 @@ public class TimelineDataItem implements Comparable<TimelineDataItem>  {
         return this.home ? this.opponent.toUpperCase() + " (H)" : this.opponent + " (A)";
     }
 
-    public static boolean isSameDay(Date date1, Date date2) {
-        if (date1 == null || date2 == null) {
-            throw new IllegalArgumentException("The dates must not be null");
-        }
-        Calendar cal1 = Calendar.getInstance();
-        cal1.setTime(date1);
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(date2);
-        return isSameDay(cal1, cal2);
-    }
+    public boolean isGameToday() {
+        Calendar cal = new GregorianCalendar();
+        Date now = new Date();
 
-    public static boolean isSameDay(Calendar cal1, Calendar cal2) {
-        if (cal1 == null || cal2 == null) {
-            throw new IllegalArgumentException("The dates must not be null");
-        }
-        return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA) &&
-                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR));
-    }
+        cal.setTime(now);
+        int currentDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
+        int currentYear = cal.get(Calendar.YEAR);
+        long currentDay = (currentYear * 365) + currentDayOfYear;
 
-    public static boolean isToday(Date date) {
-        return isSameDay(date, Calendar.getInstance().getTime());
+        cal.setTime(this.fixtureDate);
+        int fixtureDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
+        int fixtureYear = cal.get(Calendar.YEAR);
+        long fixtureDay = (fixtureYear * 365) + fixtureDayOfYear;
+
+        return currentDay == fixtureDay;
     }
 
     @Override
