@@ -29,7 +29,7 @@ public class WebPageFragment extends Fragment {
     public WebPageFragment() {
         this.cookieManager = CookieManager.getInstance();
         this.cookieManager.setAcceptCookie(true);
-        this.flushCookies("Fragment init");
+        this.cookieManager.flush();
     }
 
     public static WebPageFragment newInstance(String homeUrl) {
@@ -78,11 +78,9 @@ public class WebPageFragment extends Fragment {
             if (isVisibleToUser) {
                 Log.d("WebPageFragment", "Reloading fragment now visible: " + this.homeUrl);
                 this.webView.reload();
-                this.flushCookies("became visible");
             } else {
                 Log.d("WebPageFragment", "Pausing fragment now not visible: " + this.homeUrl);
                 this.webView.onPause();
-                this.flushCookies("became invisible");
             }
         }
     }
@@ -92,7 +90,6 @@ public class WebPageFragment extends Fragment {
         super.onPause();
         if (this.webView != null) {
             this.webView.onPause();
-            this.flushCookies("onPause");
             Log.d("WebPageFragment", "Pausing web fragment: " + this.homeUrl);
         }
     }
@@ -102,14 +99,8 @@ public class WebPageFragment extends Fragment {
         super.onResume();
         if (this.webView != null) {
             this.webView.onResume();
-            this.flushCookies("onResume");
             Log.d("WebPageFragment", "Resumed web fragment: " + this.homeUrl);
         }
-    }
-
-    private void flushCookies(String caller) {
-        this.cookieManager.flush();
-        Log.d("WebPageFragment", "Cookies flushed from web fragment code: " + caller);
     }
 
     @Override
@@ -132,12 +123,18 @@ public class WebPageFragment extends Fragment {
             this.progressBar.setProgress(0);
 
             String cookies = this.cookieManager.getCookie(url);
-            Log.d("Cookies", "Before starting " + url + ": " + cookies);
+            Log.d("WebPageFragment", "Cookies before starting " + url + ": " + cookies);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+
+            this.cookieManager.flush();
+            Log.d("WebPageFragment", "Cookies flushed on page finished");
+
+            String cookies = this.cookieManager.getCookie(url);
+            Log.d("WebPageFragment", "Cookies after finishing " + url + ": " + cookies);
 
             this.progressBar.setProgress(this.progressBar.getMax());
 
@@ -146,12 +143,6 @@ public class WebPageFragment extends Fragment {
             if (currentActivity != null) {
                 currentActivity.invalidateOptionsMenu();
             }
-
-            this.cookieManager.flush();
-            Log.d("WebPageFragment", "Cookies flushed on page finished");
-
-            String cookies = this.cookieManager.getCookie(url);
-            Log.d("Cookies", "After finishing " + url + ": " + cookies);
         }
 
         @Override
@@ -168,6 +159,7 @@ public class WebPageFragment extends Fragment {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             // Always load pages in place
+            Log.d("WebPageFragment", "In shouldOverrideUrlLoading for " + url);
             return false;
         }
     }
