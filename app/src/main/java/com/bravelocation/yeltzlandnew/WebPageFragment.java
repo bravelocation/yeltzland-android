@@ -27,7 +27,10 @@ public class WebPageFragment extends Fragment {
     private CookieManager cookieManager;
 
     public WebPageFragment() {
-        // Required empty public constructor
+        this.cookieManager = CookieManager.getInstance();
+        this.cookieManager.setAcceptCookie(true);
+        this.cookieManager.acceptCookie();
+        this.cookieManager.flush();
     }
 
     public static WebPageFragment newInstance(String homeUrl) {
@@ -46,13 +49,9 @@ public class WebPageFragment extends Fragment {
         ProgressBar progressBar = (ProgressBar) this.rootView.findViewById(R.id.progressBar);
         progressBar.setMax(100);
 
-        this.cookieManager = CookieManager.getInstance();
-        this.cookieManager.setAcceptCookie(true);
-        this.cookieManager.flush();
-
         // Setup web view
         this.webView = (WebView) this.rootView.findViewById(R.id.fragmentWebView);
-        this.webView.setWebViewClient(new YeltzlandWebViewClient(progressBar, cookieManager));
+        this.webView.setWebViewClient(new YeltzlandWebViewClient(progressBar, this.cookieManager));
         this.webView.setWebChromeClient(new YeltzlandWebChromeClient(progressBar));
         this.webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         cookieManager.setAcceptThirdPartyCookies(this.webView, true);
@@ -83,7 +82,6 @@ public class WebPageFragment extends Fragment {
             } else {
                 Log.d("WebPageFragment", "Pausing fragment now not visible: " + this.homeUrl);
                 this.webView.onPause();
-                this.cookieManager.flush();
             }
         }
     }
@@ -92,6 +90,7 @@ public class WebPageFragment extends Fragment {
     public void onPause() {
         super.onPause();
         if (this.webView != null) {
+            this.cookieManager.flush();
             this.webView.onPause();
             Log.d("WebPageFragment", "Pausing web fragment: " + this.homeUrl);
         }
@@ -102,6 +101,7 @@ public class WebPageFragment extends Fragment {
         super.onResume();
         if (this.webView != null) {
             this.webView.onResume();
+            this.cookieManager.flush();
             Log.d("WebPageFragment", "Resumed web fragment: " + this.homeUrl);
         }
     }
@@ -124,11 +124,20 @@ public class WebPageFragment extends Fragment {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             this.progressBar.setProgress(0);
+
+            String cookies = this.cookieManager.getCookie(url);
+            Log.d("WebPageFragment", "Cookies before starting " + url + ": " + cookies);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+
+            this.cookieManager.flush();
+            Log.d("WebPageFragment", "Cookies flushed on page finished");
+
+            String cookies = this.cookieManager.getCookie(url);
+            Log.d("WebPageFragment", "Cookies after finishing " + url + ": " + cookies);
 
             this.progressBar.setProgress(this.progressBar.getMax());
 
@@ -137,8 +146,6 @@ public class WebPageFragment extends Fragment {
             if (currentActivity != null) {
                 currentActivity.invalidateOptionsMenu();
             }
-
-            this.cookieManager.flush();
         }
 
         @Override
@@ -155,10 +162,10 @@ public class WebPageFragment extends Fragment {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             // Always load pages in place
+            Log.d("WebPageFragment", "In shouldOverrideUrlLoading for " + url);
             return false;
         }
     }
-
 
     private class YeltzlandWebChromeClient extends WebChromeClient {
         private ProgressBar progressBar;
