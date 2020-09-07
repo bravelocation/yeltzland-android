@@ -29,6 +29,7 @@ public class WebPageFragment extends Fragment {
     public WebPageFragment() {
         this.cookieManager = CookieManager.getInstance();
         this.cookieManager.setAcceptCookie(true);
+        this.cookieManager.acceptCookie();
         this.cookieManager.flush();
     }
 
@@ -89,6 +90,7 @@ public class WebPageFragment extends Fragment {
     public void onPause() {
         super.onPause();
         if (this.webView != null) {
+            this.cookieManager.flush();
             this.webView.onPause();
             Log.d("WebPageFragment", "Pausing web fragment: " + this.homeUrl);
         }
@@ -99,6 +101,7 @@ public class WebPageFragment extends Fragment {
         super.onResume();
         if (this.webView != null) {
             this.webView.onResume();
+            this.cookieManager.flush();
             Log.d("WebPageFragment", "Resumed web fragment: " + this.homeUrl);
         }
     }
