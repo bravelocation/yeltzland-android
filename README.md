@@ -16,7 +16,6 @@ If you want to build this app yourself, you'll need to provide some API settings
 
 - app/google-services.json should contain your Google/Firebase settings
 - app/src/main/res/values/google_maps_api.xml should contain your Google Maps API key
-- ~/.gradle/gradle.properties should contain your Twitter API key and secret
 
 
 

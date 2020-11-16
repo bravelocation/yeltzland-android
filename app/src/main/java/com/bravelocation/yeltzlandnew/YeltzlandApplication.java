@@ -3,30 +3,12 @@ package com.bravelocation.yeltzlandnew;
 import androidx.multidex.MultiDexApplication;
 import android.util.Log;
 
-import com.twitter.sdk.android.core.DefaultLogger;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterConfig;
-
 public class YeltzlandApplication extends MultiDexApplication
 {
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = BuildConfig.TwitterKey;
-    private static final String TWITTER_SECRET =  BuildConfig.TwitterSecret;
-
     @Override
     public void onCreate()
     {
         super.onCreate();
-
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-
-        TwitterConfig config = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(authConfig)
-                .debug(true)
-                .build();
-        Twitter.initialize(config);
 
         // Setup handler for uncaught exceptions.
         Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler()
