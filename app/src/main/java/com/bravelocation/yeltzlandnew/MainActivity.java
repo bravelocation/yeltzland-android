@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -16,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
+
+        // Set the system navigation bar color
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
 
         // Set tab to last shown tab
         int selectedTabItem = R.id.menu_forum;

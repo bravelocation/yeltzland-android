@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -78,14 +79,17 @@ public class LatestScoreActivity extends AppCompatActivity {
 
     public void updateScoreUI() {
         // Populate the data
-        FixtureListDataItem latestScoreFixture = GameScoreDataPump.getLatestScore();
-        boolean inPlay = false;
+        List<TimelineDataItem> timelineEntries = TimelineManager.getInstance().timelineEntries();
 
-        if (GameScoreDataPump.IsGameScoreForLatestGame()) {
-            inPlay = true;
-        }
+        if (timelineEntries.size() > 0) {
+            TimelineDataItem latestScoreFixture = timelineEntries.get(0);
 
-        if (latestScoreFixture != null) {
+            boolean inPlay = false;
+
+            if (latestScoreFixture.status == TimelineDataItem.TimelineFixtureStatus.inProgress) {
+                inPlay = true;
+            }
+
             this.logoManager.LoadTeamImageIntoView(this.getBaseContext(), latestScoreFixture.opponent, this.teamLogoImageView);
 
             if (latestScoreFixture.home) {
@@ -97,7 +101,7 @@ public class LatestScoreActivity extends AppCompatActivity {
             this.opponentTextView.setText(latestScoreFixture.opponent);
 
             if (latestScoreFixture.teamScore == null || latestScoreFixture.opponentScore == null) {
-                this.scoreTextView.setText(inPlay ? "0-0*" : latestScoreFixture.fullKickoffTime());
+                this.scoreTextView.setText(inPlay ? "0-0*" : latestScoreFixture.kickoffTime());
                 this.scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.matchDraw));
             } else if (inPlay) {
                 this.scoreTextView.setText(String.format(" %d-%d*", latestScoreFixture.teamScore, latestScoreFixture.opponentScore));
@@ -174,8 +178,7 @@ public class LatestScoreActivity extends AppCompatActivity {
 
         public void run() {
             Log.d("LatestScoreUpdate", "Running update timer ...");
-            GameScoreDataPump.updateGameScore(getBaseContext(), this.refreshHandler);
-            FixtureListDataPump.updateFixtures(getBaseContext(), this.refreshHandler);
+            TimelineManager.getInstance().fetchLatestData(getBaseContext(), this.refreshHandler);
         }
     }
 }
