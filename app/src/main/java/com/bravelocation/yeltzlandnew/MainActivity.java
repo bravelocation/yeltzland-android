@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 position = 2;
                 break;
             case R.id.menu_twitter:
-                this.currentFragment = WebPageFragment.newInstance("https://mobile.twitter.com/halesowentownfc");
+                this.currentFragment = new TwitterFragment();
                 position = 3;
                 break;
             case R.id.menu_more:
@@ -137,7 +137,14 @@ public class MainActivity extends AppCompatActivity {
 
         int currentTab = this.bottomNavigation.getSelectedItemId();
 
-        if (currentTab == R.id.menu_more) {
+        if (currentTab == R.id.menu_twitter) {
+            // Twitter tab - remove all but reload
+            menu.removeItem(R.id.action_home);
+            menu.removeItem(R.id.action_back);
+            menu.removeItem(R.id.action_forward);
+            menu.removeItem(R.id.action_browser);
+            return true;
+        }  else if (currentTab == R.id.menu_more) {
             // More tab - remove all
             menu.removeItem(R.id.action_home);
             menu.removeItem(R.id.action_back);
@@ -186,10 +193,13 @@ public class MainActivity extends AppCompatActivity {
 
         WebPageFragment webPageFragment = null;
         WebView webView = null;
+        TwitterFragment twitterFragment = null;
 
-        if (currentTab == R.id.menu_forum || currentTab == R.id.menu_official_site || currentTab == R.id.menu_yeltz_tv || currentTab == R.id.menu_twitter) {
+        if (currentTab == R.id.menu_forum || currentTab == R.id.menu_official_site || currentTab == R.id.menu_yeltz_tv) {
             webPageFragment = (WebPageFragment) this.currentFragment;
             webView = webPageFragment.webView;
+        } else if (currentTab == R.id.menu_twitter) {
+            twitterFragment = (TwitterFragment) this.currentFragment;
         }
 
         switch (item.getItemId()) {
@@ -218,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
                 if (webView != null) {
                     webView.clearCache(true);
                     webView.reload();
+                } else if (twitterFragment != null) {
+                    twitterFragment.reload();
                 }
 
                 return true;
