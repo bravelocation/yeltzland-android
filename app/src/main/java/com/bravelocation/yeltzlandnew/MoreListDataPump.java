@@ -27,7 +27,7 @@ public class MoreListDataPump {
         history.add(new MoreListDataItem("News Archive (1997-2006)", "https://www.yeltzland.net/news.html", R.drawable.ic_news, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> options = new ArrayList<MoreListDataItem>();
-        options.add(new MoreListDataItem("Notification Settings", "", R.drawable.ic_twitter, R.color.yeltzBlueOverlay, true, false, false, false));
+        options.add(new MoreListDataItem("Game time tweets", "", R.drawable.ic_twitter, R.color.yeltzBlueOverlay, true, false, false, false));
 
         List<MoreListDataItem> more = new ArrayList<MoreListDataItem>();
         more.add(new MoreListDataItem("Yeltzland on Amazon Echo", "https://www.amazon.co.uk/Yeltzland-stuff-about-Halesowen-Town/dp/B01MTJOHBY/", R.drawable.ic_amazon, R.color.yeltzBlueOverlay));
