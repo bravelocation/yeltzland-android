@@ -5,7 +5,7 @@ static def generateVersionCode() {
     return result.toInteger()
 }
 
-def majorVersion = "5.1.0"
+def majorVersion = "5.0.1"
 
 android {
     compileSdkVersion 29
@@ -31,7 +31,14 @@ android {
         multiDexEnabled true
     }
     buildTypes {
+        debug {
+            buildConfigField('String', "TwitterKey", yeltzland_twitter_key)
+            buildConfigField('String', "TwitterSecret", yeltzland_twitter_secret)
+        }
         release {
+            buildConfigField('String', "TwitterKey", yeltzland_twitter_key)
+            buildConfigField('String', "TwitterSecret", yeltzland_twitter_secret)
+
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -52,6 +59,9 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
+
+    implementation(name:'tweet-ui-release', ext:'aar')
+    implementation(name:'twitter-core-release', ext:'aar')
 
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
