@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textColor="@color/grey"
+        android:textSize="16sp"
         android:background="@color/white"
         android:textAllCaps="true"
         android:paddingTop="10dp"
