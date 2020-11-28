@@ -3,22 +3,18 @@ package com.bravelocation.yeltzlandnew;
 import android.util.Base64;
 import android.util.Log;
 
+import com.bravelocation.yeltzlandnew.tweet.Tweet;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -74,11 +70,19 @@ class TwitterDataProvider {
                         if (!response.isSuccessful()) {
                             Log.d("TwitterDataProvider", "Unexpected code " + response);
                         } else {
+                            try {
+                                String result = response.body().string();
 
-                            String result = response.body().string();
+                                GsonBuilder gsonBuilder = new GsonBuilder();
+                                gsonBuilder.setDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+                                Gson gson = gsonBuilder.create();
 
-                            // The response should be JSON for the tweets
-                            Log.d("TwitterDataProvider", "Fetched tweet data " + result);
+                                Tweet[] tweets = gson.fromJson(result, Tweet[].class);
+
+                                Log.d("TwitterDataProvider", "Fetched tweet data " + result);
+                            } catch (Exception e) {
+                                Log.d("TwitterDataProvider", "Problem parsing Twitter JSON " + e.getMessage());
+                            }
                         }
                     }
                 });
