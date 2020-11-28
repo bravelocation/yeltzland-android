@@ -27,6 +27,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class FixtureListDataPump {
     private static String LOCALFILENAME = "matches.json";
 
@@ -306,66 +312,50 @@ public class FixtureListDataPump {
 
     public static void refreshFixturesFromServer(Context context, Runnable completion) {
         // Fetch server data on background thread
-        new Thread(new FetchFixturesFromServer(context, completion)).start();
-    }
+        OkHttpClient client = new OkHttpClient();
 
-    private static class FetchFixturesFromServer implements Runnable {
+        Request request = new Request.Builder()
+                .url("https://bravelocation.com/automation/feeds/matches.json")
+                .build();
 
-        private Context context;
-        private Runnable completion;
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
 
-        public FetchFixturesFromServer(Context context, Runnable completion) {
-            this.context = context;
-            this.completion = completion;
-        }
-
-        public void run() {
-            InputStream in = null;
-            FileOutputStream out = null;
-
-            try {
-                // Fetch the server matches JSON
-                URL url = new URL("https://bravelocation.com/automation/feeds/matches.json");
-                in = url.openStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                StringBuilder result = new StringBuilder();
-                String line;
-                while((line = reader.readLine()) != null) {
-                    result.append(line);
-                }
-
-                // Check it's valid JSON, and if so, replace cache
-                if (FixtureListDataPump.parseJSON(result.toString(), completion)) {
-                    File cacheFile = new File(context.getExternalFilesDir(null), LOCALFILENAME);
-                    out = new FileOutputStream(cacheFile);
-                    out.write(result.toString().getBytes());
-                    Log.d("FixtureListDataPump", "Written server matches data to cache");
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    Log.d("GameScoreDataPump", "Unexpected code " + response);
                 } else {
-                    Log.d("FixtureListDataPump", "No matches found in server data");
-                }
-            } catch (Exception e) {
-                Log.e("FixtureListDataPump", "Problem occurred getting server data: " + e.toString());
-            } finally {
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        // Ignore cleanup error
-                    } finally {
-                        in = null;
-                    }
-                }
-                if (out != null) {
-                    try {
-                        out.flush();
-                        out.close();
-                    } catch (IOException e) {
-                        // Ignore cleanup error
-                    } finally {
-                        out = null;
+                    String result = response.body().string();
+
+                    // Check it's valid JSON, and if so, replace cache
+                    if (FixtureListDataPump.parseJSON(result.toString(), completion)) {
+                        FileOutputStream out = null;
+
+                        File cacheFile = new File(context.getExternalFilesDir(null), LOCALFILENAME);
+                        try {
+                            out = new FileOutputStream(cacheFile);
+                            out.write(result.toString().getBytes());
+                            Log.d("FixtureListDataPump", "Written server fixtures data to cache");
+                        } finally {
+                            if (out != null) {
+                                try {
+                                    out.flush();
+                                    out.close();
+                                    out = null;
+                                } catch (IOException e) {
+                                    // Ignore cleanup error
+                                }
+                            }
+                        }
+                    } else {
+                        Log.d("FixtureListDataPump", "No fixtures found in server data");
                     }
                 }
             }
-        }
+        });
     }
 }
