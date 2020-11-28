@@ -10,7 +10,7 @@ public class Tweet implements DisplayTweet {
     String id;
 
     @SerializedName("full_text")
-    String fullText;
+    public String fullText;
 
     @SerializedName("user")
     User user;

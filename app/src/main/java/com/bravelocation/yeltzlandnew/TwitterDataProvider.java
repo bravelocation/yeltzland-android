@@ -10,7 +10,11 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -26,68 +30,26 @@ class TwitterDataProvider {
     private String accountName;
     private int tweetCount;
 
+    private List<Tweet> tweets = new ArrayList<Tweet>();
+
     TwitterDataProvider(String twitterConsumerKey, String twitterConsumerSecret, String accountName, int tweetCount) {
         this.twitterConsumerKey = twitterConsumerKey;
         this.twitterConsumerSecret = twitterConsumerSecret;
         this.accountName = accountName;
         this.tweetCount = tweetCount;
 
-        this.refreshData();
+        this.refreshData(null);
     }
 
-    public void refreshData() {
+    public List<Tweet> getTweets() {
+        return this.tweets;
+    }
+
+    public void refreshData(Runnable completion) {
         String userTimelineURL = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" +
                 this.accountName + "&count=" + Integer.toString(this.tweetCount) +  "&exclude_replies=true&tweet_mode=extended";
 
-        this.authenticateRequest(userTimelineURL);
-    }
-
-    private void authenticateRequest(String url) {
-
-        this.getBearerToken(new TokenHandler() {
-            @Override
-            public void onCompletion(String token) {
-                if (token == null) {
-                    return;
-                }
-
-                // Fetch bearer token on background thread
-                OkHttpClient client = new OkHttpClient();
-
-                Request request = new Request.Builder()
-                        .url(url)
-                        .header("Authorization", "Bearer " + token)
-                        .build();
-
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onResponse(Call call, final Response response) throws IOException {
-                        if (!response.isSuccessful()) {
-                            Log.d("TwitterDataProvider", "Unexpected code " + response);
-                        } else {
-                            try {
-                                String result = response.body().string();
-
-                                GsonBuilder gsonBuilder = new GsonBuilder();
-                                gsonBuilder.setDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
-                                Gson gson = gsonBuilder.create();
-
-                                Tweet[] tweets = gson.fromJson(result, Tweet[].class);
-
-                                Log.d("TwitterDataProvider", "Fetched tweet data " + result);
-                            } catch (Exception e) {
-                                Log.d("TwitterDataProvider", "Problem parsing Twitter JSON " + e.getMessage());
-                            }
-                        }
-                    }
-                });
-            }
-        });
+        this.getBearerToken(new TweetTokenHandler(this.tweets, userTimelineURL, completion));
     }
 
     void getBearerToken(TokenHandler handler) {
@@ -154,7 +116,86 @@ class TwitterDataProvider {
         return null;
     }
 
-    public interface TokenHandler {
+    private class TweetTokenHandler implements TokenHandler {
+        private List<Tweet> tweets;
+        private String url;
+        private Runnable completion;
+
+        TweetTokenHandler(List<Tweet> tweets, String url, Runnable completion) {
+            this.tweets = tweets;
+            this.url = url;
+            this.completion = completion;
+        }
+
+        @Override
+        public void onCompletion(String token) {
+            if (token == null) {
+                if (this.completion != null) {
+                    this.completion.run();
+                }
+
+                return;
+            }
+
+            // Fetch bearer token on background thread
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .header("Authorization", "Bearer " + token)
+                    .build();
+
+            client.newCall(request).enqueue(new TweetFetcher(this.tweets, this.completion));
+        }
+    }
+
+    private class TweetFetcher implements Callback {
+        private Runnable completion;
+        private List<Tweet> tweets;
+
+        TweetFetcher(List<Tweet> tweets, Runnable completion) {
+            this.completion = completion;
+            this.tweets = tweets;
+        }
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            if (this.completion != null) {
+                this.completion.run();
+            }
+
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onResponse(Call call, final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                Log.d("TwitterDataProvider", "Unexpected code " + response);
+            } else {
+                try {
+                    String result = response.body().string();
+
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    gsonBuilder.setDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+                    Gson gson = gsonBuilder.create();
+
+                    this.tweets.clear();
+                    Tweet[] parsedTweets = gson.fromJson(result, Tweet[].class);
+                    this.tweets.addAll(Arrays.asList(parsedTweets));
+
+                    Log.d("TwitterDataProvider", "Fetched tweet data successfully");
+                } catch (Exception e) {
+                    Log.d("TwitterDataProvider", "Problem parsing Twitter JSON " + e.getMessage());
+                }
+            }
+
+            if (this.completion != null) {
+                this.completion.run();
+            }
+        }
+    }
+
+    private interface TokenHandler {
         void onCompletion(String token);
     }
 }
