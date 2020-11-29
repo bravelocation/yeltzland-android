@@ -29,6 +29,8 @@ class QuotedTweet implements DisplayTweet {
 
     public User getUser() { return this.user; }
 
+    public Date getCreatedDate() { return this.createdAt; }
+
     public boolean isRetweet() {
         return false;
     }

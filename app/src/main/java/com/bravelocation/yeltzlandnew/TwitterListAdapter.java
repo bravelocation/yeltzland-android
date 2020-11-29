@@ -20,6 +20,10 @@ import com.bravelocation.yeltzlandnew.tweet.DisplayTweet;
 import com.bravelocation.yeltzlandnew.tweet.Tweet;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 class TwitterListAdapter extends BaseAdapter {
 
     private Context context;
@@ -110,6 +114,19 @@ class TwitterListAdapter extends BaseAdapter {
                 }
             }
         });
+
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm", Locale.UK);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE\nHH:mm", Locale.UK);
+
+        TextView tweetTimeView = (TextView) convertView.findViewById(R.id.tweetTime);
+
+        // Format created date based on whether today
+        Date tweetDate = tweet.getCreatedDate();
+        if (DateHelper.dayNumber(tweetDate) == DateHelper.dayNumber(new Date())) {
+            tweetTimeView.setText("Today\n" + hourFormat.format(tweet.getCreatedDate()));
+        } else {
+            tweetTimeView.setText(dateFormat.format(tweet.getCreatedDate()));
+        }
     }
 
     private class UserNameTouchHandler implements View.OnTouchListener {
