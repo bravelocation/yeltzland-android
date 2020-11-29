@@ -8,6 +8,6 @@ public interface DisplayTweet {
     DisplayTweet quote();
     boolean isRetweet();
 
-    URL userTwitterUrl() throws MalformedURLException;
-    URL bodyTwitterUrl() throws MalformedURLException;
+    String userTwitterUrl();
+    String bodyTwitterUrl();
 }

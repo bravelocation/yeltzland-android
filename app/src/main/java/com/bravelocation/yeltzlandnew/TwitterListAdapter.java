@@ -1,14 +1,21 @@
 package com.bravelocation.yeltzlandnew;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.bravelocation.yeltzlandnew.tweet.Tweet;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -47,9 +54,24 @@ class TwitterListAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.tweet_list_item, null);
         }
 
-        // tweet
+        // Set tweet details
         TextView tweetTextView = (TextView) convertView.findViewById(R.id.tweet);
         tweetTextView.setText(tweet.fullText);
+
+        ImageButton userProfileImageButton = (ImageButton) convertView.findViewById(R.id.profile_image_button);
+        Picasso.get().load(tweet.user.profileImageUrl).placeholder(R.drawable.ic_person).into(userProfileImageButton); // TODO: Get a placeholder
+
+        userProfileImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweet.userTwitterUrl()));
+                    ContextCompat.startActivity(context, browserIntent, null);
+                } catch (Exception e) {
+                    Log.d("TwitterListAdapter","Couldn't open user profile link");
+                }
+            }
+        });
 
         return convertView;
     }

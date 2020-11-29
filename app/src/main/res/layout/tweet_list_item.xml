@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+    <ImageButton
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@drawable/tweet_image_rounded_corners"
+        android:id="@+id/profile_image_button"
+        />
 
     <TextView
         android:id="@+id/tweet"

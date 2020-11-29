@@ -19,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
 
         // Set the system navigation bar color
         getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
-        
+
         setContentView(R.layout.activity_splash);
 
         // Are we passing in a tab from shortcut

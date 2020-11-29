@@ -36,11 +36,11 @@ class Retweet implements DisplayTweet {
         return quotedTweet;
     }
 
-    public URL userTwitterUrl() throws MalformedURLException {
-        return new URL("https://twitter.com/" + this.user.screenName);
+    public String userTwitterUrl()  {
+        return "https://twitter.com/" + this.user.screenName;
     }
 
-    public URL bodyTwitterUrl() throws MalformedURLException {
-        return new URL("https://twitter.com/" + this.user.screenName + "/status/" + this.id);
+    public String bodyTwitterUrl() {
+        return "https://twitter.com/" + this.user.screenName + "/status/" + this.id;
     }
 }
