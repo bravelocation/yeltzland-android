@@ -70,6 +70,7 @@ dependencies {
 
     implementation 'androidx.webkit:webkit:1.3.0'
     implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
 
     // Just bump this to get the latest Firebase updates
     implementation platform('com.google.firebase:firebase-bom:26.0.0')

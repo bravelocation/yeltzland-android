@@ -30,7 +30,7 @@ class QuotedTweet implements DisplayTweet {
     public User getUser() { return this.user; }
 
     public boolean isRetweet() {
-        return true;
+        return false;
     }
 
     public QuotedTweet quote() {

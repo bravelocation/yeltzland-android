@@ -33,6 +33,10 @@ public class Tweet implements DisplayTweet {
     public User getUser() { return this.user; }
 
     public boolean isRetweet() {
+        return false;
+    }
+
+    public boolean hasRetweet() {
         return this.retweet != null;
     }
 

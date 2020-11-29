@@ -56,7 +56,7 @@ class TwitterListAdapter extends BaseAdapter {
         }
 
         // Set tweet details
-        if (tweet.isRetweet()) {
+        if (tweet.hasRetweet()) {
             this.loadTweetDetailsIntoView(tweet.retweet, convertView);
         } else {
             this.loadTweetDetailsIntoView(tweet, convertView);
@@ -92,9 +92,11 @@ class TwitterListAdapter extends BaseAdapter {
         userScreenNameView.setText("@" + tweet.getUser().screenName);
         userScreenNameView.setOnTouchListener(new UserNameTouchHandler(tweet.userTwitterUrl()));
 
+        ImageView retweetView = (ImageView) convertView.findViewById(R.id.retweet_image);
         if (tweet.isRetweet()) {
-            ImageView retweetView = (ImageView) convertView.findViewById(R.id.retweet_image);
             retweetView.setImageResource(R.drawable.ic_retweet);
+        } else {
+            retweetView.setImageResource(0);
         }
 
         userProfileImageButton.setOnClickListener(new View.OnClickListener() {

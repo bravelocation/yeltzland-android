@@ -2,29 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <ImageButton
+        <androidx.cardview.widget.CardView
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:padding="0dp"
+            android:layout_gravity="center"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:background="@drawable/tweet_image_rounded_corners"
-            android:id="@+id/profile_image_button"
-            />
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#80000000"
+            >
+            <ImageButton
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="0dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:background="@drawable/tweet_image_rounded_corners"
+                android:id="@+id/profile_image_button"
+                />
+        </androidx.cardview.widget.CardView>
         <ImageView
-            android:layout_width="16px"
-            android:layout_height="16px"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:id="@+id/retweet_image"
             />
     </LinearLayout>
