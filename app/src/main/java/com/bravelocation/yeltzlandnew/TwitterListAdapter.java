@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -59,7 +60,18 @@ class TwitterListAdapter extends BaseAdapter {
         tweetTextView.setText(tweet.fullText);
 
         ImageButton userProfileImageButton = (ImageButton) convertView.findViewById(R.id.profile_image_button);
-        Picasso.get().load(tweet.user.profileImageUrl).placeholder(R.drawable.ic_person).into(userProfileImageButton); // TODO: Get a placeholder
+        Picasso.get().load(tweet.user.profileImageUrl).placeholder(R.drawable.ic_person).into(userProfileImageButton);
+
+        TextView userNameView = (TextView) convertView.findViewById(R.id.userName);
+        userNameView.setText(tweet.user.name);
+
+        TextView userScreenNameView = (TextView) convertView.findViewById(R.id.userScreenName);
+        userScreenNameView.setText("@" + tweet.user.screenName);
+
+        if (tweet.isRetweet()) {
+            ImageView retweetView = (ImageView) convertView.findViewById(R.id.retweet_image);
+            retweetView.setImageResource(R.drawable.ic_retweet);
+        }
 
         userProfileImageButton.setOnClickListener(new View.OnClickListener() {
             @Override

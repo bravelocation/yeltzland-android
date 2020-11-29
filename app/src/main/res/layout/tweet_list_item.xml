@@ -4,26 +4,93 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     >
-    <ImageButton
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:padding="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:background="@drawable/tweet_image_rounded_corners"
-        android:id="@+id/profile_image_button"
-        />
 
-    <TextView
-        android:id="@+id/tweet"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text=""
-        android:textColor="@color/matchNone"
-        />
+        android:orientation="vertical">
+
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@drawable/tweet_image_rounded_corners"
+            android:id="@+id/profile_image_button"
+            />
+        <ImageView
+            android:layout_width="16px"
+            android:layout_height="16px"
+            android:id="@+id/retweet_image"
+            />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp"
+                    android:textStyle="bold"
+                    android:text=""
+                    android:textColor="@color/black"
+                    />
+                <TextView
+                    android:id="@+id/userScreenName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text=""
+                    android:textColor="@color/grey"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tweetTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_gravity="right"
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:layout_marginRight="8dp"
+                android:text="Fri\n1100"
+                android:textColor="@color/grey"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:text=""
+            android:textColor="@color/black"
+            />
+    </LinearLayout>
 
 </LinearLayout>
