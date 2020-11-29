@@ -16,10 +16,9 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.bravelocation.yeltzlandnew.tweet.DisplayTweet;
 import com.bravelocation.yeltzlandnew.tweet.Tweet;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 class TwitterListAdapter extends BaseAdapter {
 
@@ -57,18 +56,40 @@ class TwitterListAdapter extends BaseAdapter {
         }
 
         // Set tweet details
+        if (tweet.isRetweet()) {
+            this.loadTweetDetailsIntoView(tweet.retweet, convertView);
+        } else {
+            this.loadTweetDetailsIntoView(tweet, convertView);
+        }
+
+        return convertView;
+    }
+
+    public void refresh(Runnable completion) {
+        this.dataProvider.refreshData(new Runnable() {
+            @Override
+            public void run() {
+                if (completion != null) {
+                    completion.run();
+                }
+            }
+        });
+    }
+
+    private void loadTweetDetailsIntoView(DisplayTweet tweet, View convertView) {
+        // Set tweet details
         TextView tweetTextView = (TextView) convertView.findViewById(R.id.tweet);
-        tweetTextView.setText(tweet.fullText);
+        tweetTextView.setText(tweet.getFullText());
 
         ImageButton userProfileImageButton = (ImageButton) convertView.findViewById(R.id.profile_image_button);
-        Picasso.get().load(tweet.user.profileImageUrl).placeholder(R.drawable.ic_person).into(userProfileImageButton);
+        Picasso.get().load(tweet.getUser().profileImageUrl).placeholder(R.drawable.ic_person).into(userProfileImageButton);
 
         TextView userNameView = (TextView) convertView.findViewById(R.id.userName);
-        userNameView.setText(tweet.user.name);
+        userNameView.setText(tweet.getUser().name);
         userNameView.setOnTouchListener(new UserNameTouchHandler(tweet.userTwitterUrl()));
 
         TextView userScreenNameView = (TextView) convertView.findViewById(R.id.userScreenName);
-        userScreenNameView.setText("@" + tweet.user.screenName);
+        userScreenNameView.setText("@" + tweet.getUser().screenName);
         userScreenNameView.setOnTouchListener(new UserNameTouchHandler(tweet.userTwitterUrl()));
 
         if (tweet.isRetweet()) {
@@ -84,19 +105,6 @@ class TwitterListAdapter extends BaseAdapter {
                     ContextCompat.startActivity(context, browserIntent, null);
                 } catch (Exception e) {
                     Log.d("TwitterListAdapter","Couldn't open user profile link");
-                }
-            }
-        });
-
-        return convertView;
-    }
-
-    public void refresh(Runnable completion) {
-        this.dataProvider.refreshData(new Runnable() {
-            @Override
-            public void run() {
-                if (completion != null) {
-                    completion.run();
                 }
             }
         });

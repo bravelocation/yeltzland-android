@@ -1,13 +1,6 @@
 package com.bravelocation.yeltzlandnew.tweet;
 
-import com.bravelocation.yeltzlandnew.tweet.DisplayTweet;
-import com.bravelocation.yeltzlandnew.tweet.Entities;
-import com.bravelocation.yeltzlandnew.tweet.ExtendedEntities;
-import com.bravelocation.yeltzlandnew.tweet.User;
 import com.google.gson.annotations.SerializedName;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 
 class QuotedTweet implements DisplayTweet {
@@ -31,6 +24,10 @@ class QuotedTweet implements DisplayTweet {
 
     @SerializedName("quoted_status")
     QuotedTweet quotedTweet;
+
+    public String getFullText() { return this.fullText; }
+
+    public User getUser() { return this.user; }
 
     public boolean isRetweet() {
         return true;

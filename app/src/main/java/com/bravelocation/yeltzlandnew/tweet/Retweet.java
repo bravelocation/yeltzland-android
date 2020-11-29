@@ -1,9 +1,6 @@
 package com.bravelocation.yeltzlandnew.tweet;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 
 class Retweet implements DisplayTweet {
@@ -27,6 +24,10 @@ class Retweet implements DisplayTweet {
 
     @SerializedName("quoted_status")
     QuotedTweet quotedTweet;
+
+    public String getFullText() { return this.fullText; }
+
+    public User getUser() { return this.user; }
 
     public boolean isRetweet() {
         return true;
