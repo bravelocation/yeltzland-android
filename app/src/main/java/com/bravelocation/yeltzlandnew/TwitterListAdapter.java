@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -64,9 +65,11 @@ class TwitterListAdapter extends BaseAdapter {
 
         TextView userNameView = (TextView) convertView.findViewById(R.id.userName);
         userNameView.setText(tweet.user.name);
+        userNameView.setOnTouchListener(new UserNameTouchHandler(tweet.userTwitterUrl()));
 
         TextView userScreenNameView = (TextView) convertView.findViewById(R.id.userScreenName);
         userScreenNameView.setText("@" + tweet.user.screenName);
+        userScreenNameView.setOnTouchListener(new UserNameTouchHandler(tweet.userTwitterUrl()));
 
         if (tweet.isRetweet()) {
             ImageView retweetView = (ImageView) convertView.findViewById(R.id.retweet_image);
@@ -97,5 +100,20 @@ class TwitterListAdapter extends BaseAdapter {
                 }
             }
         });
+    }
+
+    private class UserNameTouchHandler implements View.OnTouchListener {
+        private String userTwitterUrl;
+
+        UserNameTouchHandler(String userTwitterUrl) {
+            this.userTwitterUrl = userTwitterUrl;
+        }
+
+        @Override
+        public boolean onTouch(View arg0, MotionEvent arg1) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.userTwitterUrl));
+            ContextCompat.startActivity(context, browserIntent, null);
+            return false;
+        }
     }
 }
