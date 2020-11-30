@@ -103,6 +103,15 @@
             android:text=""
             android:textColor="@color/black"
             />
+
+        <LinearLayout
+            android:id="@+id/additionalContentList"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

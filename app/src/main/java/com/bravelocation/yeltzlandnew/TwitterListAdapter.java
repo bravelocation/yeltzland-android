@@ -2,12 +2,6 @@ package com.bravelocation.yeltzlandnew;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
@@ -20,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -31,7 +26,6 @@ import com.bravelocation.yeltzlandnew.tweet.TweetPart;
 import com.bravelocation.yeltzlandnew.tweet.Media;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -104,13 +98,12 @@ class TwitterListAdapter extends BaseAdapter {
         tweetTextView.setLinkTextColor(ContextCompat.getColor(context, R.color.yeltzBlue));
 
         String tweetHtml = this.getTweetHtml(tweet);
-        Html.ImageGetter imageFetcher = new PicassoImageGetter(tweetTextView, context.getResources());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
-            tweetTextView.setText(Html.fromHtml(tweetHtml, Html.FROM_HTML_MODE_COMPACT, imageFetcher, null));
+            tweetTextView.setText(Html.fromHtml(tweetHtml, Html.FROM_HTML_MODE_COMPACT));
         } else {
-            tweetTextView.setText(Html.fromHtml(tweetHtml, imageFetcher, null));
+            tweetTextView.setText(Html.fromHtml(tweetHtml));
         }
 
         ImageButton userProfileImageButton = (ImageButton) convertView.findViewById(R.id.profile_image_button);
@@ -155,6 +148,12 @@ class TwitterListAdapter extends BaseAdapter {
         } else {
             tweetTimeView.setText(dateFormat.format(tweet.getCreatedDate()));
         }
+
+        // Add any additional content
+        LinearLayout contentList = (LinearLayout) convertView.findViewById(R.id.additionalContentList);
+        contentList.removeAllViewsInLayout();
+
+        this.addMediaImages(tweet, contentList, context);
     }
 
     private class UserNameTouchHandler implements View.OnTouchListener {
@@ -246,6 +245,11 @@ class TwitterListAdapter extends BaseAdapter {
             }
         }
 
+        return sb.toString();
+    }
+
+    private void addMediaImages(DisplayTweet tweet, LinearLayout contentLayout, Context context) {
+
         // Add the media
         if (tweet.getExtendedEntities() != null) {
             List<Media> media = tweet.getExtendedEntities().media;
@@ -256,67 +260,24 @@ class TwitterListAdapter extends BaseAdapter {
 
                     String mediaUrl = currentMedia.smallMediaUrl();
                     if (mediaUrl != null) {
-                        sb.append("<br /><p><img src='" + mediaUrl + "' width='100%' /></p>");
+
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        layoutParams.setMargins(0, 32, 32, 32);
+
+                        ImageView imageView = new ImageView(context);
+                        imageView.setLayoutParams(layoutParams);
+                        imageView.setAdjustViewBounds(true);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+                        Picasso.get().load(mediaUrl).placeholder(R.drawable.blank_team).into(imageView);
+
+                        contentLayout.addView(imageView);
+
                     }
                 }
             }
         }
 
-
-        return sb.toString();
-    }
-
-    private class PicassoImageGetter implements Html.ImageGetter {
-        private TextView textView = null;
-        private Resources resources = null;
-
-        public PicassoImageGetter(TextView target, Resources resources) {
-            this.textView = target;
-            this.resources = resources;
-        }
-
-        @Override
-        public Drawable getDrawable(String source) {
-            BitmapDrawablePlaceHolder drawable = new BitmapDrawablePlaceHolder();
-            Picasso.get()
-                    .load(source)
-                    .placeholder(R.drawable.blank_team)
-                    .into(drawable);
-            return drawable;
-        }
-
-        private class BitmapDrawablePlaceHolder extends BitmapDrawable implements Target {
-
-            protected Drawable drawable;
-
-            @Override
-            public void draw(final Canvas canvas) {
-                if (drawable != null) {
-                    drawable.draw(canvas);
-                }
-            }
-
-            public void setDrawable(Drawable drawable) {
-                this.drawable = drawable;
-                int width = drawable.getIntrinsicWidth();
-                int height = drawable.getIntrinsicHeight();
-                drawable.setBounds(0, 0, width, height);
-                setBounds(0, 0, width, height);
-                if (textView != null) {
-                    textView.setText(textView.getText());
-                }
-            }
-
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                setDrawable(new BitmapDrawable(resources, bitmap));
-            }
-
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {}
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {}
-        }
     }
 }
