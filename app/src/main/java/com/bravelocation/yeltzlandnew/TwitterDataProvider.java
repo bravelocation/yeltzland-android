@@ -179,8 +179,8 @@ class TwitterDataProvider {
                     gsonBuilder.setDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
                     Gson gson = gsonBuilder.create();
 
-                    this.tweets.clear();
                     Tweet[] parsedTweets = gson.fromJson(result, Tweet[].class);
+                    this.tweets.clear();
                     this.tweets.addAll(Arrays.asList(parsedTweets));
 
                     Log.d("TwitterDataProvider", "Fetched tweet data successfully");

@@ -2,7 +2,12 @@ package com.bravelocation.yeltzlandnew;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
@@ -23,7 +28,10 @@ import com.bravelocation.yeltzlandnew.tweet.DisplayTweet;
 import com.bravelocation.yeltzlandnew.tweet.Tweet;
 import com.bravelocation.yeltzlandnew.tweet.TweetEntity;
 import com.bravelocation.yeltzlandnew.tweet.TweetPart;
+import com.bravelocation.yeltzlandnew.tweet.Media;
+
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -95,13 +103,14 @@ class TwitterListAdapter extends BaseAdapter {
         tweetTextView.setMovementMethod(LinkMovementMethod.getInstance());
         tweetTextView.setLinkTextColor(ContextCompat.getColor(context, R.color.yeltzBlue));
 
-        List<TweetPart> textParts = this.textParts(tweet);
-        String tweetHtml = this.getTweetHtmlFromTextParts(textParts);
+        String tweetHtml = this.getTweetHtml(tweet);
+        Html.ImageGetter imageFetcher = new PicassoImageGetter(tweetTextView, context.getResources());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            tweetTextView.setText(Html.fromHtml(tweetHtml, Html.FROM_HTML_MODE_COMPACT));
+
+            tweetTextView.setText(Html.fromHtml(tweetHtml, Html.FROM_HTML_MODE_COMPACT, imageFetcher, null));
         } else {
-            tweetTextView.setText(Html.fromHtml(tweetHtml));
+            tweetTextView.setText(Html.fromHtml(tweetHtml, imageFetcher, null));
         }
 
         ImageButton userProfileImageButton = (ImageButton) convertView.findViewById(R.id.profile_image_button);
@@ -221,8 +230,11 @@ class TwitterListAdapter extends BaseAdapter {
         return textParts;
     }
 
-    private String getTweetHtmlFromTextParts(List<TweetPart> textParts) {
+    private String getTweetHtml(DisplayTweet tweet) {
         StringBuilder sb = new StringBuilder();
+
+        // Add the text parts
+        List<TweetPart> textParts = this.textParts(tweet);
 
         for (int i = 0; i < textParts.size(); i++) {
             TweetPart textPart = textParts.get(i);
@@ -234,6 +246,77 @@ class TwitterListAdapter extends BaseAdapter {
             }
         }
 
+        // Add the media
+        if (tweet.getExtendedEntities() != null) {
+            List<Media> media = tweet.getExtendedEntities().media;
+
+            if (media != null) {
+                for (int i = 0; i < media.size(); i++) {
+                    Media currentMedia = media.get(i);
+
+                    String mediaUrl = currentMedia.smallMediaUrl();
+                    if (mediaUrl != null) {
+                        sb.append("<br /><p><img src='" + mediaUrl + "' width='100%' /></p>");
+                    }
+                }
+            }
+        }
+
+
         return sb.toString();
+    }
+
+    private class PicassoImageGetter implements Html.ImageGetter {
+        private TextView textView = null;
+        private Resources resources = null;
+
+        public PicassoImageGetter(TextView target, Resources resources) {
+            this.textView = target;
+            this.resources = resources;
+        }
+
+        @Override
+        public Drawable getDrawable(String source) {
+            BitmapDrawablePlaceHolder drawable = new BitmapDrawablePlaceHolder();
+            Picasso.get()
+                    .load(source)
+                    .placeholder(R.drawable.blank_team)
+                    .into(drawable);
+            return drawable;
+        }
+
+        private class BitmapDrawablePlaceHolder extends BitmapDrawable implements Target {
+
+            protected Drawable drawable;
+
+            @Override
+            public void draw(final Canvas canvas) {
+                if (drawable != null) {
+                    drawable.draw(canvas);
+                }
+            }
+
+            public void setDrawable(Drawable drawable) {
+                this.drawable = drawable;
+                int width = drawable.getIntrinsicWidth();
+                int height = drawable.getIntrinsicHeight();
+                drawable.setBounds(0, 0, width, height);
+                setBounds(0, 0, width, height);
+                if (textView != null) {
+                    textView.setText(textView.getText());
+                }
+            }
+
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                setDrawable(new BitmapDrawable(resources, bitmap));
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {}
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {}
+        }
     }
 }
