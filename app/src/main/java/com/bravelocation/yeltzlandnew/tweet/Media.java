@@ -30,6 +30,8 @@ class Media implements TweetEntity {
     @Expose
     public List<Integer> indices = null;
 
+    public List<Integer> getIndices() { return this.indices; }
+
     public String displayText() {
         return "";
     }
