@@ -26,10 +26,10 @@ class Retweet implements DisplayTweet {
     QuotedTweet quotedTweet;
 
     public String getFullText() { return this.fullText; }
-
     public User getUser() { return this.user; }
-
     public Date getCreatedDate() { return this.createdAt; }
+    public Entities getEntities() { return this.entities; }
+    public ExtendedEntities getExtendedEntities() { return this.extendedEntities; }
 
     public boolean isRetweet() {
         return true;
@@ -42,7 +42,6 @@ class Retweet implements DisplayTweet {
     public String userTwitterUrl()  {
         return "https://twitter.com/" + this.user.screenName;
     }
-
     public String bodyTwitterUrl() {
         return "https://twitter.com/" + this.user.screenName + "/status/" + this.id;
     }

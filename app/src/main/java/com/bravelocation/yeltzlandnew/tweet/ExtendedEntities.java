@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-class ExtendedEntities {
+public class ExtendedEntities {
     @SerializedName("media")
     @Expose
     public List<Media> media = null;

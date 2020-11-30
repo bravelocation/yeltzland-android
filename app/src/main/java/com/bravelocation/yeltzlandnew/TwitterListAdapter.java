@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,10 +21,16 @@ import androidx.core.content.ContextCompat;
 
 import com.bravelocation.yeltzlandnew.tweet.DisplayTweet;
 import com.bravelocation.yeltzlandnew.tweet.Tweet;
+import com.bravelocation.yeltzlandnew.tweet.TweetEntity;
+import com.bravelocation.yeltzlandnew.tweet.TweetPart;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 class TwitterListAdapter extends BaseAdapter {
@@ -83,7 +92,17 @@ class TwitterListAdapter extends BaseAdapter {
     private void loadTweetDetailsIntoView(DisplayTweet tweet, View convertView) {
         // Set tweet details
         TextView tweetTextView = (TextView) convertView.findViewById(R.id.tweet);
-        tweetTextView.setText(tweet.getFullText());
+        tweetTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        tweetTextView.setLinkTextColor(ContextCompat.getColor(context, R.color.yeltzBlue));
+
+        List<TweetPart> textParts = this.textParts(tweet);
+        String tweetHtml = this.getTweetHtmlFromTextParts(textParts);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            tweetTextView.setText(Html.fromHtml(tweetHtml, Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            tweetTextView.setText(Html.fromHtml(tweetHtml));
+        }
 
         ImageButton userProfileImageButton = (ImageButton) convertView.findViewById(R.id.profile_image_button);
         Picasso.get().load(tweet.getUser().profileImageUrl).placeholder(R.drawable.ic_person).into(userProfileImageButton);
@@ -142,5 +161,79 @@ class TwitterListAdapter extends BaseAdapter {
             ContextCompat.startActivity(context, browserIntent, null);
             return false;
         }
+    }
+
+    private List<TweetPart> textParts(DisplayTweet tweet) {
+        // Find all the enities
+        ArrayList<TweetEntity> entityParts = new ArrayList<TweetEntity>();
+
+        entityParts.addAll(tweet.getEntities().hashtags);
+        entityParts.addAll(tweet.getEntities().urls);
+        entityParts.addAll(tweet.getEntities().userMentions);
+        entityParts.addAll(tweet.getEntities().symbols);
+
+        if (tweet.getExtendedEntities() != null) {
+            entityParts.addAll(tweet.getExtendedEntities().media);
+        }
+
+        // Sort the entities in order of first index
+        Collections.sort(entityParts, new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                int x1 = ((TweetEntity) o1).getIndices().get(0);
+                int x2 = ((TweetEntity) o2).getIndices().get(0);
+
+                return x1 - x2;
+            }
+        });
+
+        ArrayList<TweetPart> textParts = new ArrayList<TweetPart>();
+
+        String fullText = tweet.getFullText();
+        int currentPoint = 0;
+        int endPoint = fullText.length();
+
+        for (int i = 0; i < entityParts.size(); i++) {
+            TweetEntity entityPart = entityParts.get(i);
+
+            int entityStart = entityPart.getIndices().get(0);
+            int entityEnd = entityPart.getIndices().get(1);
+
+            if (currentPoint <= entityStart) {
+                // Add the tweet text up to the entity
+                String textUpToEntityStart = fullText.substring(currentPoint, entityStart);
+                textParts.add(new TweetPart(textUpToEntityStart, null));
+
+                // Add the display text of the entity
+                textParts.add(new TweetPart(entityPart.displayText(), entityPart.linkUrl()));
+
+                // Move the current point past the entity
+                currentPoint = entityEnd;
+            }
+        }
+
+        // Finally add any remaining text
+        if (currentPoint < endPoint) {
+            String textUpToEntityStart = fullText.substring(currentPoint, endPoint - 1);
+            textParts.add(new TweetPart(textUpToEntityStart, null));
+        }
+
+        return textParts;
+    }
+
+    private String getTweetHtmlFromTextParts(List<TweetPart> textParts) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < textParts.size(); i++) {
+            TweetPart textPart = textParts.get(i);
+
+            if (textPart.highlight()) {
+                sb.append("<a href='" + textPart.linkUrl + "'>" + textPart.text + "</a>");
+            } else {
+                sb.append(textPart.text.replaceAll("\\R", "<br />"));
+            }
+        }
+
+        return sb.toString();
     }
 }

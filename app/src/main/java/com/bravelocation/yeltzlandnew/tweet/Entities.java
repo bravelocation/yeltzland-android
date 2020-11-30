@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-class Entities {
+public class Entities {
     @SerializedName("hashtags")
     @Expose
     public List<Hashtag> hashtags = null;
