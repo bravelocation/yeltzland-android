@@ -3,6 +3,7 @@ package com.bravelocation.yeltzlandnew;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.LinearGradient;
 import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
@@ -75,9 +76,9 @@ class TwitterListAdapter extends BaseAdapter {
 
         // Set tweet details
         if (tweet.hasRetweet()) {
-            this.loadTweetDetailsIntoView(tweet.retweet, convertView);
+            this.loadTweetDetailsIntoView(tweet.retweet, (LinearLayout) convertView);
         } else {
-            this.loadTweetDetailsIntoView(tweet, convertView);
+            this.loadTweetDetailsIntoView(tweet, (LinearLayout) convertView);
         }
 
         return convertView;
@@ -94,7 +95,7 @@ class TwitterListAdapter extends BaseAdapter {
         });
     }
 
-    private void loadTweetDetailsIntoView(DisplayTweet tweet, View convertView) {
+    private void loadTweetDetailsIntoView(DisplayTweet tweet, LinearLayout convertView) {
         // Set tweet details
         TextView tweetTextView = (TextView) convertView.findViewById(R.id.tweet);
         tweetTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -157,6 +158,29 @@ class TwitterListAdapter extends BaseAdapter {
         contentList.removeAllViewsInLayout();
 
         this.addMediaImages(tweet, contentList, context);
+
+        // Add quote text if needed
+        if (tweet.quote() != null) {
+            int paddingSize = convertDpToPixels(16, context);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            layoutParams.setMargins(0, 0, paddingSize, paddingSize);
+
+            androidx.cardview.widget.CardView cardView = new CardView(context);
+            cardView.setRadius(convertDpToPixels(8, context));
+            cardView.setCardElevation((float) 0.0);
+            cardView.setLayoutParams(layoutParams);
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LinearLayout quoteView = (LinearLayout) inflater.inflate(R.layout.tweet_list_item, null);
+
+            this.loadTweetDetailsIntoView(tweet.quote(), quoteView);
+
+            cardView.addView(quoteView);
+            contentList.addView(cardView);
+        }
     }
 
     private class UserNameTouchHandler implements View.OnTouchListener {
