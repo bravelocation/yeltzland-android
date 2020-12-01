@@ -56,7 +56,13 @@ class TwitterListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return this.dataProvider.getTweets().get(position);
+        List<Tweet> tweets = this.dataProvider.getTweets();
+
+        if (position < tweets.size()) {
+            return this.dataProvider.getTweets().get(position);
+        }
+
+        return null;
     }
 
     @Override
@@ -72,6 +78,10 @@ class TwitterListAdapter extends BaseAdapter {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.tweet_list_item, null);
+        }
+
+        if (tweet == null) {
+            return convertView;
         }
 
         // Set tweet details
