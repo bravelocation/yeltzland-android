@@ -2,11 +2,13 @@ package com.bravelocation.yeltzlandnew;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.bravelocation.yeltzlandnew.tweet.DisplayTweet;
@@ -260,24 +263,37 @@ class TwitterListAdapter extends BaseAdapter {
 
                     String mediaUrl = currentMedia.smallMediaUrl();
                     if (mediaUrl != null) {
-
+                        int paddingSize = convertDpToPixels(16, context);
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        layoutParams.setMargins(0, 32, 32, 32);
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                        );
+                        layoutParams.setMargins(0, 0, paddingSize, paddingSize);
+
+                        androidx.cardview.widget.CardView cardView = new CardView(context);
+                        cardView.setRadius(convertDpToPixels(8, context));
+                        cardView.setLayoutParams(layoutParams);
 
                         ImageView imageView = new ImageView(context);
-                        imageView.setLayoutParams(layoutParams);
+                        //imageView.setLayoutParams(layoutParams);
                         imageView.setAdjustViewBounds(true);
                         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-
                         Picasso.get().load(mediaUrl).placeholder(R.drawable.blank_team).into(imageView);
 
-                        contentLayout.addView(imageView);
-
+                        cardView.addView(imageView);
+                        contentLayout.addView(cardView);
                     }
                 }
             }
         }
+    }
 
+    private int convertDpToPixels(int dp, Context context) {
+        Resources r = context.getResources();
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                r.getDisplayMetrics()
+        );
     }
 }
