@@ -278,7 +278,7 @@ class TwitterListAdapter extends BaseAdapter {
             if (textPart.highlight()) {
                 sb.append("<a href='" + textPart.linkUrl + "'>" + textPart.text + "</a>");
             } else {
-                sb.append(textPart.text.replaceAll("\\R", "<br />"));
+                sb.append(textPart.text.replaceAll("\\n", "<br />"));
             }
         }
 
