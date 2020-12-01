@@ -49,6 +49,9 @@ public class TwitterFragment extends ListFragment {
             }
         });
 
+        // Start showing the loader
+        this.swipeLayout.setRefreshing(true);
+
         return view;
     }
 
@@ -137,6 +140,10 @@ public class TwitterFragment extends ListFragment {
                 public void run() {
                     fragment.setListAdapter(listAdapter);
                     fragment.setupTimedReload();
+
+                    if (fragment.swipeLayout != null) {
+                        fragment.swipeLayout.setRefreshing(false);
+                    }
                 }
             });
         }
