@@ -298,6 +298,15 @@ class TwitterListAdapter extends BaseAdapter {
                         cardView.setRadius(convertDpToPixels(8, context));
                         cardView.setLayoutParams(layoutParams);
 
+                        // Open the Tweet on clicking on image
+                        cardView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweet.bodyTwitterUrl()));
+                                ContextCompat.startActivity(context, browserIntent, null);
+                            }
+                        });
+
                         ImageView imageView = new ImageView(context);
                         //imageView.setLayoutParams(layoutParams);
                         imageView.setAdjustViewBounds(true);
