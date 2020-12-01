@@ -70,10 +70,11 @@
                     android:id="@+id/userScreenName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:layout_marginTop="-4dp"
+                    android:textSize="13sp"
                     android:text=""
                     android:clickable="true"
-                    android:textColor="@color/grey"
+                    android:textColor="@color/lightgrey"
                     />
             </LinearLayout>
 
@@ -83,11 +84,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:layout_gravity="right"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:padding="8dp"
                 android:layout_marginRight="8dp"
                 android:text="Fri\n1100"
-                android:textColor="@color/grey"
+                android:textColor="@color/lightgrey"
                 />
 
         </LinearLayout>
