@@ -23,7 +23,6 @@ public class MoreListDataPump {
 
         List<MoreListDataItem> history = new ArrayList<MoreListDataItem>();
         history.add(new MoreListDataItem("Follow Your Instinct", "https://www.yeltzland.net/followyourinstinct/", R.drawable.ic_newspaper, R.color.yeltzBlueOverlay));
-        history.add(new MoreListDataItem("Yeltz Archive", "http://www.yeltzarchives.com", R.drawable.ic_archive, R.color.yeltzBlueOverlay));
         history.add(new MoreListDataItem("News Archive (1997-2006)", "https://www.yeltzland.net/news.html", R.drawable.ic_news, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> options = new ArrayList<MoreListDataItem>();

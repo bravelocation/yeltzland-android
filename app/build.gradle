@@ -5,7 +5,7 @@ static def generateVersionCode() {
     return result.toInteger()
 }
 
-def majorVersion = "5.0.1"
+def majorVersion = "5.1.0"
 
 android {
     compileSdkVersion 29
