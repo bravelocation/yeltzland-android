@@ -10,37 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.tweetui.TimelineResult;
-import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
-import com.twitter.sdk.android.tweetui.UserTimeline;
-
 public class TwitterFragment extends ListFragment {
 
-    private TweetTimelineListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
     private Handler refreshHandler;
     private final int RELOAD_INTERVAL = 1000 * 60 * 5;
 
-    private final Callback<TimelineResult<Tweet>> timelineRefreshCallback = new Callback<TimelineResult<Tweet>>() {
-        // Do nothing for now
-        @Override
-        public void success(Result<TimelineResult<Tweet>> result) {
-            if (swipeLayout != null) {
-                swipeLayout.setRefreshing(false);
-            }
-        }
-
-        @Override
-        public void failure(TwitterException exception) {
-            if (swipeLayout != null) {
-                swipeLayout.setRefreshing(false);
-            }
-        }
-    };
+    private TwitterListAdapter listAdapter;
+    TwitterDataProvider dataProvider;
+    RefreshTimeline refreshTimeline;
 
     public TwitterFragment() {
         // Required empty public constructor
@@ -50,26 +28,12 @@ public class TwitterFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final UserTimeline userTimeline = new UserTimeline.Builder().screenName("halesowentownfc").build();
-        final FragmentActivity currentContext = getActivity();
+        this.refreshTimeline = new RefreshTimeline(getActivity());
 
-        userTimeline.next(null, new Callback<TimelineResult<Tweet>>() {
-            // Do nothing for now
-            @Override
-            public void success(Result<TimelineResult<Tweet>> result) {
-                adapter = new TweetTimelineListAdapter.Builder(currentContext)
-                        .setTimeline(userTimeline)
-                        .build();
+        this.dataProvider = new TwitterDataProvider(BuildConfig.TwitterKey, BuildConfig.TwitterSecret, "halesowentownfc", 20);
+        this.listAdapter = new TwitterListAdapter(getContext(), this.dataProvider);
 
-                setListAdapter(adapter);
-                setupTimedReload();
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-                //
-            }
-        });
+        this.listAdapter.refresh(new SetupTimeline(getActivity(), this));
     }
 
     @Override
@@ -84,6 +48,9 @@ public class TwitterFragment extends ListFragment {
                  reload();
             }
         });
+
+        // Start showing the loader
+        this.swipeLayout.setRefreshing(true);
 
         return view;
     }
@@ -109,15 +76,15 @@ public class TwitterFragment extends ListFragment {
 
     // Actually reload timeline
     private void reloadTimeline() {
-        if (this.adapter != null) {
-            this.adapter.refresh(this.timelineRefreshCallback);
+        if (this.listAdapter != null) {
+            this.listAdapter.refresh(this.refreshTimeline);
         }
     }
 
     // Timer refresh functions
     private void setupTimedReload() {
         this.refreshHandler = new Handler();
-        this.refreshHandler.postDelayed(refreshTimeline, RELOAD_INTERVAL);
+        this.refreshHandler.postDelayed(this.refreshTimeline, RELOAD_INTERVAL);
     }
 
     private void resetTimedReload() {
@@ -128,11 +95,57 @@ public class TwitterFragment extends ListFragment {
         this.setupTimedReload();
     }
 
-    private Runnable refreshTimeline = new Runnable() {
+    private class RefreshTimeline implements Runnable {
+        FragmentActivity activity;
+
+        RefreshTimeline(FragmentActivity activity) {
+            this.activity = activity;
+        }
+
         @Override
         public void run() {
-            reloadTimeline();
-            refreshHandler.postDelayed(refreshTimeline, RELOAD_INTERVAL);
+            listAdapter.refresh(new Runnable() {
+                @Override
+                public void run() {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (swipeLayout != null) {
+                                swipeLayout.setRefreshing(false);
+                            }
+
+                            if (listAdapter != null) {
+                                listAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
+            });
         }
-    };
+    }
+
+    private class SetupTimeline implements Runnable {
+        FragmentActivity activity;
+        TwitterFragment fragment;
+
+        SetupTimeline(FragmentActivity activity, TwitterFragment fragment) {
+            this.activity = activity;
+            this.fragment = fragment;
+        }
+
+        @Override
+        public void run() {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    fragment.setListAdapter(listAdapter);
+                    fragment.setupTimedReload();
+
+                    if (fragment.swipeLayout != null) {
+                        fragment.swipeLayout.setRefreshing(false);
+                    }
+                }
+            });
+        }
+    }
 }
