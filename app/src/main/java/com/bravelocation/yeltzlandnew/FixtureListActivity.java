@@ -36,6 +36,9 @@ public class FixtureListActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        // Set the system navigation bar color
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+
         View view = this.findViewById(android.R.id.content);
 
         expandableListView = (ExpandableListView) view.findViewById(R.id.expandableListView);
