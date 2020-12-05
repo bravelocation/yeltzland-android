@@ -27,10 +27,6 @@ public class WebPageFragment extends Fragment {
     private CookieManager cookieManager;
 
     public WebPageFragment() {
-        this.cookieManager = CookieManager.getInstance();
-        this.cookieManager.setAcceptCookie(true);
-        this.cookieManager.acceptCookie();
-        this.cookieManager.flush();
     }
 
     public static WebPageFragment newInstance(String homeUrl) {
@@ -51,10 +47,15 @@ public class WebPageFragment extends Fragment {
 
         // Setup web view
         this.webView = (WebView) this.rootView.findViewById(R.id.fragmentWebView);
+
+        // Init cookie manager after after init web view
+        this.cookieManager = CookieManager.getInstance();
+        this.cookieManager.setAcceptCookie(true);
+        this.cookieManager.setAcceptThirdPartyCookies(this.webView, true);
+
         this.webView.setWebViewClient(new YeltzlandWebViewClient(progressBar, this.cookieManager));
         this.webView.setWebChromeClient(new YeltzlandWebChromeClient(progressBar));
         this.webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        cookieManager.setAcceptThirdPartyCookies(this.webView, true);
 
         WebSettings webSettings = this.webView.getSettings();
         webSettings.setLoadsImagesAutomatically(true);
@@ -89,7 +90,7 @@ public class WebPageFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (this.webView != null) {
+        if (this.webView != null && this.cookieManager != null) {
             this.cookieManager.flush();
             this.webView.onPause();
             Log.d("WebPageFragment", "Pausing web fragment: " + this.homeUrl);
@@ -99,7 +100,7 @@ public class WebPageFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (this.webView != null) {
+        if (this.webView != null && this.cookieManager != null) {
             this.webView.onResume();
             this.cookieManager.flush();
             Log.d("WebPageFragment", "Resumed web fragment: " + this.homeUrl);
@@ -124,20 +125,15 @@ public class WebPageFragment extends Fragment {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             this.progressBar.setProgress(0);
-
-            String cookies = this.cookieManager.getCookie(url);
-            Log.d("WebPageFragment", "Cookies before starting " + url + ": " + cookies);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 
-            this.cookieManager.flush();
-            Log.d("WebPageFragment", "Cookies flushed on page finished");
-
-            String cookies = this.cookieManager.getCookie(url);
-            Log.d("WebPageFragment", "Cookies after finishing " + url + ": " + cookies);
+            if (this.cookieManager != null) {
+                this.cookieManager.flush();
+            }
 
             this.progressBar.setProgress(this.progressBar.getMax());
 
