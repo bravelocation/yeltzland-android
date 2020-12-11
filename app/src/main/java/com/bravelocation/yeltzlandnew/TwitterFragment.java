@@ -30,7 +30,7 @@ public class TwitterFragment extends ListFragment {
 
         this.refreshTimeline = new RefreshTimeline(getActivity());
 
-        this.dataProvider = new TwitterDataProvider(BuildConfig.TwitterKey, BuildConfig.TwitterSecret, "halesowentownfc", 20);
+        this.dataProvider = new TwitterDataProvider(BuildConfig.TwitterKey, BuildConfig.TwitterSecret, "halesowentownfc", 50);
         this.listAdapter = new TwitterListAdapter(getContext(), this.dataProvider);
 
         this.listAdapter.refresh(new SetupTimeline(getActivity(), this));
