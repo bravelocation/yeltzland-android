@@ -52,8 +52,7 @@ public class TwitterFragment extends ListFragment {
         ViewGroup viewGroup = (ViewGroup) list;
         LinearLayout footer = (LinearLayout) inflater.inflate(R.layout.tweet_list_footer, viewGroup, false);
 
-        TextView linkText = footer.findViewById(R.id.seeAllTweetsText);
-        linkText.setOnClickListener(new View.OnClickListener() {
+        footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/halesowentownfc"));
