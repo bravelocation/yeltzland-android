@@ -40,9 +40,6 @@ public class LatestScoreActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        // Set the system navigation bar color
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
-
         this.logoManager = new TeamLogoManager();
 
         View view = this.findViewById(android.R.id.content);
