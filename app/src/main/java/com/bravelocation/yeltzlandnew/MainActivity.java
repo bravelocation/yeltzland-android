@@ -51,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        // Set the system navigation bar color
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
-
         // Set tab to last shown tab
         int selectedTabItem = R.id.menu_forum;
 
