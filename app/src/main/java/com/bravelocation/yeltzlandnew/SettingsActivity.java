@@ -19,9 +19,6 @@ public class SettingsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
-        // Set the system navigation bar color
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
     }
 
     @Override

@@ -51,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        // Set the system navigation bar color
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
-
         // Set tab to last shown tab
         int selectedTabItem = R.id.menu_forum;
 
@@ -118,6 +115,14 @@ public class MainActivity extends AppCompatActivity {
         if (this.currentFragment != null) {
             this.getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, this.currentFragment).commit();
         }
+
+        // Support full screen
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
 
         this.invalidateOptionsMenu();
     }

@@ -5,6 +5,10 @@
         <item name="colorPrimary">@color/yeltzBlue</item>
         <item name="colorPrimaryDark">@color/yeltzBlue</item>
         <item name="colorAccent">@color/yeltzLightBlue</item>
+
+        <item name="android:statusBarColor">@color/yeltzBlue</item>
+        <item name="android:navigationBarColor">@color/yeltzBlue</item>
+        <item name="android:colorEdgeEffect">@color/yeltzBlue</item>
     </style>
 
     <style name="AppTheme.Settings" parent="Theme.AppCompat.Light.DarkActionBar">
