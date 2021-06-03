@@ -5,7 +5,7 @@ static def generateVersionCode() {
     return result.toInteger()
 }
 
-def majorVersion = "5.1.1"
+def majorVersion = "5.3.0"
 
 android {
     compileSdkVersion 30
@@ -57,10 +57,10 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
 
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
@@ -69,11 +69,11 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
 
     // Just bump this to get the latest Firebase updates
-    implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    implementation platform('com.google.firebase:firebase-bom:28.0.1')
     implementation 'com.google.firebase:firebase-core'
     implementation 'com.google.firebase:firebase-messaging'
 
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.google.code.gson:gson:2.8.6'
