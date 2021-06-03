@@ -93,8 +93,7 @@ public class LocationsDataPump {
                 return false;
             }
 
-            JSONObject parsedJson = new JSONObject(input);
-            JSONArray locationsArray = parsedJson.getJSONArray("Locations");
+            JSONArray locationsArray = new JSONArray(input);
 
             // If no matches, stick with what we've got
             if (locationsArray.length() == 0) {
@@ -112,9 +111,9 @@ public class LocationsDataPump {
                     JSONObject location = locationsArray.getJSONObject(i);
 
                     // Pulling items from the array
-                    String opponent = location.getString("Team");
-                    Double latitude = location.getDouble("Latitude");
-                    Double longitude = location.getDouble("Longitude");
+                    String opponent = location.getString("team");
+                    Double latitude = location.getDouble("latitude");
+                    Double longitude = location.getDouble("longitude");
 
                     // Find the match details
                     String description = "";

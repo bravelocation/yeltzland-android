@@ -1,24 +1,22 @@
-{
-    "Locations":[
-        {"Team":"AFC Dunstable","Latitude":"51.89281957970023","Longitude":"-0.5406981842158277"},
-        {"Team":"Aylesbury United","Latitude":"51.698993251321355","Longitude":"-0.6139799692712615"},
-        {"Team":"Barton Rovers","Latitude":"51.96439875457414","Longitude":"-0.42942843624989424"},
-        {"Team":"Bedford Town","Latitude":"52.12868895624841","Longitude":"-0.414210323222094"},
-        {"Team":"Bedworth United","Latitude":"52.47665588136879","Longitude":"-1.4716638279681225"},
-        {"Team":"Berkhamsted","Latitude":"51.76302990008601","Longitude":"-0.5652923265936289"},
-        {"Team":"Biggleswade","Latitude":"52.07679367865382","Longitude":"-0.26953126759659046"},
-        {"Team":"Coleshill Town","Latitude":"52.48258791214653","Longitude":"-1.6990121049245221"},
-        {"Team":"Corby Town","Latitude":"52.50738422703535","Longitude":"-0.7177675203498203"},
-        {"Team":"Daventry Town","Latitude":"52.25715390331895","Longitude":"-1.1900"},
-        {"Team":"Didcot Town","Latitude":"51.61372678836945","Longitude":"-1.2404780076017357"},
-        {"Team":"Halesowen Town","Latitude":"52.4538486","Longitude":"-2.0576845"},
-        {"Team":"Kempston Rovers","Latitude":"52.126826573044156","Longitude":"-0.4900"},
-        {"Team":"Kidlington","Latitude":"51.81692786020605","Longitude":"-1.2907380519989273"},
-        {"Team":"North Leigh","Latitude":"51.81230573454887","Longitude":"-1.429241058466268"},
-        {"Team":"St Neots Town","Latitude":"52.2328713","Longitude":"-0.2453034"},
-        {"Team":"Thame United","Latitude":"51.755665175169675","Longitude":"-0.9758667116088363"},
-        {"Team":"Wantage Town","Latitude":"51.58212974127447","Longitude":"-1.4303"},
-        {"Team":"Welwyn Garden City","Latitude":"51.806146078236566","Longitude":"-0.1790"},
-        {"Team":"Yaxley","Latitude":"52.50994384472663","Longitude":"-0.2580"}
-    ]
-}
+[
+    {"team":"Bedworth United","latitude":52.47665588136879,"longitude":-1.4716638279681225},
+    {"team":"Belper Town","latitude":53.0272883,"longitude":-1.4874482},
+    {"team":"Cambridge City","latitude":52.2421201,"longitude":0.1118314},
+    {"team":"Carlton Town","latitude":52.9710052,"longitude":-1.0645044},
+    {"team":"Chasetown","latitude":52.6706117,"longitude":-1.9429756},
+    {"team":"Coleshill Town","latitude":52.48258791214653,"longitude":-1.6990121049245221},
+    {"team":"Corby Town","latitude":52.50738422703535,"longitude":-0.7177675203498203},
+    {"team":"Daventry Town","latitude":52.25715390331895,"longitude":-1.1900},
+    {"team":"Halesowen Town","latitude":52.4538486,"longitude":-2.0576845},
+    {"team":"Histon","latitude":52.2421201,"longitude":0.1118314},
+    {"team":"Ilkeston Town","latitude":52.9836323,"longitude":-1.3008616},
+    {"team":"Loughborough Dynamo","latitude":52.7520525,"longitude":-1.2364114},
+    {"team":"Shepshed Dynamo","latitude":52.7738542,"longitude":-1.2887149},
+    {"team":"Soham Town Rangers","latitude":52.3396841,"longitude":0.3275239},
+    {"team":"Spalding United","latitude":52.7901629,"longitude":-0.1546152},
+    {"team":"Sporting Khalsa","latitude":52.5917616,"longitude":-2.067869},
+    {"team":"Stamford","latitude":52.6664782,"longitude":-0.470718},
+    {"team":"Sutton Coldfield Town","latitude":52.5571235,"longitude":-1.8195293},
+    {"team":"Wisbech Town","latitude":52.678667,"longitude":0.1776987},
+    {"team":"Yaxley","latitude":52.50994384472663,"longitude":-0.2580}
+]
