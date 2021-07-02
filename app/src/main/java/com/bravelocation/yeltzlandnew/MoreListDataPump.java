@@ -12,7 +12,7 @@ public class MoreListDataPump {
         stats.add(new MoreListDataItem("Fixture List", "", R.drawable.ic_calendar, R.color.yeltzBlueOverlay, false, true, false, false));
         stats.add(new MoreListDataItem("Latest Score", "", R.drawable.ic_clock, R.color.yeltzBlueOverlay, false, false, true, false));
         stats.add(new MoreListDataItem("Where's The Ground?", "", R.drawable.ic_map, R.color.yeltzBlueOverlay, false, false, false, true));
-        stats.add(new MoreListDataItem("League Table", "https://www.thenpl.co.uk/match-info/tables?table_id=d-60894", R.drawable.ic_table, R.color.yeltzBlueOverlay));
+        stats.add(new MoreListDataItem("League Table", "https://www.thenpl.co.uk/match-info/tables?table_id=d-3290340", R.drawable.ic_table, R.color.yeltzBlueOverlay));
 
         List<MoreListDataItem> others = new ArrayList<MoreListDataItem>();
         others.add(new MoreListDataItem("HTFC on Facebook", "https://www.facebook.com/HalesowenTown1873", R.drawable.ic_facebook_square, R.color.yeltzBlueOverlay));
