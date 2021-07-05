@@ -3,7 +3,6 @@ package com.bravelocation.yeltzlandnew;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.LinearGradient;
 import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
@@ -24,6 +23,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.bravelocation.yeltzlandnew.tweet.DisplayTweet;
+import com.bravelocation.yeltzlandnew.tweet.SafeString;
 import com.bravelocation.yeltzlandnew.tweet.Tweet;
 import com.bravelocation.yeltzlandnew.tweet.TweetEntity;
 import com.bravelocation.yeltzlandnew.tweet.TweetPart;
@@ -234,7 +234,7 @@ class TwitterListAdapter extends BaseAdapter {
 
         ArrayList<TweetPart> textParts = new ArrayList<TweetPart>();
 
-        String fullText = tweet.getFullText();
+        SafeString fullText = new SafeString(tweet.getFullText());
         int currentPoint = 0;
         int endPoint = fullText.length();
 
@@ -246,8 +246,8 @@ class TwitterListAdapter extends BaseAdapter {
 
             if (currentPoint <= entityStart) {
                 // Add the tweet text up to the entity
-                String textUpToEntityStart = fullText.substring(currentPoint, entityStart);
-                textParts.add(new TweetPart(textUpToEntityStart, null));
+                SafeString textUpToEntityStart = fullText.substring(currentPoint, entityStart);
+                textParts.add(new TweetPart(textUpToEntityStart.toString(), null));
 
                 // Add the display text of the entity
                 textParts.add(new TweetPart(entityPart.displayText(), entityPart.linkUrl()));
@@ -259,8 +259,8 @@ class TwitterListAdapter extends BaseAdapter {
 
         // Finally add any remaining text
         if (currentPoint < endPoint) {
-            String textUpToEntityStart = fullText.substring(currentPoint, endPoint - 1);
-            textParts.add(new TweetPart(textUpToEntityStart, null));
+            SafeString textUpToEntityStart = fullText.substring(currentPoint, endPoint - 1);
+            textParts.add(new TweetPart(textUpToEntityStart.toString(), null));
         }
 
         return textParts;
