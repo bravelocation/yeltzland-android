@@ -18,6 +18,7 @@ public class NotificationsManager {
 
     public static String preferenceName = "pref_gametimetweets";
     protected static String topic = "gametimealerts";
+    protected static String debugTopic = "testtag";
 
     public static void init(Context context) {
         if(instance == null) {
@@ -52,7 +53,12 @@ public class NotificationsManager {
             updateSubscriptionRunner = new Runnable() {
                 @Override
                 public void run() {
-                    FirebaseMessaging.getInstance().subscribeToTopic(NotificationsManager.topic);
+                    if (BuildConfig.DEBUG) {
+                        FirebaseMessaging.getInstance().subscribeToTopic(NotificationsManager.debugTopic);
+                    } else {
+                        FirebaseMessaging.getInstance().subscribeToTopic(NotificationsManager.topic);
+                    }
+
                     Log.d("NotificationsManager", "Subscribed for game time alerts");
                 }
             };
